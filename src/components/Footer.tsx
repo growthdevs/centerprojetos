@@ -1,5 +1,5 @@
 import { Mail, Phone, MapPin, Instagram, Linkedin, Facebook } from "lucide-react";
-
+import logoWhite from "@/assets/logo-white.png";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -37,13 +37,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="flex flex-col mb-6">
-              <span className="text-2xl font-bold text-primary-foreground tracking-tight">
-                Center
-              </span>
-              <span className="text-sm font-medium text-gold -mt-1 tracking-widest uppercase">
-                Projetos
-              </span>
+            <div className="mb-6">
+              <img src={logoWhite} alt="Center Projetos" className="h-16" />
             </div>
             <p className="text-primary-foreground/70 leading-relaxed mb-6 max-w-sm">
               Uma camada de inteligência, organização e confiança entre o cliente 
