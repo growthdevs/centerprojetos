@@ -42,12 +42,12 @@ const Navbar = () => {
           </div>
 
           {/* Desktop CTA Buttons */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Button variant="outline" className="border-gold/50 text-primary-foreground hover:bg-gold hover:text-primary hover:border-gold font-medium">
-              Entrar
-            </Button>
-            <Button className="bg-gold hover:bg-gold-light text-primary font-semibold shadow-gold">
+          <div className="hidden lg:flex items-center gap-4">
+            <a href="#criar-conta" className="text-gold font-bold hover:text-gold-light transition-colors">
               Criar Conta
+            </a>
+            <Button className="bg-gold hover:bg-gold-light text-primary font-semibold shadow-gold">
+              Entrar
             </Button>
           </div>
 
@@ -75,11 +75,11 @@ const Navbar = () => {
                 </a>
               ))}
               <div className="flex flex-col gap-3 pt-4 border-t border-gold/20">
-                <Button variant="outline" className="border-gold/50 text-primary-foreground hover:bg-gold hover:text-primary">
-                  Entrar
-                </Button>
-                <Button className="bg-gold hover:bg-gold-light text-primary font-semibold">
+                <a href="#criar-conta" className="text-gold font-bold hover:text-gold-light transition-colors text-center py-2">
                   Criar Conta
+                </a>
+                <Button className="bg-gold hover:bg-gold-light text-primary font-semibold">
+                  Entrar
                 </Button>
               </div>
             </div>
