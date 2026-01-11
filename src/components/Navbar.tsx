@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import logoWhite from "@/assets/logo-white.png";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,15 +31,8 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2">
-            <div className="flex flex-col">
-              <span className="text-2xl font-bold text-primary-foreground tracking-tight">
-                Center
-              </span>
-              <span className="text-sm font-medium text-gold -mt-1 tracking-widest uppercase">
-                Projetos
-              </span>
-            </div>
+          <a href="/" className="flex items-center">
+            <img src={logoWhite} alt="Center Projetos" className="h-12" />
           </a>
 
           {/* Desktop Navigation */}
