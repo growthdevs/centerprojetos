@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import logoWhite from "@/assets/logo-white.png";
 import RegisterModal from "@/components/RegisterModal";
+import LoginModal from "@/components/LoginModal";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +65,10 @@ const Navbar = () => {
               >
                 Criar Conta
               </button>
-              <Button className="bg-gold hover:bg-gold-light text-primary font-semibold shadow-gold">
+              <Button 
+                onClick={() => setIsLoginOpen(true)}
+                className="bg-gold hover:bg-gold-light text-primary font-semibold shadow-gold"
+              >
                 Entrar
               </Button>
             </div>
@@ -101,7 +106,13 @@ const Navbar = () => {
                   >
                     Criar Conta
                   </button>
-                  <Button className="bg-gold hover:bg-gold-light text-primary font-semibold">
+                  <Button 
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setIsLoginOpen(true);
+                    }}
+                    className="bg-gold hover:bg-gold-light text-primary font-semibold"
+                  >
                     Entrar
                   </Button>
                 </div>
@@ -112,6 +123,11 @@ const Navbar = () => {
       </nav>
 
       <RegisterModal open={isRegisterOpen} onOpenChange={setIsRegisterOpen} />
+      <LoginModal 
+        open={isLoginOpen} 
+        onOpenChange={setIsLoginOpen} 
+        onOpenRegister={() => setIsRegisterOpen(true)}
+      />
     </>
   );
 };
