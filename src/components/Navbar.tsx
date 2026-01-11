@@ -4,12 +4,14 @@ import { Menu, X } from "lucide-react";
 import logoWhite from "@/assets/logo-white.png";
 import RegisterModal from "@/components/RegisterModal";
 import LoginModal from "@/components/LoginModal";
+import ForgotPasswordModal from "@/components/ForgotPasswordModal";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -127,6 +129,12 @@ const Navbar = () => {
         open={isLoginOpen} 
         onOpenChange={setIsLoginOpen} 
         onOpenRegister={() => setIsRegisterOpen(true)}
+        onOpenForgotPassword={() => setIsForgotPasswordOpen(true)}
+      />
+      <ForgotPasswordModal
+        open={isForgotPasswordOpen}
+        onOpenChange={setIsForgotPasswordOpen}
+        onBackToLogin={() => setIsLoginOpen(true)}
       />
     </>
   );

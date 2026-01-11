@@ -38,9 +38,10 @@ interface LoginModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onOpenRegister?: () => void;
+  onOpenForgotPassword?: () => void;
 }
 
-const LoginModal = ({ open, onOpenChange, onOpenRegister }: LoginModalProps) => {
+const LoginModal = ({ open, onOpenChange, onOpenRegister, onOpenForgotPassword }: LoginModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [userType, setUserType] = useState<"client" | "designer">("client");
 
@@ -150,6 +151,10 @@ const LoginModal = ({ open, onOpenChange, onOpenRegister }: LoginModalProps) => 
                 <button
                   type="button"
                   className="text-sm text-gold hover:underline"
+                  onClick={() => {
+                    onOpenChange(false);
+                    onOpenForgotPassword?.();
+                  }}
                 >
                   Esqueceu sua senha?
                 </button>
@@ -215,6 +220,10 @@ const LoginModal = ({ open, onOpenChange, onOpenRegister }: LoginModalProps) => 
                 <button
                   type="button"
                   className="text-sm text-gold hover:underline"
+                  onClick={() => {
+                    onOpenChange(false);
+                    onOpenForgotPassword?.();
+                  }}
                 >
                   Esqueceu sua senha?
                 </button>
