@@ -58,8 +58,8 @@ const CTASection = () => {
             </Button>
             <Button
               size="lg"
-              variant="outline"
-              className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 font-medium text-lg px-8"
+              variant="heroOutline"
+              className="font-medium text-lg px-8"
             >
               Sou Projetista
             </Button>
