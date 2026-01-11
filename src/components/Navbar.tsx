@@ -31,8 +31,12 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center">
-            <img src={logoWhite} alt="Center Projetos" className="h-16" />
+          <a href="/" className="flex items-center py-2">
+            <img 
+              src={logoWhite} 
+              alt="Center Projetos" 
+              className="h-14 transition-transform duration-300 hover:scale-105" 
+            />
           </a>
 
           {/* Desktop Navigation */}
