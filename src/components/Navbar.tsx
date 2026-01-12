@@ -26,7 +26,7 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { label: "Portal Projetistas", href: "#portal" },
+    { label: "Portal Projetistas", href: "/portal-projetista" },
     { label: "Institucional", href: "#institucional" },
     { label: "Planos Cliente", href: "#planos" },
     { label: "Cliente Vindo de Indicação", href: "#indicacao", onClick: () => setIsReferralOpen(true) },
