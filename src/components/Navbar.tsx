@@ -5,6 +5,7 @@ import logoWhite from "@/assets/logo-white.png";
 import RegisterModal from "@/components/RegisterModal";
 import LoginModal from "@/components/LoginModal";
 import ForgotPasswordModal from "@/components/ForgotPasswordModal";
+import ReferralModal from "@/components/ReferralModal";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,6 +13,7 @@ const Navbar = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
+  const [isReferralOpen, setIsReferralOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,7 +29,7 @@ const Navbar = () => {
     { label: "Portal Projetistas", href: "#portal" },
     { label: "Institucional", href: "#institucional" },
     { label: "Planos Cliente", href: "#planos" },
-    { label: "Cliente Vindo de Indicação", href: "#indicacao" },
+    { label: "Cliente Vindo de Indicação", href: "#indicacao", onClick: () => setIsReferralOpen(true) },
   ];
 
   return (
@@ -46,13 +48,13 @@ const Navbar = () => {
               />
             </a>
 
-            {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-8">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
-                  href={link.href}
-                  className="text-sm font-medium text-primary-foreground/80 hover:text-gold transition-colors duration-300"
+                  href={link.onClick ? undefined : link.href}
+                  onClick={link.onClick ? (e) => { e.preventDefault(); link.onClick(); } : undefined}
+                  className="text-sm font-medium text-primary-foreground/80 hover:text-gold transition-colors duration-300 cursor-pointer"
                 >
                   {link.label}
                 </a>
@@ -91,9 +93,15 @@ const Navbar = () => {
                 {navLinks.map((link) => (
                   <a
                     key={link.label}
-                    href={link.href}
-                    className="text-sm font-medium text-primary-foreground/80 hover:text-gold transition-colors py-2"
-                    onClick={() => setIsMenuOpen(false)}
+                    href={link.onClick ? undefined : link.href}
+                    onClick={(e) => {
+                      if (link.onClick) {
+                        e.preventDefault();
+                        link.onClick();
+                      }
+                      setIsMenuOpen(false);
+                    }}
+                    className="text-sm font-medium text-primary-foreground/80 hover:text-gold transition-colors py-2 cursor-pointer"
                   >
                     {link.label}
                   </a>
@@ -135,6 +143,14 @@ const Navbar = () => {
         open={isForgotPasswordOpen}
         onOpenChange={setIsForgotPasswordOpen}
         onBackToLogin={() => setIsLoginOpen(true)}
+      />
+      <ReferralModal
+        open={isReferralOpen}
+        onOpenChange={setIsReferralOpen}
+        onContinue={(id, name) => {
+          console.log("Profissional selecionado:", { id, name });
+          // TODO: Continuar para o fluxo de cadastro com indicação
+        }}
       />
     </>
   );
