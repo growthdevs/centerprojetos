@@ -1,10 +1,28 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Award, Users, TrendingUp, Shield, Star, Briefcase } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import LoginModal from "@/components/LoginModal";
+import { useAuth } from "@/contexts/AuthContext";
 
 const PortalProjetista = () => {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const { isAuthenticated, userType } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAccessDashboard = () => {
+    if (isAuthenticated && userType === "designer") {
+      navigate("/projetista/dashboard");
+    } else {
+      setIsLoginOpen(true);
+    }
+  };
+
+  const handleLoginSuccess = () => {
+    navigate("/projetista/dashboard");
+  };
   const benefits = [
     {
       icon: Award,
@@ -59,15 +77,14 @@ const PortalProjetista = () => {
               >
                 Quero me Cadastrar
               </Button>
-              <Link to="/projetista/dashboard">
-                <Button 
-                  size="lg" 
-                  variant="heroOutline"
-                  className="font-bold text-lg px-8 py-6 w-full"
-                >
-                  Acessar Meu Espaço
-                </Button>
-              </Link>
+              <Button 
+                size="lg" 
+                variant="heroOutline"
+                className="font-bold text-lg px-8 py-6"
+                onClick={handleAccessDashboard}
+              >
+                Acessar Meu Espaço
+              </Button>
             </div>
           </div>
         </div>
@@ -141,20 +158,26 @@ const PortalProjetista = () => {
             >
               Cadastrar como Projetista
             </Button>
-            <Link to="/projetista/dashboard">
-              <Button 
-                size="lg" 
-                variant="heroOutline"
-                className="font-bold text-lg px-8 py-6 w-full"
-              >
-                Já sou Cadastrado
-              </Button>
-            </Link>
+            <Button 
+              size="lg" 
+              variant="heroOutline"
+              className="font-bold text-lg px-8 py-6"
+              onClick={handleAccessDashboard}
+            >
+              Já sou Cadastrado
+            </Button>
           </div>
         </div>
       </section>
 
       <Footer />
+
+      <LoginModal
+        open={isLoginOpen}
+        onOpenChange={setIsLoginOpen}
+        defaultTab="designer"
+        onLoginSuccess={handleLoginSuccess}
+      />
     </div>
   );
 };

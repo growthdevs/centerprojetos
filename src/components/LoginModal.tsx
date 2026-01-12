@@ -20,13 +20,14 @@ import {
 } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User, Briefcase, Mail, Lock } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const loginSchema = z.object({
   email: z
     .string()
     .trim()
-    .email({ message: "E-mail inválido" })
-    .max(255, { message: "E-mail deve ter no máximo 255 caracteres" }),
+    .min(1, { message: "Usuário é obrigatório" }),
   password: z
     .string()
     .min(6, { message: "Senha deve ter pelo menos 6 caracteres" }),
@@ -39,11 +40,23 @@ interface LoginModalProps {
   onOpenChange: (open: boolean) => void;
   onOpenRegister?: () => void;
   onOpenForgotPassword?: () => void;
+  defaultTab?: "client" | "designer";
+  onLoginSuccess?: () => void;
 }
 
-const LoginModal = ({ open, onOpenChange, onOpenRegister, onOpenForgotPassword }: LoginModalProps) => {
+const LoginModal = ({ 
+  open, 
+  onOpenChange, 
+  onOpenRegister, 
+  onOpenForgotPassword,
+  defaultTab = "client",
+  onLoginSuccess
+}: LoginModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [userType, setUserType] = useState<"client" | "designer">("client");
+  const [userType, setUserType] = useState<"client" | "designer">(defaultTab);
+  const [loginError, setLoginError] = useState<string | null>(null);
+  const { login } = useAuth();
+  const { toast } = useToast();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -55,13 +68,22 @@ const LoginModal = ({ open, onOpenChange, onOpenRegister, onOpenForgotPassword }
 
   const onSubmit = async (data: LoginFormData) => {
     setIsSubmitting(true);
+    setLoginError(null);
     try {
-      // TODO: Implement login logic with Supabase
-      console.log("Login submitted:", { email: data.email, userType });
-      onOpenChange(false);
-      form.reset();
+      const success = login(data.email, data.password, userType);
+      if (success) {
+        toast({
+          title: "Login realizado com sucesso!",
+          description: `Bem-vindo ao Center Projetos.`,
+        });
+        onOpenChange(false);
+        form.reset();
+        onLoginSuccess?.();
+      } else {
+        setLoginError("Usuário ou senha incorretos. Tente: projetista / 123456");
+      }
     } catch (error) {
-      console.error("Login error");
+      setLoginError("Erro ao fazer login. Tente novamente.");
     } finally {
       setIsSubmitting(false);
     }
@@ -159,6 +181,10 @@ const LoginModal = ({ open, onOpenChange, onOpenRegister, onOpenForgotPassword }
                   Esqueceu sua senha?
                 </button>
 
+                {loginError && userType === "client" && (
+                  <p className="text-sm text-destructive">{loginError}</p>
+                )}
+
                 <Button
                   type="submit"
                   className="w-full bg-gold hover:bg-gold-light text-primary font-semibold"
@@ -227,6 +253,14 @@ const LoginModal = ({ open, onOpenChange, onOpenRegister, onOpenForgotPassword }
                 >
                   Esqueceu sua senha?
                 </button>
+
+                {loginError && userType === "designer" && (
+                  <p className="text-sm text-destructive">{loginError}</p>
+                )}
+
+                <p className="text-xs text-muted-foreground">
+                  Demo: usuário <strong>projetista</strong> / senha <strong>123456</strong>
+                </p>
 
                 <Button
                   type="submit"
