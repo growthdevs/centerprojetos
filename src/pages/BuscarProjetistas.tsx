@@ -19,11 +19,12 @@ const mockDesigners = [
   {
     id: "1",
     name: "Maria Silva",
-    email: "maria.silva@email.com",
-    whatsapp: "(11) 99999-1234",
     city: "São Paulo",
     state: "SP",
-    stores: ["Todeschini", "Dell Anno", "SCA"],
+    store: "Todeschini Centro",
+    projectsCount: 47,
+    rating: 4.8,
+    storeRating: 4.5,
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -35,16 +36,21 @@ const mockDesigners = [
       "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400",
       "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=400",
       "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=400",
+    ],
+    reviews: [
+      { author: "João M.", comment: "Excelente atendimento! Projeto entregue no prazo e com muita qualidade.", date: "15/12/2024", rating: 5 },
+      { author: "Ana P.", comment: "Muito profissional, atenciosa e criativa. Superou minhas expectativas.", date: "03/12/2024", rating: 5 },
     ],
   },
   {
     id: "2",
     name: "João Santos",
-    email: "joao.santos@email.com",
-    whatsapp: "(11) 98888-5678",
     city: "Campinas",
     state: "SP",
-    stores: ["Florense", "Ornare"],
+    store: "Florense Campinas",
+    projectsCount: 32,
+    rating: 4.6,
+    storeRating: 4.7,
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -56,16 +62,20 @@ const mockDesigners = [
       "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400",
       "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=400",
       "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=400",
+    ],
+    reviews: [
+      { author: "Carlos R.", comment: "Ótimo profissional, muito dedicado ao trabalho.", date: "20/11/2024", rating: 4 },
     ],
   },
   {
     id: "3",
     name: "Ana Oliveira",
-    email: "ana.oliveira@email.com",
-    whatsapp: "(21) 97777-9012",
     city: "Rio de Janeiro",
     state: "RJ",
-    stores: ["Formaplas", "Kitchens"],
+    store: "Formaplas Barra",
+    projectsCount: 58,
+    rating: 4.9,
+    storeRating: 4.3,
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -77,16 +87,21 @@ const mockDesigners = [
       "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400",
       "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=400",
       "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=400",
+    ],
+    reviews: [
+      { author: "Mariana S.", comment: "Projeto incrível! Comunicação clara e acompanhamento excelente.", date: "08/12/2024", rating: 5 },
+      { author: "Pedro L.", comment: "Muito atenciosa e profissional. Recomendo!", date: "25/11/2024", rating: 5 },
     ],
   },
   {
     id: "4",
     name: "Carlos Ferreira",
-    email: "carlos.ferreira@email.com",
-    whatsapp: "(31) 96666-3456",
     city: "Belo Horizonte",
     state: "MG",
-    stores: ["Bertolini", "Italínea", "Madesa"],
+    store: "Bertolini BH Centro",
+    projectsCount: 23,
+    rating: 4.4,
+    storeRating: 4.6,
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -98,16 +113,20 @@ const mockDesigners = [
       "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400",
       "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=400",
       "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=400",
+    ],
+    reviews: [
+      { author: "Fernanda M.", comment: "Bom profissional, projeto bem executado.", date: "10/12/2024", rating: 4 },
     ],
   },
   {
     id: "5",
     name: "Patricia Lima",
-    email: "patricia.lima@email.com",
-    whatsapp: "(41) 95555-7890",
     city: "Curitiba",
     state: "PR",
-    stores: ["Favorita", "Criare"],
+    store: "Favorita Curitiba",
+    projectsCount: 41,
+    rating: 4.7,
+    storeRating: 4.8,
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -120,15 +139,20 @@ const mockDesigners = [
       "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=400",
       "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=400",
     ],
+    reviews: [
+      { author: "Ricardo T.", comment: "Excelente trabalho! Projeto ficou perfeito.", date: "18/12/2024", rating: 5 },
+      { author: "Lucia F.", comment: "Muito profissional e pontual nas entregas.", date: "05/12/2024", rating: 5 },
+    ],
   },
   {
     id: "6",
     name: "Roberto Almeida",
-    email: "roberto.almeida@email.com",
-    whatsapp: "(51) 94444-1234",
     city: "Porto Alegre",
     state: "RS",
-    stores: ["Linea", "Rimo"],
+    store: "Linea Porto Alegre",
+    projectsCount: 29,
+    rating: 4.5,
+    storeRating: 4.4,
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -140,6 +164,9 @@ const mockDesigners = [
       "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400",
       "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=400",
       "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=400",
+    ],
+    reviews: [
+      { author: "Sandra K.", comment: "Bom atendimento e projeto de qualidade.", date: "12/12/2024", rating: 4 },
     ],
   },
 ];
@@ -175,7 +202,7 @@ const BuscarProjetistas = () => {
       const matchesCity = !selectedCity || designer.city === selectedCity;
       const matchesSearch = !searchQuery || 
         designer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        designer.stores.some(store => store.toLowerCase().includes(searchQuery.toLowerCase()));
+        designer.store.toLowerCase().includes(searchQuery.toLowerCase());
       
       return matchesState && matchesCity && matchesSearch;
     });

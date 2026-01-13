@@ -70,13 +70,6 @@ const HeroSection = () => {
             >
               Conhecer Planos
             </Button>
-            <Button 
-              size="lg" 
-              variant="heroOutline"
-              className="font-medium text-lg px-8"
-            >
-              Sou Projetista
-            </Button>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, Store } from "lucide-react";
+import { MapPin, Store, Briefcase, Star } from "lucide-react";
 
 interface DesignerCardProps {
   designer: {
@@ -7,8 +7,10 @@ interface DesignerCardProps {
     name: string;
     city: string;
     state: string;
-    stores: string[];
+    store: string;
     imageUrl?: string;
+    projectsCount: number;
+    rating: number;
   };
   onClick: () => void;
 }
@@ -39,20 +41,26 @@ const DesignerCard = ({ designer, onClick }: DesignerCardProps) => {
           {designer.name}
         </h3>
         
-        <div className="flex items-center gap-1.5 text-muted-foreground text-sm mb-3">
+        <div className="flex items-center gap-1.5 text-muted-foreground text-sm mb-2">
           <MapPin className="w-4 h-4 text-accent" />
           <span>{designer.city}, {designer.state}</span>
         </div>
         
-        {designer.stores.length > 0 && (
-          <div className="flex items-start gap-1.5 text-muted-foreground text-sm">
-            <Store className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-            <span className="line-clamp-2">
-              {designer.stores.slice(0, 2).join(", ")}
-              {designer.stores.length > 2 && ` +${designer.stores.length - 2}`}
-            </span>
+        <div className="flex items-center gap-1.5 text-muted-foreground text-sm mb-3">
+          <Store className="w-4 h-4 text-accent" />
+          <span className="line-clamp-1">{designer.store}</span>
+        </div>
+
+        <div className="flex items-center justify-between pt-2 border-t border-border">
+          <div className="flex items-center gap-1 text-sm">
+            <Briefcase className="w-3.5 h-3.5 text-gold" />
+            <span className="text-muted-foreground">{designer.projectsCount} projetos</span>
           </div>
-        )}
+          <div className="flex items-center gap-1 text-sm">
+            <Star className="w-3.5 h-3.5 text-gold fill-gold" />
+            <span className="text-muted-foreground">{designer.rating.toFixed(1)}</span>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

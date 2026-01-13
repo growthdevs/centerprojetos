@@ -16,7 +16,6 @@ import {
   Plus,
   Trash2,
   Save,
-  LogOut
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -30,7 +29,12 @@ const mockDesignerData = {
   city: "São Paulo",
   state: "SP",
   bio: "Projetista com mais de 10 anos de experiência em móveis planejados, especializada em cozinhas e closets.",
-  stores: ["Loja Design SP", "Móveis Planejados ABC"],
+  store: {
+    name: "Loja Design SP",
+    phone: "(11) 3333-4444",
+    whatsapp: "(11) 99999-5555",
+    email: "contato@lojadesignsp.com.br",
+  },
   medals: ["Ouro", "5 Estrelas"],
   portfolioImages: [
     "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
@@ -41,27 +45,16 @@ const mockDesignerData = {
 
 const ProjetistaDashboard = () => {
   const [designer, setDesigner] = useState(mockDesignerData);
-  const [newStore, setNewStore] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
     setDesigner(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleAddStore = () => {
-    if (newStore.trim()) {
-      setDesigner(prev => ({
-        ...prev,
-        stores: [...prev.stores, newStore.trim()]
-      }));
-      setNewStore("");
-    }
-  };
-
-  const handleRemoveStore = (index: number) => {
+  const handleStoreChange = (field: string, value: string) => {
     setDesigner(prev => ({
       ...prev,
-      stores: prev.stores.filter((_, i) => i !== index)
+      store: { ...prev.store, [field]: value }
     }));
   };
 
@@ -77,6 +70,20 @@ const ProjetistaDashboard = () => {
       ...prev,
       portfolioImages: prev.portfolioImages.filter((_, i) => i !== index)
     }));
+  };
+
+  const formatPhone = (value: string) => {
+    const numbers = value.replace(/\D/g, "").slice(0, 11);
+    if (numbers.length <= 2) return numbers;
+    if (numbers.length <= 6) return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 6)}-${numbers.slice(6)}`;
+  };
+
+  const formatWhatsApp = (value: string) => {
+    const numbers = value.replace(/\D/g, "").slice(0, 11);
+    if (numbers.length <= 2) return numbers;
+    if (numbers.length <= 7) return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7)}`;
   };
 
   return (
@@ -118,9 +125,9 @@ const ProjetistaDashboard = () => {
                 <ImageIcon className="w-4 h-4 mr-2" />
                 Portfólio
               </TabsTrigger>
-              <TabsTrigger value="stores" className="data-[state=active]:bg-gold data-[state=active]:text-primary">
+              <TabsTrigger value="store" className="data-[state=active]:bg-gold data-[state=active]:text-primary">
                 <Store className="w-4 h-4 mr-2" />
-                Lojas
+                Loja
               </TabsTrigger>
             </TabsList>
 
@@ -164,7 +171,7 @@ const ProjetistaDashboard = () => {
                         <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                         <Input 
                           value={designer.whatsapp}
-                          onChange={(e) => handleInputChange("whatsapp", e.target.value)}
+                          onChange={(e) => handleInputChange("whatsapp", formatWhatsApp(e.target.value))}
                           className="pl-10"
                           placeholder="(00) 00000-0000"
                         />
@@ -254,55 +261,77 @@ const ProjetistaDashboard = () => {
               </Card>
             </TabsContent>
 
-            {/* Stores Tab */}
-            <TabsContent value="stores">
+            {/* Store Tab */}
+            <TabsContent value="store">
               <Card>
                 <CardHeader>
-                  <CardTitle>Lojas Parceiras</CardTitle>
+                  <CardTitle>Loja Vinculada</CardTitle>
                   <CardDescription>
-                    Adicione as lojas onde você atua ou já trabalhou. Isto ajuda os clientes a encontrarem você.
+                    Informações da loja onde você atua. Você pode vincular apenas uma loja ao seu perfil.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <div className="flex gap-3">
-                    <Input 
-                      value={newStore}
-                      onChange={(e) => setNewStore(e.target.value)}
-                      placeholder="Nome da loja..."
-                      onKeyDown={(e) => e.key === "Enter" && handleAddStore()}
-                    />
-                    <Button onClick={handleAddStore} className="bg-gold hover:bg-gold-light text-primary">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Adicionar
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">Nome da Loja</label>
+                      <div className="relative">
+                        <Store className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input 
+                          value={designer.store.name}
+                          onChange={(e) => handleStoreChange("name", e.target.value)}
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">Telefone da Loja</label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input 
+                          value={designer.store.phone}
+                          onChange={(e) => handleStoreChange("phone", formatPhone(e.target.value))}
+                          className="pl-10"
+                          placeholder="(00) 0000-0000"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">WhatsApp da Loja</label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input 
+                          value={designer.store.whatsapp}
+                          onChange={(e) => handleStoreChange("whatsapp", formatWhatsApp(e.target.value))}
+                          className="pl-10"
+                          placeholder="(00) 00000-0000"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">E-mail da Loja</label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input 
+                          type="email"
+                          value={designer.store.email}
+                          onChange={(e) => handleStoreChange("email", e.target.value)}
+                          className="pl-10"
+                          placeholder="loja@email.com"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end">
+                    <Button 
+                      onClick={handleSave}
+                      disabled={isSaving}
+                      className="bg-gold hover:bg-gold-light text-primary"
+                    >
+                      <Save className="w-4 h-4 mr-2" />
+                      {isSaving ? "Salvando..." : "Salvar Alterações"}
                     </Button>
                   </div>
-
-                  <div className="space-y-3">
-                    {designer.stores.map((store, index) => (
-                      <div 
-                        key={index}
-                        className="flex items-center justify-between p-4 bg-muted/50 rounded-lg border border-border"
-                      >
-                        <div className="flex items-center gap-3">
-                          <Store className="w-5 h-5 text-gold" />
-                          <span className="font-medium">{store}</span>
-                        </div>
-                        <button
-                          onClick={() => handleRemoveStore(index)}
-                          className="p-2 text-muted-foreground hover:text-destructive transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-
-                  {designer.stores.length === 0 && (
-                    <div className="text-center py-8 text-muted-foreground">
-                      <Store className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                      <p>Nenhuma loja adicionada ainda.</p>
-                    </div>
-                  )}
                 </CardContent>
               </Card>
             </TabsContent>
