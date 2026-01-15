@@ -59,17 +59,10 @@ const HeroSection = () => {
                 variant="gold"
                 className="font-semibold text-lg px-8 group w-full sm:w-auto"
               >
-                Solicitar Orçamento
+                Encontrar Projetista
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Button 
-              size="lg" 
-              variant="heroOutline"
-              className="font-medium text-lg px-8"
-            >
-              Conhecer Planos
-            </Button>
           </div>
         </div>
       </div>

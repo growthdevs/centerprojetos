@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -5,8 +6,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { MapPin, Store, ArrowRight, X, Briefcase, Star, MessageSquare } from "lucide-react";
-import { useState } from "react";
+import { MapPin, Store, ArrowRight, X, Briefcase, Star, MessageSquare, Send } from "lucide-react";
+import ContactRequestModal from "./ContactRequestModal";
 
 interface Designer {
   id: string;
@@ -35,13 +36,9 @@ interface DesignerDetailModalProps {
 
 const DesignerDetailModal = ({ designer, isOpen, onClose }: DesignerDetailModalProps) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [showContactModal, setShowContactModal] = useState(false);
 
   if (!designer) return null;
-
-  const handleWhatsAppClick = () => {
-    const message = encodeURIComponent(`Olá ${designer.name}, encontrei seu perfil na Center Projetos e gostaria de solicitar um orçamento.`);
-    window.open(`https://wa.me/5511999999999?text=${message}`, '_blank');
-  };
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -183,9 +180,10 @@ const DesignerDetailModal = ({ designer, isOpen, onClose }: DesignerDetailModalP
                 variant="gold"
                 size="lg"
                 className="w-full font-semibold text-lg group"
-                onClick={handleWhatsAppClick}
+                onClick={() => setShowContactModal(true)}
               >
-                Solicitar Serviços
+                <Send className="mr-2 w-5 h-5" />
+                Solicitar Contato
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>
@@ -212,6 +210,13 @@ const DesignerDetailModal = ({ designer, isOpen, onClose }: DesignerDetailModalP
           />
         </div>
       )}
+
+      {/* Contact Request Modal */}
+      <ContactRequestModal
+        isOpen={showContactModal}
+        onClose={() => setShowContactModal(false)}
+        designerName={designer.name}
+      />
     </>
   );
 };
