@@ -48,7 +48,7 @@ const HeroSection = () => {
       
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
 
           {/* Headline */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
@@ -70,7 +70,7 @@ const HeroSection = () => {
               <span className="text-primary-foreground font-medium">Encontre um projetista</span>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_auto] gap-3">
               <Input
                 placeholder="Buscar por nome ou loja..."
                 value={searchQuery}
