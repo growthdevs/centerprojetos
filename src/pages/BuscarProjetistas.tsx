@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Search, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ import {
 import DesignerCard from "@/components/DesignerCard";
 import DesignerDetailModal from "@/components/DesignerDetailModal";
 import logoColor from "@/assets/logo-color.png";
+import { states, citiesByState } from "@/data/locations";
 
 // Mock data - will be replaced with real data from backend
 const mockDesigners = [
@@ -171,28 +172,21 @@ const mockDesigners = [
   },
 ];
 
-const states = [
-  { value: "SP", label: "São Paulo" },
-  { value: "RJ", label: "Rio de Janeiro" },
-  { value: "MG", label: "Minas Gerais" },
-  { value: "PR", label: "Paraná" },
-  { value: "RS", label: "Rio Grande do Sul" },
-];
-
-const citiesByState: Record<string, string[]> = {
-  SP: ["São Paulo", "Campinas", "Santos", "Ribeirão Preto"],
-  RJ: ["Rio de Janeiro", "Niterói", "Petrópolis"],
-  MG: ["Belo Horizonte", "Uberlândia", "Contagem"],
-  PR: ["Curitiba", "Londrina", "Maringá"],
-  RS: ["Porto Alegre", "Caxias do Sul", "Pelotas"],
-};
-
 const BuscarProjetistas = () => {
-  const [selectedState, setSelectedState] = useState<string>("");
-  const [selectedCity, setSelectedCity] = useState<string>("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedState, setSelectedState] = useState<string>(searchParams.get("state") || "");
+  const [selectedCity, setSelectedCity] = useState<string>(searchParams.get("city") || "");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDesigner, setSelectedDesigner] = useState<typeof mockDesigners[0] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Sync with URL params on mount and changes
+  useEffect(() => {
+    const stateParam = searchParams.get("state");
+    const cityParam = searchParams.get("city");
+    if (stateParam) setSelectedState(stateParam);
+    if (cityParam) setSelectedCity(cityParam);
+  }, [searchParams]);
 
   const availableCities = selectedState ? citiesByState[selectedState] || [] : [];
 
@@ -211,6 +205,19 @@ const BuscarProjetistas = () => {
   const handleStateChange = (value: string) => {
     setSelectedState(value);
     setSelectedCity("");
+    // Update URL
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("state", value);
+    newParams.delete("city");
+    setSearchParams(newParams);
+  };
+
+  const handleCityChange = (value: string) => {
+    setSelectedCity(value);
+    // Update URL
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("city", value);
+    setSearchParams(newParams);
   };
 
   const handleDesignerClick = (designer: typeof mockDesigners[0]) => {
@@ -222,6 +229,7 @@ const BuscarProjetistas = () => {
     setSelectedState("");
     setSelectedCity("");
     setSearchQuery("");
+    setSearchParams({});
   };
 
   return (
@@ -282,7 +290,7 @@ const BuscarProjetistas = () => {
 
             <Select 
               value={selectedCity} 
-              onValueChange={setSelectedCity}
+              onValueChange={handleCityChange}
               disabled={!selectedState}
             >
               <SelectTrigger>
