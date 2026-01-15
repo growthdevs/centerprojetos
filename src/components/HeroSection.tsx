@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Search, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -16,6 +17,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
   const [selectedState, setSelectedState] = useState<string>("");
   const [selectedCity, setSelectedCity] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const availableCities = selectedState ? citiesByState[selectedState] || [] : [];
 
@@ -28,6 +30,7 @@ const HeroSection = () => {
     const params = new URLSearchParams();
     if (selectedState) params.set("state", selectedState);
     if (selectedCity) params.set("city", selectedCity);
+    if (searchQuery) params.set("q", searchQuery);
     
     navigate(`/buscar-projetistas${params.toString() ? `?${params.toString()}` : ""}`);
   };
@@ -64,10 +67,18 @@ const HeroSection = () => {
           <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 animate-fade-in" style={{ animationDelay: "0.3s" }}>
             <div className="flex items-center gap-2 mb-4">
               <MapPin className="w-5 h-5 text-gold" />
-              <span className="text-primary-foreground font-medium">Onde você está?</span>
+              <span className="text-primary-foreground font-medium">Encontre um projetista</span>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div className="sm:col-span-2 lg:col-span-2">
+                <Input
+                  placeholder="Buscar por nome ou loja..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="bg-white/90 border-0 text-foreground h-12 placeholder:text-muted-foreground"
+                />
+              </div>
               <Select value={selectedState} onValueChange={handleStateChange}>
                 <SelectTrigger className="bg-white/90 border-0 text-foreground h-12">
                   <SelectValue placeholder="Estado" />
@@ -101,11 +112,11 @@ const HeroSection = () => {
               <Button 
                 size="lg" 
                 variant="gold"
-                className="font-semibold text-lg h-12 group"
+                className="font-semibold h-12 group"
                 onClick={handleSearch}
               >
                 <Search className="mr-2 w-5 h-5" />
-                Buscar
+                Buscar Projetistas
               </Button>
             </div>
           </div>

@@ -176,7 +176,7 @@ const BuscarProjetistas = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedState, setSelectedState] = useState<string>(searchParams.get("state") || "");
   const [selectedCity, setSelectedCity] = useState<string>(searchParams.get("city") || "");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
   const [selectedDesigner, setSelectedDesigner] = useState<typeof mockDesigners[0] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -184,8 +184,10 @@ const BuscarProjetistas = () => {
   useEffect(() => {
     const stateParam = searchParams.get("state");
     const cityParam = searchParams.get("city");
+    const queryParam = searchParams.get("q");
     if (stateParam) setSelectedState(stateParam);
     if (cityParam) setSelectedCity(cityParam);
+    if (queryParam) setSearchQuery(queryParam);
   }, [searchParams]);
 
   const availableCities = selectedState ? citiesByState[selectedState] || [] : [];
