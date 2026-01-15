@@ -70,15 +70,14 @@ const HeroSection = () => {
               <span className="text-primary-foreground font-medium">Encontre um projetista</span>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-              <div className="sm:col-span-2 lg:col-span-2">
-                <Input
-                  placeholder="Buscar por nome ou loja..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-white/90 border-0 text-foreground h-12 placeholder:text-muted-foreground"
-                />
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <Input
+                placeholder="Buscar por nome ou loja..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-white/90 border-0 text-foreground h-12 placeholder:text-muted-foreground"
+              />
+
               <Select value={selectedState} onValueChange={handleStateChange}>
                 <SelectTrigger className="bg-white/90 border-0 text-foreground h-12">
                   <SelectValue placeholder="Estado" />
@@ -112,11 +111,11 @@ const HeroSection = () => {
               <Button 
                 size="lg" 
                 variant="gold"
-                className="font-semibold h-12 group"
+                className="font-semibold h-12"
                 onClick={handleSearch}
               >
                 <Search className="mr-2 w-5 h-5" />
-                Buscar Projetistas
+                Buscar
               </Button>
             </div>
           </div>
