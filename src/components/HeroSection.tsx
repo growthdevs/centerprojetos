@@ -1,14 +1,36 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Search, MapPin } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import heroBg from "@/assets/hero-bg.jpg";
+import { states, citiesByState } from "@/data/locations";
 
 const HeroSection = () => {
-  const highlights = [
-    "Parceiros verificados",
-    "Consultoria imparcial",
-    "Suporte contínuo",
-  ];
+  const navigate = useNavigate();
+  const [selectedState, setSelectedState] = useState<string>("");
+  const [selectedCity, setSelectedCity] = useState<string>("");
+
+  const availableCities = selectedState ? citiesByState[selectedState] || [] : [];
+
+  const handleStateChange = (value: string) => {
+    setSelectedState(value);
+    setSelectedCity("");
+  };
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (selectedState) params.set("state", selectedState);
+    if (selectedCity) params.set("city", selectedCity);
+    
+    navigate(`/buscar-projetistas${params.toString() ? `?${params.toString()}` : ""}`);
+  };
 
   return (
     <section className="relative min-h-screen flex items-center pt-20">
@@ -27,42 +49,65 @@ const HeroSection = () => {
 
           {/* Headline */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
-            Um projeto.{" "}
-            <span className="text-gradient-gold">Vários orçamentos.</span>{" "}
-            Zero dor de cabeça.
+            Encontre o{" "}
+            <span className="text-gradient-gold">projetista ideal</span>{" "}
+            para seus móveis planejados
           </h1>
 
           {/* Description */}
-          <p className="text-lg md:text-xl text-primary-foreground/80 leading-relaxed mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            A Center Projetos simplifica a compra de móveis planejados ao centralizar 
-            medições, projetos, comparações e acompanhamento em um único lugar.
+          <p className="text-lg md:text-xl text-primary-foreground/80 leading-relaxed mb-10 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+            Conectamos você a profissionais verificados na sua região. 
+            Compare portfólios, avaliações e encontre o parceiro perfeito para seu projeto.
           </p>
 
-          {/* Highlights */}
-          <div className="flex flex-wrap gap-4 mb-10 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-            {highlights.map((item) => (
-              <div
-                key={item}
-                className="flex items-center gap-2 text-primary-foreground/90"
-              >
-                <CheckCircle className="w-5 h-5 text-gold" />
-                <span className="text-sm font-medium">{item}</span>
-              </div>
-            ))}
-          </div>
+          {/* Search Box */}
+          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+            <div className="flex items-center gap-2 mb-4">
+              <MapPin className="w-5 h-5 text-gold" />
+              <span className="text-primary-foreground font-medium">Onde você está?</span>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <Select value={selectedState} onValueChange={handleStateChange}>
+                <SelectTrigger className="bg-white/90 border-0 text-foreground h-12">
+                  <SelectValue placeholder="Estado" />
+                </SelectTrigger>
+                <SelectContent>
+                  {states.map((state) => (
+                    <SelectItem key={state.value} value={state.value}>
+                      {state.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-            <Link to="/buscar-projetistas">
+              <Select 
+                value={selectedCity} 
+                onValueChange={setSelectedCity}
+                disabled={!selectedState}
+              >
+                <SelectTrigger className="bg-white/90 border-0 text-foreground h-12 disabled:opacity-50">
+                  <SelectValue placeholder="Cidade" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableCities.map((city) => (
+                    <SelectItem key={city} value={city}>
+                      {city}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
               <Button 
                 size="lg" 
                 variant="gold"
-                className="font-semibold text-lg px-8 group w-full sm:w-auto"
+                className="font-semibold text-lg h-12 group"
+                onClick={handleSearch}
               >
-                Encontrar Projetista
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <Search className="mr-2 w-5 h-5" />
+                Buscar
               </Button>
-            </Link>
+            </div>
           </div>
         </div>
       </div>
