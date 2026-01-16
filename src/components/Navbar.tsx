@@ -1,11 +1,19 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LogOut } from "lucide-react";
 import logoWhite from "@/assets/logo-white.png";
 import RegisterModal from "@/components/RegisterModal";
 import LoginModal from "@/components/LoginModal";
 import ForgotPasswordModal from "@/components/ForgotPasswordModal";
 import ReferralModal from "@/components/ReferralModal";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,6 +22,7 @@ const Navbar = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const [isReferralOpen, setIsReferralOpen] = useState(false);
+  const { isAuthenticated, userName, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +40,11 @@ const Navbar = () => {
     { label: "Planos Cliente", href: "#planos" },
     { label: "Cliente Vindo de Indicação", href: "#indicacao", onClick: () => setIsReferralOpen(true) },
   ];
+
+  const handleLogout = () => {
+    logout();
+    setIsMenuOpen(false);
+  };
 
   return (
     <>
@@ -61,20 +75,52 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* Desktop CTA Buttons */}
+            {/* Desktop CTA Buttons or User Info */}
             <div className="hidden lg:flex items-center gap-4">
-              <button 
-                onClick={() => setIsRegisterOpen(true)}
-                className="text-gold font-bold hover:text-gold-light transition-colors"
-              >
-                Criar Conta
-              </button>
-              <Button 
-                onClick={() => setIsLoginOpen(true)}
-                className="bg-gold hover:bg-gold-light text-primary font-semibold shadow-gold"
-              >
-                Entrar
-              </Button>
+              {isAuthenticated ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      className="flex items-center gap-2 text-primary-foreground hover:text-gold hover:bg-white/10"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-gold flex items-center justify-center">
+                        <User className="w-4 h-4 text-primary" />
+                      </div>
+                      <span className="font-medium">{userName}</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem className="font-medium">
+                      <User className="mr-2 h-4 w-4" />
+                      Meu Perfil
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem 
+                      onClick={handleLogout}
+                      className="text-destructive focus:text-destructive"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Sair
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <>
+                  <button 
+                    onClick={() => setIsRegisterOpen(true)}
+                    className="text-gold font-bold hover:text-gold-light transition-colors"
+                  >
+                    Criar Conta
+                  </button>
+                  <Button 
+                    onClick={() => setIsLoginOpen(true)}
+                    className="bg-gold hover:bg-gold-light text-primary font-semibold shadow-gold"
+                  >
+                    Entrar
+                  </Button>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -107,24 +153,48 @@ const Navbar = () => {
                   </a>
                 ))}
                 <div className="flex flex-col gap-3 pt-4 border-t border-gold/20">
-                  <button 
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      setIsRegisterOpen(true);
-                    }}
-                    className="text-gold font-bold hover:text-gold-light transition-colors text-center py-2"
-                  >
-                    Criar Conta
-                  </button>
-                  <Button 
-                    onClick={() => {
-                      setIsMenuOpen(false);
-                      setIsLoginOpen(true);
-                    }}
-                    className="bg-gold hover:bg-gold-light text-primary font-semibold"
-                  >
-                    Entrar
-                  </Button>
+                  {isAuthenticated ? (
+                    <>
+                      <div className="flex items-center gap-3 py-2">
+                        <div className="w-10 h-10 rounded-full bg-gold flex items-center justify-center">
+                          <User className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-primary-foreground">{userName}</p>
+                          <p className="text-xs text-primary-foreground/60">Logado</p>
+                        </div>
+                      </div>
+                      <Button 
+                        onClick={handleLogout}
+                        variant="outline"
+                        className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                      >
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Sair
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <button 
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          setIsRegisterOpen(true);
+                        }}
+                        className="text-gold font-bold hover:text-gold-light transition-colors text-center py-2"
+                      >
+                        Criar Conta
+                      </button>
+                      <Button 
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          setIsLoginOpen(true);
+                        }}
+                        className="bg-gold hover:bg-gold-light text-primary font-semibold"
+                      >
+                        Entrar
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
