@@ -6,11 +6,7 @@ import heroBg from "@/assets/hero-bg.jpg";
 import { useAuth } from "@/contexts/AuthContext";
 import LoginModal from "./LoginModal";
 
-interface HeroSectionProps {
-  onOpenLogin?: () => void;
-}
-
-const HeroSection = ({ onOpenLogin }: HeroSectionProps) => {
+const HeroSection = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -19,11 +15,7 @@ const HeroSection = ({ onOpenLogin }: HeroSectionProps) => {
     if (isAuthenticated) {
       navigate("/buscar-projetistas");
     } else {
-      if (onOpenLogin) {
-        onOpenLogin();
-      } else {
-        setShowLoginModal(true);
-      }
+      setShowLoginModal(true);
     }
   };
 
@@ -91,15 +83,13 @@ const HeroSection = ({ onOpenLogin }: HeroSectionProps) => {
         </div>
       </section>
 
-      {/* Fallback Login Modal (if not using onOpenLogin prop) */}
-      {!onOpenLogin && (
-        <LoginModal
-          open={showLoginModal}
-          onOpenChange={setShowLoginModal}
-          defaultTab="client"
-          onLoginSuccess={handleLoginSuccess}
-        />
-      )}
+      {/* Login Modal */}
+      <LoginModal
+        open={showLoginModal}
+        onOpenChange={setShowLoginModal}
+        defaultTab="client"
+        onLoginSuccess={handleLoginSuccess}
+      />
     </>
   );
 };
