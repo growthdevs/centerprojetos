@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Search, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,8 +12,10 @@ import {
 } from "@/components/ui/select";
 import DesignerCard from "@/components/DesignerCard";
 import DesignerDetailModal from "@/components/DesignerDetailModal";
+import LoginModal from "@/components/LoginModal";
 import logoColor from "@/assets/logo-color.png";
 import { states, citiesByState } from "@/data/locations";
+import { useAuth } from "@/contexts/AuthContext";
 
 // Mock data - will be replaced with real data from backend
 const mockDesigners = [
@@ -173,26 +175,45 @@ const mockDesigners = [
 ];
 
 const BuscarProjetistas = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedState, setSelectedState] = useState<string>(searchParams.get("state") || "");
   const [selectedCity, setSelectedCity] = useState<string>(searchParams.get("city") || "");
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
   const [selectedDesigner, setSelectedDesigner] = useState<typeof mockDesigners[0] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
-  // Sync with URL params on mount and changes
+  // Redirect to home if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setShowLoginModal(true);
+    }
+  }, [isAuthenticated]);
+
+  // Check if there are initial search params to trigger search
   useEffect(() => {
     const stateParam = searchParams.get("state");
     const cityParam = searchParams.get("city");
     const queryParam = searchParams.get("q");
+    
     if (stateParam) setSelectedState(stateParam);
     if (cityParam) setSelectedCity(cityParam);
     if (queryParam) setSearchQuery(queryParam);
-  }, [searchParams]);
+    
+    // If came with any params, mark as searched
+    if (stateParam || cityParam || queryParam) {
+      setHasSearched(true);
+    }
+  }, []);
 
   const availableCities = selectedState ? citiesByState[selectedState] || [] : [];
 
   const filteredDesigners = useMemo(() => {
+    if (!hasSearched) return [];
+    
     return mockDesigners.filter((designer) => {
       const matchesState = !selectedState || designer.state === selectedState;
       const matchesCity = !selectedCity || designer.city === selectedCity;
@@ -202,24 +223,25 @@ const BuscarProjetistas = () => {
       
       return matchesState && matchesCity && matchesSearch;
     });
-  }, [selectedState, selectedCity, searchQuery]);
+  }, [selectedState, selectedCity, searchQuery, hasSearched]);
 
   const handleStateChange = (value: string) => {
     setSelectedState(value);
     setSelectedCity("");
-    // Update URL
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("state", value);
-    newParams.delete("city");
-    setSearchParams(newParams);
   };
 
   const handleCityChange = (value: string) => {
     setSelectedCity(value);
-    // Update URL
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("city", value);
+  };
+
+  const handleSearch = () => {
+    // Update URL with search params
+    const newParams = new URLSearchParams();
+    if (selectedState) newParams.set("state", selectedState);
+    if (selectedCity) newParams.set("city", selectedCity);
+    if (searchQuery) newParams.set("q", searchQuery);
     setSearchParams(newParams);
+    setHasSearched(true);
   };
 
   const handleDesignerClick = (designer: typeof mockDesigners[0]) => {
@@ -232,7 +254,22 @@ const BuscarProjetistas = () => {
     setSelectedCity("");
     setSearchQuery("");
     setSearchParams({});
+    setHasSearched(false);
   };
+
+  const handleLoginSuccess = () => {
+    setShowLoginModal(false);
+  };
+
+  const handleLoginClose = (open: boolean) => {
+    setShowLoginModal(open);
+    if (!open && !isAuthenticated) {
+      navigate("/");
+    }
+  };
+
+  // Check if can search (at least one filter selected)
+  const canSearch = selectedState || selectedCity || searchQuery.trim();
 
   return (
     <div className="min-h-screen bg-background">
@@ -276,7 +313,7 @@ const BuscarProjetistas = () => {
             <h2 className="font-semibold text-foreground">Filtros</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Select value={selectedState} onValueChange={handleStateChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Selecione o estado" />
@@ -313,53 +350,90 @@ const BuscarProjetistas = () => {
                 placeholder="Buscar por nome ou loja"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && canSearch) {
+                    handleSearch();
+                  }
+                }}
                 className="pl-10"
               />
             </div>
 
-            <Button 
-              variant="outline" 
-              onClick={clearFilters}
-              className="hover:bg-destructive/10 hover:text-destructive hover:border-destructive/50"
-            >
-              Limpar Filtros
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                variant="gold" 
+                onClick={handleSearch}
+                disabled={!canSearch}
+                className="flex-1"
+              >
+                <Search className="w-4 h-4 mr-2" />
+                Buscar
+              </Button>
+              {hasSearched && (
+                <Button 
+                  variant="outline" 
+                  onClick={clearFilters}
+                  className="hover:bg-destructive/10 hover:text-destructive hover:border-destructive/50"
+                >
+                  Limpar
+                </Button>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Results Count */}
-        <div className="mb-6">
-          <p className="text-muted-foreground">
-            <span className="font-semibold text-foreground">{filteredDesigners.length}</span> projetista{filteredDesigners.length !== 1 ? 's' : ''} encontrado{filteredDesigners.length !== 1 ? 's' : ''}
-          </p>
-        </div>
-
-        {/* Designers Grid */}
-        {filteredDesigners.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredDesigners.map((designer) => (
-              <DesignerCard
-                key={designer.id}
-                designer={designer}
-                onClick={() => handleDesignerClick(designer)}
-              />
-            ))}
+        {/* Results Section */}
+        {!hasSearched ? (
+          // Initial state - no search yet
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Search className="w-12 h-12 text-primary" />
+            </div>
+            <h3 className="text-2xl font-semibold text-foreground mb-3">
+              Inicie sua busca
+            </h3>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              Use os filtros acima para encontrar projetistas na sua região. 
+              Selecione um estado, cidade ou busque pelo nome do profissional ou loja.
+            </p>
           </div>
         ) : (
-          <div className="text-center py-16">
-            <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="w-10 h-10 text-muted-foreground" />
+          <>
+            {/* Results Count */}
+            <div className="mb-6">
+              <p className="text-muted-foreground">
+                <span className="font-semibold text-foreground">{filteredDesigners.length}</span> projetista{filteredDesigners.length !== 1 ? 's' : ''} encontrado{filteredDesigners.length !== 1 ? 's' : ''}
+              </p>
             </div>
-            <h3 className="text-xl font-semibold text-foreground mb-2">
-              Nenhum projetista encontrado
-            </h3>
-            <p className="text-muted-foreground mb-4">
-              Tente ajustar os filtros para encontrar mais resultados
-            </p>
-            <Button variant="outline" onClick={clearFilters}>
-              Limpar Filtros
-            </Button>
-          </div>
+
+            {/* Designers Grid */}
+            {filteredDesigners.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredDesigners.map((designer) => (
+                  <DesignerCard
+                    key={designer.id}
+                    designer={designer}
+                    onClick={() => handleDesignerClick(designer)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-16">
+                <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-10 h-10 text-muted-foreground" />
+                </div>
+                <h3 className="text-xl font-semibold text-foreground mb-2">
+                  Nenhum projetista encontrado
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  Tente ajustar os filtros para encontrar mais resultados
+                </p>
+                <Button variant="outline" onClick={clearFilters}>
+                  Limpar Filtros
+                </Button>
+              </div>
+            )}
+          </>
         )}
       </main>
 
@@ -368,6 +442,14 @@ const BuscarProjetistas = () => {
         designer={selectedDesigner}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+
+      {/* Login Modal */}
+      <LoginModal
+        open={showLoginModal}
+        onOpenChange={handleLoginClose}
+        defaultTab="client"
+        onLoginSuccess={handleLoginSuccess}
       />
     </div>
   );
