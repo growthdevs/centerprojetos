@@ -78,7 +78,7 @@ const PortalProjetista = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-8">
-              O Papel do <span className="text-gradient-accent">Projetista</span> na Center
+              O Papel do <span className="text-gradient-accent text-blue-400">Projetista</span> na Center
             </h2>
             <div className="bg-card rounded-2xl p-8 shadow-lg border border-border">
               <p className="text-lg text-muted-foreground leading-relaxed mb-6">
