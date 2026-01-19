@@ -43,7 +43,7 @@ const HeroSection = () => {
             {/* Headline */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
               Encontre o{" "}
-              <span className="text-gradient-gold">projetista ideal</span>{" "}
+              <span className="text-gradient-red">projetista ideal</span>{" "}
               para seus móveis planejados
             </h1>
 
@@ -57,7 +57,7 @@ const HeroSection = () => {
             <div className="animate-fade-in" style={{ animationDelay: "0.3s" }}>
               <Button 
                 size="lg" 
-                variant="gold"
+                variant="accent"
                 className="text-lg md:text-xl px-8 md:px-12 py-6 md:py-8 font-bold shadow-2xl hover:scale-105 transition-transform group"
                 onClick={handleSearchClick}
               >
@@ -78,7 +78,7 @@ const HeroSection = () => {
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
           <div className="w-6 h-10 border-2 border-primary-foreground/30 rounded-full flex justify-center pt-2">
-            <div className="w-1.5 h-3 bg-gold rounded-full animate-pulse" />
+            <div className="w-1.5 h-3 bg-accent rounded-full animate-pulse" />
           </div>
         </div>
       </section>

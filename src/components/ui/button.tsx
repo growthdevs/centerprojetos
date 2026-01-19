@@ -16,8 +16,8 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         // Custom variants for Center Projetos
-        gold: "bg-gold text-primary hover:bg-gold/90 shadow-[0_4px_20px_-4px_hsl(42_88%_45%/0.35)]",
-        heroOutline: "border-2 border-gold/60 bg-transparent text-white hover:bg-gold/20 hover:border-gold",
+        accent: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-[0_4px_20px_-4px_hsl(4_82%_56%/0.35)]",
+        heroOutline: "border-2 border-accent/60 bg-transparent text-white hover:bg-accent/20 hover:border-accent",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -29,7 +29,7 @@ const HowItWorksSection = () => {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <span className="text-sm font-semibold text-gold uppercase tracking-widest">
+          <span className="text-sm font-semibold text-accent uppercase tracking-widest">
             Para Clientes
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-primary mt-2 mb-4">
@@ -47,16 +47,16 @@ const HowItWorksSection = () => {
             return (
               <div
                 key={step.step}
-                className="relative bg-card rounded-xl p-8 border border-border hover:border-gold/50 transition-all duration-300 hover:shadow-card-hover text-center"
+                className="relative bg-card rounded-xl p-8 border border-border hover:border-accent/50 transition-all duration-300 hover:shadow-card-hover text-center"
               >
                 {/* Step Number */}
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gold text-primary font-bold text-sm px-3 py-1 rounded-full">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground font-bold text-sm px-3 py-1 rounded-full">
                   {step.step}
                 </div>
                 
                 {/* Icon */}
-                <div className="bg-gold/10 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 mt-2">
-                  <Icon className="w-8 h-8 text-gold" />
+                <div className="bg-accent/10 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 mt-2">
+                  <Icon className="w-8 h-8 text-accent" />
                 </div>
                 
                 <h3 className="text-xl font-semibold text-primary mb-3">
@@ -78,7 +78,7 @@ const HowItWorksSection = () => {
         {/* CTA */}
         <div className="text-center">
           <Link to="/buscar-projetistas">
-            <Button variant="gold" size="lg" className="font-semibold text-lg px-8">
+            <Button variant="accent" size="lg" className="font-semibold text-lg px-8">
               Buscar Projetistas
             </Button>
           </Link>

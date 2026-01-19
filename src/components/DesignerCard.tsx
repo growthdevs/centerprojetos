@@ -53,11 +53,11 @@ const DesignerCard = ({ designer, onClick }: DesignerCardProps) => {
 
         <div className="flex items-center justify-between pt-2 border-t border-border">
           <div className="flex items-center gap-1 text-sm">
-            <Briefcase className="w-3.5 h-3.5 text-gold" />
+            <Briefcase className="w-3.5 h-3.5 text-accent" />
             <span className="text-muted-foreground">{designer.projectsCount} projetos</span>
           </div>
           <div className="flex items-center gap-1 text-sm">
-            <Star className="w-3.5 h-3.5 text-gold fill-gold" />
+            <Star className="w-3.5 h-3.5 text-accent fill-accent" />
             <span className="text-muted-foreground">{designer.rating.toFixed(1)}</span>
           </div>
         </div>

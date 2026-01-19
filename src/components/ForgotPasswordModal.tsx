@@ -118,7 +118,7 @@ const ForgotPasswordModal = ({ open, onOpenChange, onBackToLogin }: ForgotPasswo
 
               <Button
                 type="submit"
-                className="w-full bg-gold hover:bg-gold-light text-primary font-semibold"
+                className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Enviando..." : "Enviar Link de Recuperação"}

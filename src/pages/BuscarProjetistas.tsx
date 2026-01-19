@@ -299,7 +299,7 @@ const BuscarProjetistas = () => {
         {/* Page Title */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-            Encontre seu <span className="text-gradient-gold">Projetista</span>
+            Encontre seu <span className="text-gradient-red">Projetista</span>
           </h1>
           <p className="text-muted-foreground text-lg">
             Busque projetistas verificados na sua região e confira seus trabalhos
@@ -361,7 +361,7 @@ const BuscarProjetistas = () => {
 
             <div className="flex gap-2">
               <Button 
-                variant="gold" 
+                variant="accent" 
                 onClick={handleSearch}
                 disabled={!canSearch}
                 className="flex-1"

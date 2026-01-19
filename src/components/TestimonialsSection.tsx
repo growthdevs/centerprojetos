@@ -65,7 +65,7 @@ const TestimonialsSection = () => {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-sm font-semibold text-gold uppercase tracking-widest">
+          <span className="text-sm font-semibold text-accent uppercase tracking-widest">
             Depoimentos
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-primary mt-2 mb-4">
@@ -91,7 +91,7 @@ const TestimonialsSection = () => {
                   <div className="bg-card rounded-2xl p-8 md:p-12 border border-border shadow-card">
                     {/* Quote Icon */}
                     <div className="mb-6">
-                      <Quote className="w-12 h-12 text-gold/30" />
+                      <Quote className="w-12 h-12 text-accent/30" />
                     </div>
 
                     {/* Content */}
@@ -102,7 +102,7 @@ const TestimonialsSection = () => {
                     {/* Rating */}
                     <div className="flex gap-1 mb-6">
                       {Array.from({ length: testimonial.rating }).map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-gold text-gold" />
+                        <Star key={i} className="w-5 h-5 fill-accent text-accent" />
                       ))}
                     </div>
 
@@ -130,7 +130,7 @@ const TestimonialsSection = () => {
           <div className="flex items-center justify-center gap-4 mt-8">
             <button
               onClick={handlePrev}
-              className="w-12 h-12 rounded-full border border-border bg-card flex items-center justify-center text-primary hover:border-gold hover:text-gold transition-colors shadow-sm"
+              className="w-12 h-12 rounded-full border border-border bg-card flex items-center justify-center text-primary hover:border-accent hover:text-accent transition-colors shadow-sm"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -145,8 +145,8 @@ const TestimonialsSection = () => {
                   }}
                   className={`w-2 h-2 rounded-full transition-all ${
                     index === currentIndex
-                      ? "w-8 bg-gold"
-                      : "bg-border hover:bg-gold/50"
+                      ? "w-8 bg-accent"
+                      : "bg-border hover:bg-accent/50"
                   }`}
                 />
               ))}
@@ -154,7 +154,7 @@ const TestimonialsSection = () => {
             
             <button
               onClick={handleNext}
-              className="w-12 h-12 rounded-full border border-border bg-card flex items-center justify-center text-primary hover:border-gold hover:text-gold transition-colors shadow-sm"
+              className="w-12 h-12 rounded-full border border-border bg-card flex items-center justify-center text-primary hover:border-accent hover:text-accent transition-colors shadow-sm"
             >
               <ChevronRight className="w-5 h-5" />
             </button>

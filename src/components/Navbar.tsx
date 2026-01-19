@@ -109,13 +109,13 @@ const Navbar = () => {
                 <>
                   <button 
                     onClick={() => setIsRegisterOpen(true)}
-                    className="text-gold font-bold hover:text-gold-light transition-colors"
+                    className="text-accent font-bold hover:text-accent/80 transition-colors"
                   >
                     Criar Conta
                   </button>
                   <Button 
                     onClick={() => setIsLoginOpen(true)}
-                    className="bg-gold hover:bg-gold-light text-primary font-semibold shadow-gold"
+                    className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-red"
                   >
                     Entrar
                   </Button>
@@ -134,7 +134,7 @@ const Navbar = () => {
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="lg:hidden py-4 border-t border-gold/20 animate-fade-in">
+            <div className="lg:hidden py-4 border-t border-accent/20 animate-fade-in">
               <div className="flex flex-col gap-4">
                 {navLinks.map((link) => (
                   <a
@@ -152,11 +152,11 @@ const Navbar = () => {
                     {link.label}
                   </a>
                 ))}
-                <div className="flex flex-col gap-3 pt-4 border-t border-gold/20">
+                <div className="flex flex-col gap-3 pt-4 border-t border-accent/20">
                   {isAuthenticated ? (
                     <>
                       <div className="flex items-center gap-3 py-2">
-                        <div className="w-10 h-10 rounded-full bg-gold flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
                           <User className="w-5 h-5 text-primary" />
                         </div>
                         <div>
@@ -180,7 +180,7 @@ const Navbar = () => {
                           setIsMenuOpen(false);
                           setIsRegisterOpen(true);
                         }}
-                        className="text-gold font-bold hover:text-gold-light transition-colors text-center py-2"
+                        className="text-accent font-bold hover:text-accent/80 transition-colors text-center py-2"
                       >
                         Criar Conta
                       </button>
@@ -189,7 +189,7 @@ const Navbar = () => {
                           setIsMenuOpen(false);
                           setIsLoginOpen(true);
                         }}
-                        className="bg-gold hover:bg-gold-light text-primary font-semibold"
+                        className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
                       >
                         Entrar
                       </Button>
