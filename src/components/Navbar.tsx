@@ -48,7 +48,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-gold/20 transition-colors duration-300 ${
+      <nav className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-blue-mid/20 transition-colors duration-300 ${
         isScrolled ? "bg-primary/95" : "bg-primary/50"
       }`}>
         <div className="container mx-auto px-4">
@@ -68,7 +68,7 @@ const Navbar = () => {
                   key={link.label}
                   href={link.onClick ? undefined : link.href}
                   onClick={link.onClick ? (e) => { e.preventDefault(); link.onClick(); } : undefined}
-                  className="text-sm font-medium text-primary-foreground/80 hover:text-gold transition-colors duration-300 cursor-pointer"
+                  className="text-sm font-medium text-primary-foreground/80 hover:text-blue-mid transition-colors duration-300 cursor-pointer"
                 >
                   {link.label}
                 </a>
@@ -82,9 +82,9 @@ const Navbar = () => {
                   <DropdownMenuTrigger asChild>
                     <Button 
                       variant="ghost" 
-                      className="flex items-center gap-2 text-primary-foreground hover:text-gold hover:bg-white/10"
+                      className="flex items-center gap-2 text-primary-foreground hover:text-blue-mid hover:bg-white/10"
                     >
-                      <div className="w-8 h-8 rounded-full bg-gold flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-full bg-gradient-accent flex items-center justify-center">
                         <User className="w-4 h-4 text-primary" />
                       </div>
                       <span className="font-medium">{userName}</span>
@@ -109,13 +109,13 @@ const Navbar = () => {
                 <>
                   <button 
                     onClick={() => setIsRegisterOpen(true)}
-                    className="text-accent font-bold hover:text-accent/80 transition-colors"
+                    className="text-blue-mid font-bold hover:text-blue-accent transition-colors"
                   >
                     Criar Conta
                   </button>
                   <Button 
                     onClick={() => setIsLoginOpen(true)}
-                    className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold shadow-red"
+                    variant="accent"
                   >
                     Entrar
                   </Button>
@@ -134,7 +134,7 @@ const Navbar = () => {
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="lg:hidden py-4 border-t border-accent/20 animate-fade-in">
+            <div className="lg:hidden py-4 border-t border-blue-mid/20 animate-fade-in">
               <div className="flex flex-col gap-4">
                 {navLinks.map((link) => (
                   <a
@@ -147,16 +147,16 @@ const Navbar = () => {
                       }
                       setIsMenuOpen(false);
                     }}
-                    className="text-sm font-medium text-primary-foreground/80 hover:text-gold transition-colors py-2 cursor-pointer"
+                    className="text-sm font-medium text-primary-foreground/80 hover:text-blue-mid transition-colors py-2 cursor-pointer"
                   >
                     {link.label}
                   </a>
                 ))}
-                <div className="flex flex-col gap-3 pt-4 border-t border-accent/20">
+                <div className="flex flex-col gap-3 pt-4 border-t border-blue-mid/20">
                   {isAuthenticated ? (
                     <>
                       <div className="flex items-center gap-3 py-2">
-                        <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-gradient-accent flex items-center justify-center">
                           <User className="w-5 h-5 text-primary" />
                         </div>
                         <div>
@@ -180,7 +180,7 @@ const Navbar = () => {
                           setIsMenuOpen(false);
                           setIsRegisterOpen(true);
                         }}
-                        className="text-accent font-bold hover:text-accent/80 transition-colors text-center py-2"
+                        className="text-blue-mid font-bold hover:text-blue-accent transition-colors text-center py-2"
                       >
                         Criar Conta
                       </button>
@@ -189,7 +189,7 @@ const Navbar = () => {
                           setIsMenuOpen(false);
                           setIsLoginOpen(true);
                         }}
-                        className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+                        variant="accent"
                       >
                         Entrar
                       </Button>
