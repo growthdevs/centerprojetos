@@ -124,7 +124,7 @@ const PortalProjetista = () => {
       <section className="py-20 bg-primary">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Pronto para <span className="text-gradient-accent">crescer</span> com a Center?
+            Pronto para <span className="text-gradient-accent text-blue-400">crescer</span> com a Center?
           </h2>
           <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
             Junte-se a uma rede de profissionais qualificados e comece a receber demandas de clientes organizados.
