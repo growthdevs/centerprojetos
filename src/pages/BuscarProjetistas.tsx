@@ -17,6 +17,9 @@ import logoColor from "@/assets/logo-color.png";
 import { states, citiesByState } from "@/data/locations";
 import { useAuth } from "@/contexts/AuthContext";
 
+// Medal types
+type MedalType = "bronze" | "prata" | "ouro" | null;
+
 // Mock data - will be replaced with real data from backend
 const mockDesigners = [
   {
@@ -28,6 +31,8 @@ const mockDesigners = [
     projectsCount: 47,
     rating: 4.8,
     storeRating: 4.5,
+    serviceRating: 4.9,
+    medal: "ouro" as MedalType,
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -54,6 +59,8 @@ const mockDesigners = [
     projectsCount: 32,
     rating: 4.6,
     storeRating: 4.7,
+    serviceRating: 4.5,
+    medal: "prata" as MedalType,
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -79,6 +86,8 @@ const mockDesigners = [
     projectsCount: 58,
     rating: 4.9,
     storeRating: 4.3,
+    serviceRating: 5.0,
+    medal: "ouro" as MedalType,
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -105,6 +114,8 @@ const mockDesigners = [
     projectsCount: 23,
     rating: 4.4,
     storeRating: 4.6,
+    serviceRating: 4.2,
+    medal: "bronze" as MedalType,
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -130,6 +141,8 @@ const mockDesigners = [
     projectsCount: 41,
     rating: 4.7,
     storeRating: 4.8,
+    serviceRating: 4.8,
+    medal: "prata" as MedalType,
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -156,6 +169,8 @@ const mockDesigners = [
     projectsCount: 29,
     rating: 4.5,
     storeRating: 4.4,
+    serviceRating: 4.0,
+    medal: null as MedalType,
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -174,6 +189,24 @@ const mockDesigners = [
   },
 ];
 
+// Service rating options
+const serviceRatingOptions = [
+  { value: "all", label: "Todas as notas" },
+  { value: "5.0", label: "5.0" },
+  { value: "4.5", label: "4.5+" },
+  { value: "4.0", label: "4.0+" },
+  { value: "3.5", label: "3.5+" },
+  { value: "3.0", label: "3.0+" },
+];
+
+// Medal options
+const medalOptions = [
+  { value: "all", label: "Todas as medalhas" },
+  { value: "ouro", label: "🥇 Ouro" },
+  { value: "prata", label: "🥈 Prata" },
+  { value: "bronze", label: "🥉 Bronze" },
+];
+
 const BuscarProjetistas = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
@@ -181,6 +214,8 @@ const BuscarProjetistas = () => {
   const [selectedState, setSelectedState] = useState<string>(searchParams.get("state") || "");
   const [selectedCity, setSelectedCity] = useState<string>(searchParams.get("city") || "");
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
+  const [selectedServiceRating, setSelectedServiceRating] = useState<string>("all");
+  const [selectedMedal, setSelectedMedal] = useState<string>("all");
   const [selectedDesigner, setSelectedDesigner] = useState<typeof mockDesigners[0] | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -221,9 +256,22 @@ const BuscarProjetistas = () => {
         designer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         designer.store.toLowerCase().includes(searchQuery.toLowerCase());
       
-      return matchesState && matchesCity && matchesSearch;
+      // Service rating filter
+      let matchesServiceRating = true;
+      if (selectedServiceRating !== "all") {
+        const minRating = parseFloat(selectedServiceRating);
+        matchesServiceRating = designer.serviceRating >= minRating;
+      }
+      
+      // Medal filter
+      let matchesMedal = true;
+      if (selectedMedal !== "all") {
+        matchesMedal = designer.medal === selectedMedal;
+      }
+      
+      return matchesState && matchesCity && matchesSearch && matchesServiceRating && matchesMedal;
     });
-  }, [selectedState, selectedCity, searchQuery, hasSearched]);
+  }, [selectedState, selectedCity, searchQuery, selectedServiceRating, selectedMedal, hasSearched]);
 
   const handleStateChange = (value: string) => {
     setSelectedState(value);
@@ -253,6 +301,8 @@ const BuscarProjetistas = () => {
     setSelectedState("");
     setSelectedCity("");
     setSearchQuery("");
+    setSelectedServiceRating("all");
+    setSelectedMedal("all");
     setSearchParams({});
     setHasSearched(false);
   };
@@ -313,7 +363,7 @@ const BuscarProjetistas = () => {
             <h2 className="font-semibold text-foreground">Filtros</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
             <Select value={selectedState} onValueChange={handleStateChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Selecione o estado" />
@@ -358,8 +408,36 @@ const BuscarProjetistas = () => {
                 className="pl-10"
               />
             </div>
+          </div>
 
-            <div className="flex gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Select value={selectedServiceRating} onValueChange={setSelectedServiceRating}>
+              <SelectTrigger>
+                <SelectValue placeholder="Avaliação de atendimento" />
+              </SelectTrigger>
+              <SelectContent>
+                {serviceRatingOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={selectedMedal} onValueChange={setSelectedMedal}>
+              <SelectTrigger>
+                <SelectValue placeholder="Medalha de desempenho" />
+              </SelectTrigger>
+              <SelectContent>
+                {medalOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <div className="lg:col-span-2 flex gap-2">
               <Button 
                 variant="accent" 
                 onClick={handleSearch}
