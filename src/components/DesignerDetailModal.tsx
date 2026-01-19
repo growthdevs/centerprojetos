@@ -6,7 +6,22 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { MapPin, Store, ArrowRight, X, Briefcase, Star, MessageSquare, Send } from "lucide-react";
+import { MapPin, Store, ArrowRight, X, Briefcase, Star, MessageSquare, Send, Award } from "lucide-react";
+
+type MedalType = "ouro" | "prata" | "bronze" | null;
+
+const getMedalInfo = (medal: MedalType) => {
+  switch (medal) {
+    case "ouro":
+      return { emoji: "🥇", label: "Ouro", color: "text-yellow-600", bg: "bg-yellow-100" };
+    case "prata":
+      return { emoji: "🥈", label: "Prata", color: "text-gray-500", bg: "bg-gray-100" };
+    case "bronze":
+      return { emoji: "🥉", label: "Bronze", color: "text-orange-600", bg: "bg-orange-100" };
+    default:
+      return null;
+  }
+};
 import ContactRequestModal from "./ContactRequestModal";
 
 interface Designer {
@@ -20,6 +35,8 @@ interface Designer {
   projectsCount: number;
   rating: number;
   storeRating: number;
+  serviceRating?: number;
+  medal?: MedalType;
   reviews: {
     author: string;
     comment: string;
@@ -113,6 +130,27 @@ const DesignerDetailModal = ({ designer, isOpen, onClose }: DesignerDetailModalP
                 </div>
               </div>
             </div>
+
+            {/* Medal Section */}
+            {designer.medal && getMedalInfo(designer.medal) && (
+              <div className="p-4 rounded-lg border border-border bg-muted/30">
+                <div className="flex items-center gap-2 text-muted-foreground mb-2">
+                  <Award className="w-4 h-4" />
+                  <span className="text-sm font-medium">Medalha de Desempenho</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-4xl">{getMedalInfo(designer.medal)?.emoji}</span>
+                  <div>
+                    <p className={`text-xl font-bold ${getMedalInfo(designer.medal)?.color}`}>
+                      {getMedalInfo(designer.medal)?.label}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Projetista com desempenho {getMedalInfo(designer.medal)?.label.toLowerCase()} na plataforma
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Store */}
             <div>
