@@ -111,7 +111,7 @@ const ReferralModal = ({ open, onOpenChange, onContinue }: ReferralModalProps) =
               className={cn(
                 "flex-1 py-2.5 text-sm font-medium transition-colors",
                 searchMode === "select"
-                  ? "bg-gradient-accent text-primary"
+                  ? "bg-[#104DB1] text-white"
                   : "bg-muted text-muted-foreground hover:text-foreground"
               )}
             >
@@ -123,7 +123,7 @@ const ReferralModal = ({ open, onOpenChange, onContinue }: ReferralModalProps) =
               className={cn(
                 "flex-1 py-2.5 text-sm font-medium transition-colors",
                 searchMode === "manual"
-                  ? "bg-gradient-accent text-primary"
+                  ? "bg-[#104DB1] text-white"
                   : "bg-muted text-muted-foreground hover:text-foreground"
               )}
             >
