@@ -59,7 +59,7 @@ const ContactRequestModal = ({ isOpen, onClose, designerName }: ContactRequestMo
             <DialogDescription className="text-muted-foreground mb-6">
               Sua mensagem foi enviada para {designerName}. O projetista entrará em contato em breve.
             </DialogDescription>
-            <Button onClick={handleClose} variant="gold">
+            <Button onClick={handleClose} variant="accent">
               Fechar
             </Button>
           </div>
@@ -122,7 +122,7 @@ const ContactRequestModal = ({ isOpen, onClose, designerName }: ContactRequestMo
 
               <Button 
                 type="submit" 
-                variant="gold" 
+                variant="accent" 
                 className="w-full font-semibold"
                 disabled={isLoading}
               >

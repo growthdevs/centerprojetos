@@ -44,7 +44,7 @@ const DesignerDetailModal = ({ designer, isOpen, onClose }: DesignerDetailModalP
     return Array.from({ length: 5 }, (_, i) => (
       <Star 
         key={i} 
-        className={`w-4 h-4 ${i < rating ? 'text-gold fill-gold' : 'text-muted-foreground'}`} 
+        className={`w-4 h-4 ${i < rating ? 'text-accent fill-accent' : 'text-muted-foreground'}`} 
       />
     ));
   };
@@ -177,7 +177,7 @@ const DesignerDetailModal = ({ designer, isOpen, onClose }: DesignerDetailModalP
             {/* CTA Button */}
             <div className="pt-4 border-t border-border">
               <Button 
-                variant="gold"
+                variant="accent"
                 size="lg"
                 className="w-full font-semibold text-lg group"
                 onClick={() => setShowContactModal(true)}

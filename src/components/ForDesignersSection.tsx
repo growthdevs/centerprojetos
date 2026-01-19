@@ -31,7 +31,7 @@ const ForDesignersSection = () => {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <span className="text-sm font-semibold text-gold uppercase tracking-widest">
+          <span className="text-sm font-semibold text-accent uppercase tracking-widest">
             Para Projetistas
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mt-2 mb-4">
@@ -51,8 +51,8 @@ const ForDesignersSection = () => {
                 key={benefit.title}
                 className="bg-primary-foreground/5 border border-primary-foreground/10 rounded-xl p-6 text-center hover:bg-primary-foreground/10 transition-colors"
               >
-                <div className="bg-gold/20 w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Icon className="w-7 h-7 text-gold" />
+                <div className="bg-accent/20 w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Icon className="w-7 h-7 text-accent" />
                 </div>
                 <h3 className="text-lg font-semibold text-primary-foreground mb-2">
                   {benefit.title}

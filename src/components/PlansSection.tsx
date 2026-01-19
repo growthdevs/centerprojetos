@@ -46,7 +46,7 @@ const PlansSection = () => {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-sm font-semibold text-gold uppercase tracking-widest">
+          <span className="text-sm font-semibold text-accent uppercase tracking-widest">
             Planos
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-primary mt-2 mb-4">
@@ -66,15 +66,15 @@ const PlansSection = () => {
                 key={plan.name}
                 className={`relative rounded-2xl p-8 transition-all duration-300 hover:shadow-elevated ${
                   plan.popular
-                    ? "bg-primary border-2 border-gold shadow-lg"
-                    : "bg-card border border-border hover:border-gold/50"
+                    ? "bg-primary border-2 border-accent shadow-lg"
+                    : "bg-card border border-border hover:border-accent/50"
                 }`}
                 style={{ animationDelay: `${index * 0.15}s` }}
               >
                 {/* Popular Badge */}
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <div className="bg-gold text-primary text-sm font-semibold px-4 py-1.5 rounded-full shadow-gold">
+                    <div className="bg-accent text-accent-foreground text-sm font-semibold px-4 py-1.5 rounded-full shadow-red">
                       Mais Popular
                     </div>
                   </div>
@@ -83,15 +83,15 @@ const PlansSection = () => {
                 {/* Plan Header */}
                 <div className="flex items-center gap-4 mb-6">
                   <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${
-                    plan.popular ? "bg-gold/20" : "bg-gold/10"
+                    plan.popular ? "bg-accent/20" : "bg-accent/10"
                   }`}>
-                    <Icon className={`w-7 h-7 ${plan.popular ? "text-gold" : "text-gold"}`} />
+                    <Icon className="w-7 h-7 text-accent" />
                   </div>
                   <div>
                     <h3 className={`text-xl font-bold ${plan.popular ? "text-primary-foreground" : "text-primary"}`}>
                       {plan.name}
                     </h3>
-                    <p className={`text-2xl font-bold ${plan.popular ? "text-gold" : "text-gold"}`}>
+                    <p className="text-2xl font-bold text-accent">
                       {plan.price}
                     </p>
                   </div>
@@ -107,9 +107,9 @@ const PlansSection = () => {
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3">
                       <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                        plan.popular ? "bg-gold/20" : "bg-gold/10"
+                        plan.popular ? "bg-accent/20" : "bg-accent/10"
                       }`}>
-                        <Check className="w-3 h-3 text-gold" />
+                        <Check className="w-3 h-3 text-accent" />
                       </div>
                       <span className={`text-sm ${plan.popular ? "text-primary-foreground/90" : "text-foreground"}`}>
                         {feature}
@@ -122,7 +122,7 @@ const PlansSection = () => {
                 <Button
                   className={`w-full font-semibold ${
                     plan.popular
-                      ? "bg-gold hover:bg-gold-light text-primary shadow-gold"
+                      ? "bg-accent hover:bg-accent/90 text-accent-foreground shadow-red"
                       : "bg-primary hover:bg-navy-light text-primary-foreground"
                   }`}
                   size="lg"
