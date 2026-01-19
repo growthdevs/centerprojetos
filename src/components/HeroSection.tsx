@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
 import { useAuth } from "@/contexts/AuthContext";
 import LoginModal from "./LoginModal";
-
 const HeroSection = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const {
+    isAuthenticated
+  } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
-
   const handleSearchClick = () => {
     if (isAuthenticated) {
       navigate("/buscar-projetistas");
@@ -18,20 +18,16 @@ const HeroSection = () => {
       setShowLoginModal(true);
     }
   };
-
   const handleLoginSuccess = () => {
     setShowLoginModal(false);
     navigate("/buscar-projetistas");
   };
-
-  return (
-    <>
+  return <>
       <section className="relative min-h-screen flex items-center pt-20">
         {/* Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroBg})` }}
-        />
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
+        backgroundImage: `url(${heroBg})`
+      }} />
         
         {/* Overlay - increased opacity by 30% */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/95 to-navy-dark/98" />
@@ -41,35 +37,33 @@ const HeroSection = () => {
           <div className="max-w-3xl">
 
             {/* Headline */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-in" style={{
+            animationDelay: "0.1s"
+          }}>
               Encontre o{" "}
-              <span className="text-[#104DB1]">projetista ideal</span>{" "}
+              <span className="text-blue-400">projetista ideal</span>{" "}
               para seus móveis planejados
             </h1>
 
             {/* Description */}
-            <p className="text-lg md:text-xl text-primary-foreground/80 leading-relaxed mb-10 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+            <p className="text-lg md:text-xl text-primary-foreground/80 leading-relaxed mb-10 animate-fade-in" style={{
+            animationDelay: "0.2s"
+          }}>
               Conectamos você a profissionais verificados na sua região. 
               Compare portfólios, avaliações e encontre o parceiro perfeito para seu projeto.
             </p>
 
             {/* CTA Button */}
-            <div className="animate-fade-in" style={{ animationDelay: "0.3s" }}>
-              <Button 
-                size="lg" 
-                variant="accent"
-                className="text-lg md:text-xl px-8 md:px-12 py-6 md:py-8 font-bold shadow-2xl hover:scale-105 transition-transform group"
-                onClick={handleSearchClick}
-              >
+            <div className="animate-fade-in" style={{
+            animationDelay: "0.3s"
+          }}>
+              <Button size="lg" variant="accent" className="text-lg md:text-xl px-8 md:px-12 py-6 md:py-8 font-bold shadow-2xl hover:scale-105 transition-transform group" onClick={handleSearchClick}>
                 <Search className="mr-3 w-6 h-6" />
                 Buscar Projetistas
                 <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
               </Button>
               <p className="mt-4 text-primary-foreground/60 text-sm">
-                {isAuthenticated 
-                  ? "Explore profissionais verificados na sua região"
-                  : "Faça login para buscar profissionais verificados"
-                }
+                {isAuthenticated ? "Explore profissionais verificados na sua região" : "Faça login para buscar profissionais verificados"}
               </p>
             </div>
           </div>
@@ -84,14 +78,7 @@ const HeroSection = () => {
       </section>
 
       {/* Login Modal */}
-      <LoginModal
-        open={showLoginModal}
-        onOpenChange={setShowLoginModal}
-        defaultTab="client"
-        onLoginSuccess={handleLoginSuccess}
-      />
-    </>
-  );
+      <LoginModal open={showLoginModal} onOpenChange={setShowLoginModal} defaultTab="client" onLoginSuccess={handleLoginSuccess} />
+    </>;
 };
-
 export default HeroSection;
