@@ -6,12 +6,13 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LoginModal from "@/components/LoginModal";
 import { useAuth } from "@/contexts/AuthContext";
-
 const PortalProjetista = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const { isAuthenticated, userType } = useAuth();
+  const {
+    isAuthenticated,
+    userType
+  } = useAuth();
   const navigate = useNavigate();
-
   const handleAccessDashboard = () => {
     if (isAuthenticated && userType === "designer") {
       navigate("/projetista/dashboard");
@@ -19,45 +20,35 @@ const PortalProjetista = () => {
       setIsLoginOpen(true);
     }
   };
-
   const handleLoginSuccess = () => {
     navigate("/projetista/dashboard");
   };
-  const benefits = [
-    {
-      icon: Award,
-      title: "Construa sua Reputação",
-      description: "Desenvolva um perfil profissional próprio com sistema de qualificação por níveis e medalhas que reconhecem sua experiência e consistência."
-    },
-    {
-      icon: Users,
-      title: "Clientes Qualificados",
-      description: "Receba demandas de clientes que buscam organização e segurança no processo de compra de móveis planejados."
-    },
-    {
-      icon: TrendingUp,
-      title: "Perfil Independente",
-      description: "Seu perfil pertence a você e não está vinculado permanentemente a uma loja, preservando seu histórico profissional."
-    },
-    {
-      icon: Shield,
-      title: "Avaliação Justa",
-      description: "Seja avaliado apenas por critérios compatíveis com sua função técnica, sem responsabilidade por fabricação ou montagem."
-    },
-    {
-      icon: Star,
-      title: "Destaque Profissional",
-      description: "Mostre seu portfólio com até 10 trabalhos selecionados para potenciais clientes conhecerem seu trabalho."
-    },
-    {
-      icon: Briefcase,
-      title: "Autonomia Profissional",
-      description: "Atue de forma integrada às lojas parceiras, mantendo sua autonomia e respeitando os fluxos comerciais."
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-background">
+  const benefits = [{
+    icon: Award,
+    title: "Construa sua Reputação",
+    description: "Desenvolva um perfil profissional próprio com sistema de qualificação por níveis e medalhas que reconhecem sua experiência e consistência."
+  }, {
+    icon: Users,
+    title: "Clientes Qualificados",
+    description: "Receba demandas de clientes que buscam organização e segurança no processo de compra de móveis planejados."
+  }, {
+    icon: TrendingUp,
+    title: "Perfil Independente",
+    description: "Seu perfil pertence a você e não está vinculado permanentemente a uma loja, preservando seu histórico profissional."
+  }, {
+    icon: Shield,
+    title: "Avaliação Justa",
+    description: "Seja avaliado apenas por critérios compatíveis com sua função técnica, sem responsabilidade por fabricação ou montagem."
+  }, {
+    icon: Star,
+    title: "Destaque Profissional",
+    description: "Mostre seu portfólio com até 10 trabalhos selecionados para potenciais clientes conhecerem seu trabalho."
+  }, {
+    icon: Briefcase,
+    title: "Autonomia Profissional",
+    description: "Atue de forma integrada às lojas parceiras, mantendo sua autonomia e respeitando os fluxos comerciais."
+  }];
+  return <div className="min-h-screen bg-background">
       <Navbar />
       
       {/* Hero Section */}
@@ -65,25 +56,16 @@ const PortalProjetista = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Portal do <span className="text-gradient-accent">Projetista</span>
+              Portal do <span className="text-gradient-accent text-[#104eb1]">Projetista</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/80 mb-8 leading-relaxed">
               Faça parte da Center Projetos como profissional habilitado e receba demandas qualificadas de clientes em busca de móveis planejados.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                variant="accent"
-                className="text-lg px-8 py-6"
-              >
+              <Button size="lg" variant="accent" className="text-lg px-8 py-6">
                 Quero me Cadastrar
               </Button>
-              <Button 
-                size="lg" 
-                variant="heroOutline"
-                className="font-bold text-lg px-8 py-6"
-                onClick={handleAccessDashboard}
-              >
+              <Button size="lg" variant="heroOutline" className="font-bold text-lg px-8 py-6" onClick={handleAccessDashboard}>
                 Acessar Meu Espaço
               </Button>
             </div>
@@ -127,18 +109,13 @@ const PortalProjetista = () => {
           </p>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {benefits.map((benefit, index) => (
-              <div 
-                key={index}
-                className="bg-card rounded-xl p-6 shadow-md border border-border hover:border-blue-mid/50 hover:shadow-lg transition-all duration-300 group"
-              >
+            {benefits.map((benefit, index) => <div key={index} className="bg-card rounded-xl p-6 shadow-md border border-border hover:border-blue-mid/50 hover:shadow-lg transition-all duration-300 group">
                 <div className="w-14 h-14 rounded-full bg-blue-light/20 flex items-center justify-center mb-4 group-hover:bg-blue-mid/30 transition-colors">
                   <benefit.icon className="w-7 h-7 text-blue-dark" />
                 </div>
                 <h3 className="text-xl font-bold text-foreground mb-2">{benefit.title}</h3>
                 <p className="text-muted-foreground">{benefit.description}</p>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -153,19 +130,10 @@ const PortalProjetista = () => {
             Junte-se a uma rede de profissionais qualificados e comece a receber demandas de clientes organizados.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              variant="accent"
-              className="text-lg px-8 py-6"
-            >
+            <Button size="lg" variant="accent" className="text-lg px-8 py-6">
               Cadastrar como Projetista
             </Button>
-            <Button 
-              size="lg" 
-              variant="heroOutline"
-              className="font-bold text-lg px-8 py-6"
-              onClick={handleAccessDashboard}
-            >
+            <Button size="lg" variant="heroOutline" className="font-bold text-lg px-8 py-6" onClick={handleAccessDashboard}>
               Já sou Cadastrado
             </Button>
           </div>
@@ -174,14 +142,7 @@ const PortalProjetista = () => {
 
       <Footer />
 
-      <LoginModal
-        open={isLoginOpen}
-        onOpenChange={setIsLoginOpen}
-        defaultTab="designer"
-        onLoginSuccess={handleLoginSuccess}
-      />
-    </div>
-  );
+      <LoginModal open={isLoginOpen} onOpenChange={setIsLoginOpen} defaultTab="designer" onLoginSuccess={handleLoginSuccess} />
+    </div>;
 };
-
 export default PortalProjetista;
