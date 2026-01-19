@@ -95,9 +95,6 @@ const DesignerCard = ({ designer, onClick }: DesignerCardProps) => {
           <div className="flex items-center gap-1 text-sm">
             <Star className="w-3.5 h-3.5 text-accent fill-accent" />
             <span className="text-muted-foreground">{designer.rating.toFixed(1)}</span>
-            {medalInfo && (
-              <span className="ml-1">{medalInfo.emoji}</span>
-            )}
           </div>
         </div>
       </CardContent>
