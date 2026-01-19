@@ -109,14 +109,14 @@ const LoginModal = ({
           <TabsList className="grid w-full grid-cols-2 bg-muted">
             <TabsTrigger 
               value="client" 
-              className="flex items-center gap-2 data-[state=active]:bg-gold data-[state=active]:text-primary"
+              className="flex items-center gap-2 data-[state=active]:bg-gradient-accent data-[state=active]:text-primary"
             >
               <User className="w-4 h-4" />
               Cliente
             </TabsTrigger>
             <TabsTrigger 
               value="designer"
-              className="flex items-center gap-2 data-[state=active]:bg-gold data-[state=active]:text-primary"
+              className="flex items-center gap-2 data-[state=active]:bg-gradient-accent data-[state=active]:text-primary"
             >
               <Briefcase className="w-4 h-4" />
               Projetista
@@ -172,7 +172,7 @@ const LoginModal = ({
 
                 <button
                   type="button"
-                  className="text-sm text-gold hover:underline"
+                  className="text-sm text-blue-dark hover:underline"
                   onClick={() => {
                     onOpenChange(false);
                     onOpenForgotPassword?.();
@@ -187,7 +187,8 @@ const LoginModal = ({
 
                 <Button
                   type="submit"
-                  className="w-full bg-gold hover:bg-gold-light text-primary font-semibold"
+                  variant="accent"
+                  className="w-full"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Entrando..." : "Entrar como Cliente"}
@@ -245,7 +246,7 @@ const LoginModal = ({
 
                 <button
                   type="button"
-                  className="text-sm text-gold hover:underline"
+                  className="text-sm text-blue-dark hover:underline"
                   onClick={() => {
                     onOpenChange(false);
                     onOpenForgotPassword?.();
@@ -264,7 +265,8 @@ const LoginModal = ({
 
                 <Button
                   type="submit"
-                  className="w-full bg-gold hover:bg-gold-light text-primary font-semibold"
+                  variant="accent"
+                  className="w-full"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Entrando..." : "Entrar como Projetista"}
@@ -278,7 +280,7 @@ const LoginModal = ({
           Não tem uma conta?{" "}
           <button
             type="button"
-            className="text-gold font-medium hover:underline"
+            className="text-blue-dark font-medium hover:underline"
             onClick={() => {
               onOpenChange(false);
               onOpenRegister?.();

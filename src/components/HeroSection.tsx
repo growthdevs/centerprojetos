@@ -33,8 +33,8 @@ const HeroSection = () => {
           style={{ backgroundImage: `url(${heroBg})` }}
         />
         
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-hero" />
+        {/* Overlay - increased opacity by 30% */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/95 to-navy-dark/98" />
         
         {/* Content */}
         <div className="container mx-auto px-4 relative z-10">
@@ -43,7 +43,7 @@ const HeroSection = () => {
             {/* Headline */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
               Encontre o{" "}
-              <span className="text-gradient-red">projetista ideal</span>{" "}
+              <span className="text-gradient-accent">projetista ideal</span>{" "}
               para seus móveis planejados
             </h1>
 
@@ -78,7 +78,7 @@ const HeroSection = () => {
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
           <div className="w-6 h-10 border-2 border-primary-foreground/30 rounded-full flex justify-center pt-2">
-            <div className="w-1.5 h-3 bg-accent rounded-full animate-pulse" />
+            <div className="w-1.5 h-3 bg-blue-mid rounded-full animate-pulse" />
           </div>
         </div>
       </section>

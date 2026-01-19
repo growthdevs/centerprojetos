@@ -7,7 +7,7 @@
 /* Center Projetos Design System
    Primary: Deep Navy Blue #0A1628
    Secondary: White #FFFFFF
-   Accent: Vibrant Red #E53935
+   Accent Gradient: #A5E6FF → #87B8FF → #749AFF → #034AAE
 */
 
 @layer base {
@@ -30,7 +30,7 @@
     --muted: 215 20% 95%;
     --muted-foreground: 215 20% 45%;
 
-    --accent: 4 82% 56%;
+    --accent: 215 100% 35%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -38,26 +38,27 @@
 
     --border: 215 20% 88%;
     --input: 215 20% 88%;
-    --ring: 4 82% 56%;
+    --ring: 215 100% 35%;
 
     --radius: 0.5rem;
 
-    /* Custom tokens */
-    --red: 4 82% 56%;
-    --red-light: 4 82% 66%;
-    --red-dark: 4 82% 46%;
+    /* Custom tokens - Blue gradient colors */
+    --blue-light: 195 100% 82%;
+    --blue-mid: 218 100% 76%;
+    --blue-accent: 225 100% 73%;
+    --blue-dark: 215 96% 35%;
     --navy: 215 70% 10%;
     --navy-light: 215 50% 20%;
     --navy-dark: 215 80% 6%;
     
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(215 70% 10% / 0.95), hsl(215 80% 6% / 0.98));
-    --gradient-red: linear-gradient(135deg, hsl(4 82% 56%), hsl(4 82% 66%));
+    --gradient-hero: linear-gradient(135deg, hsl(215 70% 10% / 0.92), hsl(215 80% 6% / 0.95));
+    --gradient-accent: linear-gradient(135deg, hsl(195 100% 82%), hsl(218 100% 76%), hsl(225 100% 73%), hsl(215 96% 35%));
     --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(215 20% 98%));
     
     /* Shadows */
     --shadow-soft: 0 4px 20px -4px hsl(215 70% 10% / 0.15);
-    --shadow-red: 0 4px 20px -4px hsl(4 82% 56% / 0.35);
+    --shadow-accent: 0 4px 20px -4px hsl(215 96% 35% / 0.35);
     --shadow-card: 0 10px 40px -10px hsl(215 70% 10% / 0.12);
     --shadow-elevated: 0 20px 60px -15px hsl(215 70% 10% / 0.2);
 
@@ -127,21 +128,25 @@
 }
 
 @layer utilities {
-  .text-gradient-red {
+  .text-gradient-accent {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(4 82% 56%), hsl(4 82% 66%));
+    background-image: linear-gradient(135deg, hsl(195 100% 82%), hsl(215 96% 35%));
   }
   
   .bg-gradient-hero {
     background: linear-gradient(135deg, hsl(215 70% 10% / 0.92), hsl(215 80% 6% / 0.95));
   }
   
-  .border-red {
-    border-color: hsl(4 82% 56%);
+  .bg-gradient-accent {
+    background: linear-gradient(135deg, #A5E6FF, #87B8FF, #749AFF, #034AAE);
   }
   
-  .shadow-red {
-    box-shadow: 0 4px 20px -4px hsl(4 82% 56% / 0.35);
+  .border-accent-custom {
+    border-color: hsl(215 96% 35%);
+  }
+  
+  .shadow-accent {
+    box-shadow: 0 4px 20px -4px hsl(215 96% 35% / 0.35);
   }
   
   .shadow-card-hover {

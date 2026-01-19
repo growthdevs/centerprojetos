@@ -31,7 +31,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-navy-dark border-t border-gold/20">
+    <footer className="bg-navy-dark border-t border-blue-mid/20">
       {/* Main Footer */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
@@ -47,11 +47,11 @@ const Footer = () => {
             
             {/* Contact Info */}
             <div className="space-y-3">
-              <a href="mailto:contato@centerprojetos.com.br" className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">
+              <a href="mailto:contato@centerprojetos.com.br" className="flex items-center gap-3 text-primary-foreground/70 hover:text-blue-mid transition-colors">
                 <Mail className="w-4 h-4" />
                 <span className="text-sm">contato@centerprojetos.com.br</span>
               </a>
-              <a href="tel:+5511999999999" className="flex items-center gap-3 text-primary-foreground/70 hover:text-gold transition-colors">
+              <a href="tel:+5511999999999" className="flex items-center gap-3 text-primary-foreground/70 hover:text-blue-mid transition-colors">
                 <Phone className="w-4 h-4" />
                 <span className="text-sm">(11) 99999-9999</span>
               </a>
@@ -72,7 +72,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm text-primary-foreground/70 hover:text-gold transition-colors"
+                    className="text-sm text-primary-foreground/70 hover:text-blue-mid transition-colors"
                   >
                     {link.label}
                   </a>
@@ -90,7 +90,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm text-primary-foreground/70 hover:text-gold transition-colors"
+                    className="text-sm text-primary-foreground/70 hover:text-blue-mid transition-colors"
                   >
                     {link.label}
                   </a>
@@ -108,7 +108,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm text-primary-foreground/70 hover:text-gold transition-colors"
+                    className="text-sm text-primary-foreground/70 hover:text-blue-mid transition-colors"
                   >
                     {link.label}
                   </a>
@@ -120,7 +120,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gold/10">
+      <div className="border-t border-blue-mid/10">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-primary-foreground/50">
@@ -136,7 +136,7 @@ const Footer = () => {
                     key={social.label}
                     href={social.href}
                     aria-label={social.label}
-                    className="w-10 h-10 rounded-full bg-primary-foreground/5 flex items-center justify-center text-primary-foreground/50 hover:bg-gold/20 hover:text-gold transition-all"
+                    className="w-10 h-10 rounded-full bg-primary-foreground/5 flex items-center justify-center text-primary-foreground/50 hover:bg-blue-mid/20 hover:text-blue-mid transition-all"
                   >
                     <Icon className="w-4 h-4" />
                   </a>
@@ -146,10 +146,10 @@ const Footer = () => {
 
             {/* Legal Links */}
             <div className="flex items-center gap-6">
-              <a href="#" className="text-sm text-primary-foreground/50 hover:text-gold transition-colors">
+              <a href="#" className="text-sm text-primary-foreground/50 hover:text-blue-mid transition-colors">
                 Privacidade
               </a>
-              <a href="#" className="text-sm text-primary-foreground/50 hover:text-gold transition-colors">
+              <a href="#" className="text-sm text-primary-foreground/50 hover:text-blue-mid transition-colors">
                 Termos
               </a>
             </div>

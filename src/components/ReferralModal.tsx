@@ -94,7 +94,7 @@ const ReferralModal = ({ open, onOpenChange, onContinue }: ReferralModalProps) =
       <DialogContent className="sm:max-w-md bg-background border-border">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center text-primary flex items-center justify-center gap-2">
-            <UserCheck className="w-6 h-6 text-gold" />
+            <UserCheck className="w-6 h-6 text-blue-dark" />
             Indicação de Profissional
           </DialogTitle>
           <DialogDescription className="text-center text-muted-foreground">
@@ -111,7 +111,7 @@ const ReferralModal = ({ open, onOpenChange, onContinue }: ReferralModalProps) =
               className={cn(
                 "flex-1 py-2.5 text-sm font-medium transition-colors",
                 searchMode === "select"
-                  ? "bg-gold text-primary"
+                  ? "bg-gradient-accent text-primary"
                   : "bg-muted text-muted-foreground hover:text-foreground"
               )}
             >
@@ -123,7 +123,7 @@ const ReferralModal = ({ open, onOpenChange, onContinue }: ReferralModalProps) =
               className={cn(
                 "flex-1 py-2.5 text-sm font-medium transition-colors",
                 searchMode === "manual"
-                  ? "bg-gold text-primary"
+                  ? "bg-gradient-accent text-primary"
                   : "bg-muted text-muted-foreground hover:text-foreground"
               )}
             >
@@ -175,7 +175,7 @@ const ReferralModal = ({ open, onOpenChange, onContinue }: ReferralModalProps) =
                                 className={cn(
                                   "mr-2 h-4 w-4",
                                   selectedProfessional === displayValue
-                                    ? "opacity-100 text-gold"
+                                    ? "opacity-100 text-blue-dark"
                                     : "opacity-0"
                                 )}
                               />
@@ -214,11 +214,11 @@ const ReferralModal = ({ open, onOpenChange, onContinue }: ReferralModalProps) =
 
           {/* Preview do profissional selecionado */}
           {searchMode === "select" && selectedProfessionalData && (
-            <div className="p-4 rounded-lg bg-gold/10 border border-gold/30">
+            <div className="p-4 rounded-lg bg-blue-light/20 border border-blue-mid/30">
               <p className="text-sm font-medium text-foreground">
                 Profissional selecionado:
               </p>
-              <p className="text-lg font-bold text-gold">
+              <p className="text-lg font-bold text-blue-dark">
                 {selectedProfessionalData.name}
               </p>
               <p className="text-sm text-muted-foreground">
@@ -230,7 +230,8 @@ const ReferralModal = ({ open, onOpenChange, onContinue }: ReferralModalProps) =
           <Button
             onClick={handleContinue}
             disabled={!isValid}
-            className="w-full bg-gold hover:bg-gold-light text-primary font-semibold"
+            variant="accent"
+            className="w-full"
           >
             Continuar
           </Button>
@@ -239,7 +240,7 @@ const ReferralModal = ({ open, onOpenChange, onContinue }: ReferralModalProps) =
             Não tem indicação?{" "}
             <button
               type="button"
-              className="text-gold font-medium hover:underline"
+              className="text-blue-dark font-medium hover:underline"
               onClick={() => handleOpenChange(false)}
             >
               Voltar

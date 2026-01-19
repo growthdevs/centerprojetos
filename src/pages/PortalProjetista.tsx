@@ -65,7 +65,7 @@ const PortalProjetista = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Portal do <span className="text-gold">Projetista</span>
+              Portal do <span className="text-gradient-accent">Projetista</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/80 mb-8 leading-relaxed">
               Faça parte da Center Projetos como profissional habilitado e receba demandas qualificadas de clientes em busca de móveis planejados.
@@ -73,7 +73,8 @@ const PortalProjetista = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-gold hover:bg-gold-light text-primary font-bold text-lg px-8 py-6"
+                variant="accent"
+                className="text-lg px-8 py-6"
               >
                 Quero me Cadastrar
               </Button>
@@ -95,7 +96,7 @@ const PortalProjetista = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-8">
-              O Papel do <span className="text-gold">Projetista</span> na Center
+              O Papel do <span className="text-gradient-accent">Projetista</span> na Center
             </h2>
             <div className="bg-card rounded-2xl p-8 shadow-lg border border-border">
               <p className="text-lg text-muted-foreground leading-relaxed mb-6">
@@ -119,7 +120,7 @@ const PortalProjetista = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-4">
-            Por que ser um <span className="text-gold">Projetista Center</span>?
+            Por que ser um <span className="text-gradient-accent">Projetista Center</span>?
           </h2>
           <p className="text-center text-muted-foreground text-lg mb-12 max-w-2xl mx-auto">
             Descubra as vantagens de fazer parte da nossa plataforma e como podemos impulsionar sua carreira.
@@ -129,10 +130,10 @@ const PortalProjetista = () => {
             {benefits.map((benefit, index) => (
               <div 
                 key={index}
-                className="bg-card rounded-xl p-6 shadow-md border border-border hover:border-gold/50 hover:shadow-lg transition-all duration-300 group"
+                className="bg-card rounded-xl p-6 shadow-md border border-border hover:border-blue-mid/50 hover:shadow-lg transition-all duration-300 group"
               >
-                <div className="w-14 h-14 rounded-full bg-gold/10 flex items-center justify-center mb-4 group-hover:bg-gold/20 transition-colors">
-                  <benefit.icon className="w-7 h-7 text-gold" />
+                <div className="w-14 h-14 rounded-full bg-blue-light/20 flex items-center justify-center mb-4 group-hover:bg-blue-mid/30 transition-colors">
+                  <benefit.icon className="w-7 h-7 text-blue-dark" />
                 </div>
                 <h3 className="text-xl font-bold text-foreground mb-2">{benefit.title}</h3>
                 <p className="text-muted-foreground">{benefit.description}</p>
@@ -146,7 +147,7 @@ const PortalProjetista = () => {
       <section className="py-20 bg-primary">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Pronto para <span className="text-gold">crescer</span> com a Center?
+            Pronto para <span className="text-gradient-accent">crescer</span> com a Center?
           </h2>
           <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
             Junte-se a uma rede de profissionais qualificados e comece a receber demandas de clientes organizados.
@@ -154,7 +155,8 @@ const PortalProjetista = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
-              className="bg-gold hover:bg-gold-light text-primary font-bold text-lg px-8 py-6"
+              variant="accent"
+              className="text-lg px-8 py-6"
             >
               Cadastrar como Projetista
             </Button>

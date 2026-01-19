@@ -96,18 +96,18 @@ const ProjetistaDashboard = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
             <div>
               <h1 className="text-3xl font-bold text-foreground">
-                Olá, <span className="text-gold">{designer.name}</span>
+                Olá, <span className="text-gradient-accent">{designer.name}</span>
               </h1>
               <p className="text-muted-foreground mt-1">
                 Gerencie suas informações e portfólio
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <Badge variant="outline" className="border-gold text-gold">
+              <Badge variant="outline" className="border-blue-dark text-blue-dark">
                 Código: {designer.id}
               </Badge>
               {designer.medals.map((medal, index) => (
-                <Badge key={index} className="bg-gold/10 text-gold border-0">
+                <Badge key={index} className="bg-blue-light/20 text-blue-dark border-0">
                   <Award className="w-3 h-3 mr-1" />
                   {medal}
                 </Badge>
@@ -117,15 +117,15 @@ const ProjetistaDashboard = () => {
 
           <Tabs defaultValue="profile" className="space-y-6">
             <TabsList className="bg-card border">
-              <TabsTrigger value="profile" className="data-[state=active]:bg-gold data-[state=active]:text-primary">
+              <TabsTrigger value="profile" className="data-[state=active]:bg-gradient-accent data-[state=active]:text-primary">
                 <User className="w-4 h-4 mr-2" />
                 Perfil
               </TabsTrigger>
-              <TabsTrigger value="portfolio" className="data-[state=active]:bg-gold data-[state=active]:text-primary">
+              <TabsTrigger value="portfolio" className="data-[state=active]:bg-gradient-accent data-[state=active]:text-primary">
                 <ImageIcon className="w-4 h-4 mr-2" />
                 Portfólio
               </TabsTrigger>
-              <TabsTrigger value="store" className="data-[state=active]:bg-gold data-[state=active]:text-primary">
+              <TabsTrigger value="store" className="data-[state=active]:bg-gradient-accent data-[state=active]:text-primary">
                 <Store className="w-4 h-4 mr-2" />
                 Loja
               </TabsTrigger>
@@ -209,7 +209,7 @@ const ProjetistaDashboard = () => {
                     <Button 
                       onClick={handleSave}
                       disabled={isSaving}
-                      className="bg-gold hover:bg-gold-light text-primary"
+                      variant="accent"
                     >
                       <Save className="w-4 h-4 mr-2" />
                       {isSaving ? "Salvando..." : "Salvar Alterações"}
@@ -247,7 +247,7 @@ const ProjetistaDashboard = () => {
                     ))}
                     
                     {designer.portfolioImages.length < 10 && (
-                      <button className="aspect-square rounded-lg border-2 border-dashed border-border hover:border-gold/50 flex flex-col items-center justify-center gap-2 text-muted-foreground hover:text-gold transition-colors">
+                      <button className="aspect-square rounded-lg border-2 border-dashed border-border hover:border-blue-mid/50 flex flex-col items-center justify-center gap-2 text-muted-foreground hover:text-blue-dark transition-colors">
                         <Plus className="w-8 h-8" />
                         <span className="text-xs">Adicionar</span>
                       </button>
@@ -326,7 +326,7 @@ const ProjetistaDashboard = () => {
                     <Button 
                       onClick={handleSave}
                       disabled={isSaving}
-                      className="bg-gold hover:bg-gold-light text-primary"
+                      variant="accent"
                     >
                       <Save className="w-4 h-4 mr-2" />
                       {isSaving ? "Salvando..." : "Salvar Alterações"}

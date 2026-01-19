@@ -264,12 +264,12 @@ const RegisterModal = ({ open, onOpenChange }: RegisterModalProps) => {
                           htmlFor="client"
                           className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
                             field.value === "client"
-                              ? "border-gold bg-gold/10"
-                              : "border-border hover:border-gold/50"
+                              ? "border-blue-dark bg-blue-light/20"
+                              : "border-border hover:border-blue-mid/50"
                           }`}
                         >
                           <RadioGroupItem value="client" id="client" className="sr-only" />
-                          <div className={`p-2 rounded-full ${field.value === "client" ? "bg-gold" : "bg-muted"}`}>
+                          <div className={`p-2 rounded-full ${field.value === "client" ? "bg-gradient-accent" : "bg-muted"}`}>
                             <User className={`w-5 h-5 ${field.value === "client" ? "text-primary" : "text-muted-foreground"}`} />
                           </div>
                           <div>
@@ -282,12 +282,12 @@ const RegisterModal = ({ open, onOpenChange }: RegisterModalProps) => {
                           htmlFor="designer"
                           className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
                             field.value === "designer"
-                              ? "border-gold bg-gold/10"
-                              : "border-border hover:border-gold/50"
+                              ? "border-blue-dark bg-blue-light/20"
+                              : "border-border hover:border-blue-mid/50"
                           }`}
                         >
                           <RadioGroupItem value="designer" id="designer" className="sr-only" />
-                          <div className={`p-2 rounded-full ${field.value === "designer" ? "bg-gold" : "bg-muted"}`}>
+                          <div className={`p-2 rounded-full ${field.value === "designer" ? "bg-gradient-accent" : "bg-muted"}`}>
                             <Briefcase className={`w-5 h-5 ${field.value === "designer" ? "text-primary" : "text-muted-foreground"}`} />
                           </div>
                           <div>
@@ -304,7 +304,8 @@ const RegisterModal = ({ open, onOpenChange }: RegisterModalProps) => {
 
               <Button
                 type="submit"
-                className="w-full bg-gold hover:bg-gold-light text-primary font-semibold mt-6"
+                variant="accent"
+                className="w-full mt-6"
                 disabled={isSubmitting}
               >
                 {form.watch("userType") === "designer" ? (
@@ -321,7 +322,7 @@ const RegisterModal = ({ open, onOpenChange }: RegisterModalProps) => {
                 Já tem uma conta?{" "}
                 <button
                   type="button"
-                  className="text-gold font-medium hover:underline"
+                  className="text-blue-dark font-medium hover:underline"
                   onClick={() => {
                     handleClose();
                     // TODO: Open login modal
@@ -335,8 +336,8 @@ const RegisterModal = ({ open, onOpenChange }: RegisterModalProps) => {
         ) : (
           <Form {...storeForm}>
             <form onSubmit={storeForm.handleSubmit(handleStep2Submit)} className="space-y-4 mt-4">
-              <div className="p-4 bg-gold/10 rounded-lg border border-gold/30 mb-4">
-                <div className="flex items-center gap-2 text-gold">
+              <div className="p-4 bg-blue-light/20 rounded-lg border border-blue-mid/30 mb-4">
+                <div className="flex items-center gap-2 text-blue-dark">
                   <Store className="w-5 h-5" />
                   <span className="font-medium">Dados da Loja Vinculada</span>
                 </div>
@@ -433,7 +434,8 @@ const RegisterModal = ({ open, onOpenChange }: RegisterModalProps) => {
                 </Button>
                 <Button
                   type="submit"
-                  className="flex-1 bg-gold hover:bg-gold-light text-primary font-semibold"
+                  variant="accent"
+                  className="flex-1"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Cadastrando..." : "Criar Conta"}
