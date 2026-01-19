@@ -102,7 +102,7 @@ const PortalProjetista = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-4">
-            Por que ser um <span className="text-gradient-accent">Projetista Center</span>?
+            Por que ser um <span className="text-gradient-accent text-blue-400">Projetista Center</span>?
           </h2>
           <p className="text-center text-muted-foreground text-lg mb-12 max-w-2xl mx-auto">
             Descubra as vantagens de fazer parte da nossa plataforma e como podemos impulsionar sua carreira.
