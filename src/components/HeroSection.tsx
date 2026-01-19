@@ -43,7 +43,7 @@ const HeroSection = () => {
             {/* Headline */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-in" style={{ animationDelay: "0.1s" }}>
               Encontre o{" "}
-              <span className="text-[#A5E6FF]">projetista ideal</span>{" "}
+              <span className="text-[#104DB1]">projetista ideal</span>{" "}
               para seus móveis planejados
             </h1>
 
