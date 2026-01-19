@@ -109,14 +109,14 @@ const LoginModal = ({
           <TabsList className="grid w-full grid-cols-2 bg-muted">
             <TabsTrigger 
               value="client" 
-              className="flex items-center gap-2 data-[state=active]:bg-gradient-accent data-[state=active]:text-primary"
+              className="flex items-center gap-2 data-[state=active]:bg-[#104DB1] data-[state=active]:text-white"
             >
               <User className="w-4 h-4" />
               Cliente
             </TabsTrigger>
             <TabsTrigger 
               value="designer"
-              className="flex items-center gap-2 data-[state=active]:bg-gradient-accent data-[state=active]:text-primary"
+              className="flex items-center gap-2 data-[state=active]:bg-[#104DB1] data-[state=active]:text-white"
             >
               <Briefcase className="w-4 h-4" />
               Projetista

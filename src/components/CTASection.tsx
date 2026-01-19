@@ -41,7 +41,7 @@ const CTASection = () => {
         <div className="text-center max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-6">
             Solicite um orçamento com nossos{" "}
-            <span className="text-[#A5E6FF]">projetistas verificados</span>
+            <span className="text-[#104DB1]">projetistas verificados</span>
           </h2>
           <p className="text-lg text-primary-foreground/80 mb-8 leading-relaxed">
             Encontre o profissional ideal para seu projeto. Nossa rede de projetistas 
