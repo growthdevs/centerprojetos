@@ -25,44 +25,44 @@ const steps = [
 
 const HowItWorksSection = () => {
   return (
-    <section className="py-20 bg-secondary">
-      <div className="container mx-auto px-4">
+    <section className="py-16 md:py-20 bg-secondary">
+      <div className="container mx-auto px-6 md:px-4">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <span className="text-sm font-semibold text-accent uppercase tracking-widest">
             Para Clientes
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mt-2 mb-4">
+          <h2 className="text-2xl md:text-4xl font-bold text-primary mt-2 mb-4">
             Como funciona
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto">
             Encontre o projetista ideal em poucos passos
           </p>
         </div>
 
         {/* Steps */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
+        <div className="flex flex-col md:grid md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto mb-10 md:mb-12">
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
               <div
                 key={step.step}
-                className="relative bg-card rounded-xl p-8 border border-border hover:border-accent/50 transition-all duration-300 hover:shadow-card-hover text-center"
+                className="relative bg-card rounded-xl p-6 md:p-8 border border-border hover:border-accent/50 transition-all duration-300 hover:shadow-card-hover text-center"
               >
                 {/* Step Number */}
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground font-bold text-sm px-3 py-1 rounded-full">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground font-bold text-sm px-3 py-1 rounded-full">
                   {step.step}
                 </div>
                 
                 {/* Icon */}
-                <div className="bg-accent/10 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-6 mt-2">
-                  <Icon className="w-8 h-8 text-accent" />
+                <div className="bg-accent/10 w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center mx-auto mb-4 md:mb-6 mt-2">
+                  <Icon className="w-7 h-7 md:w-8 md:h-8 text-accent" />
                 </div>
                 
-                <h3 className="text-xl font-semibold text-primary mb-3">
+                <h3 className="text-lg md:text-xl font-semibold text-primary mb-2 md:mb-3">
                   {step.title}
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
                   {step.description}
                 </p>
 
@@ -76,9 +76,9 @@ const HowItWorksSection = () => {
         </div>
 
         {/* CTA */}
-        <div className="text-center">
-          <Link to="/buscar-projetistas">
-            <Button variant="accent" size="lg" className="font-semibold text-lg px-8">
+        <div className="text-center px-4">
+          <Link to="/buscar-projetistas" className="block">
+            <Button variant="accent" size="lg" className="font-semibold text-lg px-8 w-full sm:w-auto">
               Buscar Projetistas
             </Button>
           </Link>

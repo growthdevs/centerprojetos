@@ -34,19 +34,19 @@ const HeroSection = () => {
         
         {/* Content */}
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl mx-auto text-center md:text-left md:mx-0">
 
             {/* Headline */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-in" style={{
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6 animate-fade-in" style={{
             animationDelay: "0.1s"
           }}>
               Encontre o{" "}
-              <span className="text-blue-400">projetista ideal</span>{" "}
+              <span className="text-blue-mid">projetista ideal</span>{" "}
               para seus móveis planejados
             </h1>
 
             {/* Description */}
-            <p className="text-lg md:text-xl text-primary-foreground/80 leading-relaxed mb-10 animate-fade-in" style={{
+            <p className="text-base md:text-xl text-primary-foreground/80 leading-relaxed mb-10 animate-fade-in px-4 md:px-0" style={{
             animationDelay: "0.2s"
           }}>
               Conectamos você a profissionais verificados na sua região. 
@@ -54,10 +54,10 @@ const HeroSection = () => {
             </p>
 
             {/* CTA Button */}
-            <div className="animate-fade-in" style={{
+            <div className="animate-fade-in flex flex-col items-center md:items-start" style={{
             animationDelay: "0.3s"
           }}>
-              <Button size="lg" variant="accent" className="text-lg md:text-xl px-8 md:px-12 py-6 md:py-8 font-bold shadow-2xl hover:scale-105 transition-transform group" onClick={handleSearchClick}>
+              <Button size="lg" variant="accent" className="text-lg md:text-xl px-8 md:px-12 py-6 md:py-8 font-bold shadow-2xl hover:scale-105 transition-transform group w-full sm:w-auto" onClick={handleSearchClick}>
                 <Search className="mr-3 w-6 h-6" />
                 Buscar Projetistas
                 <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
