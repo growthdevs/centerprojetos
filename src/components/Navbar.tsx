@@ -132,75 +132,101 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="lg:hidden py-4 border-t border-blue-mid/20 animate-fade-in">
-              <div className="flex flex-col gap-4">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.onClick ? undefined : link.href}
-                    onClick={(e) => {
-                      if (link.onClick) {
-                        e.preventDefault();
-                        link.onClick();
-                      }
-                      setIsMenuOpen(false);
-                    }}
-                    className="text-sm font-medium text-primary-foreground/80 hover:text-blue-mid transition-colors py-2 cursor-pointer"
-                  >
-                    {link.label}
-                  </a>
-                ))}
-                <div className="flex flex-col gap-3 pt-4 border-t border-blue-mid/20">
-                  {isAuthenticated ? (
-                    <>
-                      <div className="flex items-center gap-3 py-2">
-                        <div className="w-10 h-10 rounded-full bg-gradient-accent flex items-center justify-center">
-                          <User className="w-5 h-5 text-primary" />
-                        </div>
-                        <div>
-                          <p className="font-medium text-primary-foreground">{userName}</p>
-                          <p className="text-xs text-primary-foreground/60">Logado</p>
-                        </div>
-                      </div>
-                      <Button 
-                        onClick={handleLogout}
-                        variant="outline"
-                        className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
-                      >
-                        <LogOut className="mr-2 h-4 w-4" />
-                        Sair
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <button 
-                        onClick={() => {
-                          setIsMenuOpen(false);
-                          setIsRegisterOpen(true);
-                        }}
-                        className="text-blue-mid font-bold hover:text-blue-accent transition-colors text-center py-2"
-                      >
-                        Criar Conta
-                      </button>
-                      <Button 
-                        onClick={() => {
-                          setIsMenuOpen(false);
-                          setIsLoginOpen(true);
-                        }}
-                        variant="accent"
-                      >
-                        Entrar
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </nav>
+
+      {/* Mobile Menu - Fullscreen */}
+      {isMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-40 bg-primary animate-fade-in flex flex-col">
+          {/* Header with close button */}
+          <div className="flex items-center justify-between h-20 px-4 border-b border-blue-mid/20">
+            <a href="/" className="flex items-center">
+              <img 
+                src={logoWhite} 
+                alt="Center Projetos" 
+                className="h-14" 
+              />
+            </a>
+            <button
+              className="text-primary-foreground p-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <X size={24} />
+            </button>
+          </div>
+
+          {/* Menu Content */}
+          <div className="flex-1 flex flex-col justify-center px-8">
+            <div className="flex flex-col gap-6">
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.onClick ? undefined : link.href}
+                  onClick={(e) => {
+                    if (link.onClick) {
+                      e.preventDefault();
+                      link.onClick();
+                    }
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-xl font-semibold text-primary-foreground/90 hover:text-blue-mid transition-colors text-center py-3 cursor-pointer"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Footer with auth buttons */}
+          <div className="px-8 pb-12 pt-6 border-t border-blue-mid/20">
+            {isAuthenticated ? (
+              <div className="flex flex-col items-center gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-gradient-accent flex items-center justify-center">
+                    <User className="w-6 h-6 text-primary" />
+                  </div>
+                  <div className="text-center">
+                    <p className="font-semibold text-lg text-primary-foreground">{userName}</p>
+                    <p className="text-sm text-primary-foreground/60">Logado</p>
+                  </div>
+                </div>
+                <Button 
+                  onClick={handleLogout}
+                  variant="outline"
+                  size="lg"
+                  className="w-full border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                >
+                  <LogOut className="mr-2 h-5 w-5" />
+                  Sair
+                </Button>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                <Button 
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsLoginOpen(true);
+                  }}
+                  variant="accent"
+                  size="lg"
+                  className="w-full text-lg font-semibold"
+                >
+                  Entrar
+                </Button>
+                <button 
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsRegisterOpen(true);
+                  }}
+                  className="text-blue-mid font-bold hover:text-blue-accent transition-colors text-center py-3 text-lg"
+                >
+                  Criar Conta
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <RegisterModal open={isRegisterOpen} onOpenChange={setIsRegisterOpen} />
       <LoginModal 
