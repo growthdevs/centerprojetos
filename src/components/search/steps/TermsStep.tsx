@@ -39,7 +39,7 @@ const TermsStep = ({
       </header>
 
       {/* Content */}
-      <main className="flex-1 container mx-auto px-4 py-8 flex flex-col items-center justify-center max-w-lg">
+      <main className="flex-1 container mx-auto px-4 py-8 flex flex-col items-center overflow-y-auto max-w-lg">
         <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-6">
           <FileText className="w-8 h-8 text-accent" />
         </div>
