@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -8,9 +8,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Search, MapPin, SlidersHorizontal } from "lucide-react";
+import { ArrowLeft, Search, MapPin, SlidersHorizontal, Store } from "lucide-react";
 import logoColor from "@/assets/logo-color.png";
 import { states, citiesByState } from "@/data/locations";
+import { getStoresByLocation } from "@/data/mockStores";
 import type { SearchType } from "../SearchWizard";
 
 interface SearchFiltersStepProps {
@@ -35,15 +36,31 @@ const SearchFiltersStep = ({
 }: SearchFiltersStepProps) => {
   const availableCities = filters.state ? citiesByState[filters.state] || [] : [];
 
+  // Get stores for the selected location (only for store search)
+  const availableStores = useMemo(() => {
+    if (searchType !== "lojas" || !filters.state) return [];
+    return getStoresByLocation(filters.state, filters.city || undefined);
+  }, [searchType, filters.state, filters.city]);
+
   const handleStateChange = (value: string) => {
-    onFiltersChange({ ...filters, state: value, city: "" });
+    onFiltersChange({ ...filters, state: value, city: "", query: "" });
   };
 
   const handleCityChange = (value: string) => {
-    onFiltersChange({ ...filters, city: value });
+    onFiltersChange({ ...filters, city: value, query: "" });
+  };
+
+  const handleStoreSelect = (storeId: string) => {
+    const store = availableStores.find(s => s.id === storeId);
+    if (store) {
+      onFiltersChange({ ...filters, query: store.name });
+    }
   };
 
   const canSearch = filters.state || filters.city || filters.query.trim();
+
+  // For stores, show select after location is chosen
+  const showStoreSelect = searchType === "lojas" && filters.state;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -110,18 +127,51 @@ const SearchFiltersStep = ({
             </SelectContent>
           </Select>
 
-          {/* Search Query */}
-          <div className="pt-4">
-            <div className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
-              <Search className="w-4 h-4 text-accent" />
-              Busca por nome
+          {/* Store Select (only for store search after location selected) */}
+          {showStoreSelect && (
+            <div className="pt-4">
+              <div className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
+                <Store className="w-4 h-4 text-accent" />
+                Buscar Loja
+              </div>
+              {availableStores.length > 0 ? (
+                <Select
+                  value={availableStores.find(s => s.name === filters.query)?.id || ""}
+                  onValueChange={handleStoreSelect}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione uma loja" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableStores.map((store) => (
+                      <SelectItem key={store.id} value={store.id}>
+                        {store.name} - {store.city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <p className="text-sm text-muted-foreground py-2">
+                  Nenhuma loja encontrada nesta região
+                </p>
+              )}
             </div>
-            <Input
-              placeholder={`Buscar ${searchType === "lojas" ? "loja" : "projetista"} por nome`}
-              value={filters.query}
-              onChange={(e) => onFiltersChange({ ...filters, query: e.target.value })}
-            />
-          </div>
+          )}
+
+          {/* Search Query (only for projetistas) */}
+          {searchType === "projetistas" && (
+            <div className="pt-4">
+              <div className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
+                <Search className="w-4 h-4 text-accent" />
+                Busca por nome
+              </div>
+              <Input
+                placeholder="Buscar projetista por nome"
+                value={filters.query}
+                onChange={(e) => onFiltersChange({ ...filters, query: e.target.value })}
+              />
+            </div>
+          )}
 
           {/* Sort By */}
           <div className="pt-4">
