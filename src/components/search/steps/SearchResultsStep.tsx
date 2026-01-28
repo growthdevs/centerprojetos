@@ -72,9 +72,9 @@ const SearchResultsStep = ({
   }, [searchType, filters]);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col pb-20 md:pb-0">
+    <div className="fixed inset-0 bg-background flex flex-col overflow-hidden">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
+      <header className="flex-shrink-0 bg-background/95 backdrop-blur-sm border-b border-border z-10">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <img src={logoColor} alt="Center Projetos" className="h-10 w-auto" />
@@ -91,8 +91,9 @@ const SearchResultsStep = ({
         </div>
       </header>
 
-      {/* Content */}
-      <main className="flex-1 container mx-auto px-4 py-6">
+      {/* Scrollable Content */}
+      <div className="flex-1 overflow-y-auto">
+        <main className="container mx-auto px-4 py-6 pb-24 md:pb-6">
         {/* Results Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
@@ -170,7 +171,8 @@ const SearchResultsStep = ({
             </Button>
           </div>
         )}
-      </main>
+        </main>
+      </div>
 
       {/* Modals */}
       <StoreDetailModal
