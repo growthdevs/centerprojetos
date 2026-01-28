@@ -62,18 +62,34 @@ const PlanSelectionStep = ({
               </div>
             </div>
 
-            <ul className="space-y-3 mb-6">
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Check className="w-4 h-4 text-green-500" />
-                Até 3 orçamentos simultâneos
+            <ul className="space-y-2 mb-6">
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                5% de desconto em todas as lojas
               </li>
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Check className="w-4 h-4 text-green-500" />
-                Busca por lojas e projetistas
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Acesso a dezenas de lojas
               </li>
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Check className="w-4 h-4 text-green-500" />
-                Suporte básico
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Acesso a Centenas de Projetistas
+              </li>
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Acesso a qualificação das lojas
+              </li>
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Até 3 Orçamentos
+              </li>
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Suporte básico Center
+              </li>
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Vistoria Final Center Projetos
               </li>
             </ul>
 
@@ -105,22 +121,46 @@ const PlanSelectionStep = ({
               </div>
             </div>
 
-            <ul className="space-y-3 mb-6">
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Check className="w-4 h-4 text-green-500" />
-                Orçamentos ilimitados
+            <ul className="space-y-2 mb-6">
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                10% de desconto em todas as lojas
               </li>
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Check className="w-4 h-4 text-green-500" />
-                Projetistas exclusivos
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Projetista Center exclusivo para você
               </li>
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Check className="w-4 h-4 text-green-500" />
-                Acompanhamento completo do projeto
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Desenvolvimento de projeto
               </li>
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Check className="w-4 h-4 text-green-500" />
-                Suporte prioritário
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Até 5 Orçamentos
+              </li>
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Acompanhamento até às lojas
+              </li>
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Análise de orçamentos
+              </li>
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Análise de projeto Final
+              </li>
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Acompanhamento de montagem
+              </li>
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Intermediação
+              </li>
+              <li className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                Vistoria Final
               </li>
             </ul>
 
