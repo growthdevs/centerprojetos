@@ -15,7 +15,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const Navbar = () => {
+interface NavbarProps {
+  onMenuOpenChange?: (isOpen: boolean) => void;
+}
+
+const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -23,6 +27,11 @@ const Navbar = () => {
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const [isReferralOpen, setIsReferralOpen] = useState(false);
   const { isAuthenticated, userName, logout } = useAuth();
+
+  const handleMenuToggle = (open: boolean) => {
+    setIsMenuOpen(open);
+    onMenuOpenChange?.(open);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,7 +52,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    setIsMenuOpen(false);
+    handleMenuToggle(false);
   };
 
   return (
@@ -126,7 +135,7 @@ const Navbar = () => {
             {/* Mobile Menu Button */}
             <button
               className="lg:hidden text-primary-foreground p-2"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() => handleMenuToggle(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -149,7 +158,7 @@ const Navbar = () => {
             </a>
             <button
               className="text-primary-foreground p-2"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => handleMenuToggle(false)}
             >
               <X size={24} />
             </button>
@@ -167,7 +176,7 @@ const Navbar = () => {
                       e.preventDefault();
                       link.onClick();
                     }
-                    setIsMenuOpen(false);
+                    handleMenuToggle(false);
                   }}
                   className="text-xl font-semibold text-primary-foreground/90 hover:text-blue-mid transition-colors text-center py-3 cursor-pointer"
                 >
@@ -204,7 +213,7 @@ const Navbar = () => {
               <div className="flex flex-col gap-4">
                 <Button 
                   onClick={() => {
-                    setIsMenuOpen(false);
+                    handleMenuToggle(false);
                     setIsLoginOpen(true);
                   }}
                   variant="accent"
@@ -215,7 +224,7 @@ const Navbar = () => {
                 </Button>
                 <button 
                   onClick={() => {
-                    setIsMenuOpen(false);
+                    handleMenuToggle(false);
                     setIsRegisterOpen(true);
                   }}
                   className="text-blue-mid font-bold hover:text-blue-accent transition-colors text-center py-3 text-lg"

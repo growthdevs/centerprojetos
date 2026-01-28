@@ -15,6 +15,7 @@ const Index = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleSearchClick = () => {
     setShowSearch(true);
@@ -28,9 +29,12 @@ const Index = () => {
     }
   };
 
+  // Hide tab bar when search wizard or mobile menu is open
+  const hideTabBar = showSearch || isMobileMenuOpen;
+
   return (
     <div className="min-h-screen pb-16 md:pb-0">
-      <Navbar />
+      <Navbar onMenuOpenChange={setIsMobileMenuOpen} />
       <HeroSection onSearchClick={handleSearchClick} />
       <HowItWorksSection />
       <ForDesignersSection />
@@ -40,8 +44,8 @@ const Index = () => {
         <Footer />
       </div>
 
-      {/* Mobile Tab Bar - hidden when search wizard is open */}
-      {!showSearch && (
+      {/* Mobile Tab Bar - hidden when search wizard or mobile menu is open */}
+      {!hideTabBar && (
         <MobileTabBar
           onSearchClick={handleSearchClick}
           onProfileClick={handleProfileClick}
