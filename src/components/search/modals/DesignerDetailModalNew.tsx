@@ -1,0 +1,333 @@
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import {
+  MapPin,
+  Store,
+  ArrowRight,
+  X,
+  Briefcase,
+  Star,
+  MessageSquare,
+  Send,
+  Award,
+  Thermometer,
+} from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import ContactRequestModal from "@/components/ContactRequestModal";
+import { getMedalInfo, type Designer } from "@/data/mockStores";
+
+interface DesignerDetailModalNewProps {
+  designer: Designer | null;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const DesignerDetailModalNew = ({
+  designer,
+  isOpen,
+  onClose,
+}: DesignerDetailModalNewProps) => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [showContactModal, setShowContactModal] = useState(false);
+
+  if (!designer) return null;
+
+  const medalInfo = getMedalInfo(designer.medal);
+
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star
+        key={i}
+        className={`w-4 h-4 ${
+          i < rating ? "text-accent fill-accent" : "text-muted-foreground"
+        }`}
+      />
+    ));
+  };
+
+  return (
+    <>
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="max-w-4xl p-0 left-0 top-0 right-0 bottom-0 max-h-screen overflow-y-auto rounded-none sm:left-[50%] sm:top-[50%] sm:right-auto sm:bottom-auto sm:max-h-[90vh] sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-lg">
+          <DialogHeader className="p-6 pb-4 border-b border-border">
+            <div className="flex items-start gap-4">
+              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden shrink-0">
+                {designer.imageUrl ? (
+                  <img
+                    src={designer.imageUrl}
+                    alt={designer.name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-3xl font-bold text-primary">
+                    {designer.name.charAt(0)}
+                  </span>
+                )}
+              </div>
+              <div className="flex-1">
+                <DialogTitle className="text-2xl font-bold text-foreground mb-2">
+                  {designer.name}
+                </DialogTitle>
+                <div className="flex items-center gap-1.5 text-muted-foreground">
+                  <MapPin className="w-4 h-4 text-accent" />
+                  <span>
+                    {designer.city}, {designer.state}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </DialogHeader>
+
+          <div className="p-6 space-y-6">
+            {/* Bio */}
+            <p className="text-muted-foreground">{designer.bio}</p>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="p-4 rounded-lg border border-border bg-muted/30">
+                <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                  <Briefcase className="w-4 h-4" />
+                  <span className="text-sm">Projetos</span>
+                </div>
+                <p className="text-2xl font-bold text-foreground">
+                  {designer.projectsCount}
+                </p>
+              </div>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="p-4 rounded-lg border border-border bg-muted/30 cursor-help">
+                      <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                        <Star className="w-4 h-4" />
+                        <span className="text-sm">Atendimento</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <p className="text-2xl font-bold text-foreground">
+                          {designer.serviceRating.toFixed(1)}
+                        </p>
+                        <div className="flex">
+                          {renderStars(Math.round(designer.serviceRating))}
+                        </div>
+                      </div>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Avaliação feita pelo cliente após a vistoria</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="p-4 rounded-lg border border-border bg-muted/30 cursor-help">
+                      <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                        <Store className="w-4 h-4" />
+                        <span className="text-sm">Loja (Google)</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <p className="text-2xl font-bold text-foreground">
+                          {designer.storeRating.toFixed(1)}
+                        </p>
+                        <div className="flex">
+                          {renderStars(Math.round(designer.storeRating))}
+                        </div>
+                      </div>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Avaliação da loja no Google Meu Negócio</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="p-4 rounded-lg border border-border bg-muted/30 cursor-help">
+                      <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                        <Thermometer className="w-4 h-4" />
+                        <span className="text-sm">Termômetro</span>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-2xl font-bold text-foreground">
+                          {designer.thermometer}%
+                        </p>
+                        <Progress value={designer.thermometer} className="h-2" />
+                      </div>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Avaliação interna da Center Plataforma</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+
+            {/* Medal Section */}
+            {medalInfo && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="p-4 rounded-lg border border-border bg-muted/30 cursor-help">
+                      <div className="flex items-center gap-2 text-muted-foreground mb-2">
+                        <Award className="w-4 h-4" />
+                        <span className="text-sm font-medium">
+                          Medalha de Desempenho
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-4xl">{medalInfo.emoji}</span>
+                        <div>
+                          <p className={`text-xl font-bold ${medalInfo.color}`}>
+                            {medalInfo.label}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {medalInfo.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Medalha baseada no número de projetos fechados</p>
+                    <ul className="text-xs mt-1 space-y-0.5">
+                      <li>🥉 Bronze: 0-10 projetos</li>
+                      <li>🥈 Prata: 11-25 projetos</li>
+                      <li>🥇 Ouro: 26-50 projetos</li>
+                      <li>💎 Platinum: 51-100 projetos</li>
+                    </ul>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+
+            {/* Store */}
+            <div>
+              <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
+                <Store className="w-4 h-4 text-accent" />
+                Loja onde atua
+              </h4>
+              <span className="px-3 py-1.5 bg-muted rounded-full text-sm text-muted-foreground">
+                {designer.store}
+              </span>
+            </div>
+
+            {/* Reviews */}
+            {designer.reviews.length > 0 && (
+              <div>
+                <h4 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <MessageSquare className="w-4 h-4 text-accent" />
+                  Comentários de Clientes
+                </h4>
+                <div className="space-y-3">
+                  {designer.reviews.map((review, index) => (
+                    <div
+                      key={index}
+                      className="p-4 rounded-lg border border-border bg-muted/20"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-medium text-foreground">
+                          {review.author}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <div className="flex">{renderStars(review.rating)}</div>
+                          <span className="text-xs text-muted-foreground">
+                            {review.date}
+                          </span>
+                        </div>
+                      </div>
+                      <p className="text-muted-foreground text-sm">
+                        {review.comment}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Portfolio */}
+            {designer.portfolioImages.length > 0 && (
+              <div>
+                <h4 className="font-semibold text-foreground mb-4">
+                  Portfólio de Trabalhos
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                  {designer.portfolioImages.map((image, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImage(image)}
+                      className="aspect-square rounded-lg overflow-hidden border border-border hover:border-accent transition-all hover:shadow-lg"
+                    >
+                      <img
+                        src={image}
+                        alt={`Trabalho ${index + 1}`}
+                        className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* CTA Button */}
+            <div className="pt-4 border-t border-border">
+              <Button
+                variant="accent"
+                size="lg"
+                className="w-full font-semibold text-lg group"
+                onClick={() => setShowContactModal(true)}
+              >
+                <Send className="mr-2 w-5 h-5" />
+                Solicitar Contato
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Image Lightbox */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button
+            className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors"
+            onClick={() => setSelectedImage(null)}
+          >
+            <X className="w-8 h-8" />
+          </button>
+          <img
+            src={selectedImage}
+            alt="Trabalho ampliado"
+            className="max-w-full max-h-[90vh] object-contain rounded-lg"
+          />
+        </div>
+      )}
+
+      {/* Contact Request Modal */}
+      <ContactRequestModal
+        isOpen={showContactModal}
+        onClose={() => setShowContactModal(false)}
+        designerName={designer.name}
+      />
+    </>
+  );
+};
+
+export default DesignerDetailModalNew;
