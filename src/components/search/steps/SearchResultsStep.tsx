@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, X, Store, User } from "lucide-react";
+import { ArrowLeft, X, Store, User, Home } from "lucide-react";
 import logoColor from "@/assets/logo-color.png";
 import { mockStores, mockDesigners, type Store as StoreType, type Designer } from "@/data/mockStores";
 import StoreCard from "../cards/StoreCard";
@@ -72,7 +72,7 @@ const SearchResultsStep = ({
   }, [searchType, filters]);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col pb-20 md:pb-0">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="container mx-auto px-4 py-4">
@@ -185,6 +185,33 @@ const SearchResultsStep = ({
         isOpen={!!selectedDesigner}
         onClose={() => setSelectedDesigner(null)}
       />
+
+      {/* Mobile Tab Bar for Results */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg border-t border-border md:hidden safe-area-bottom">
+        <div className="flex items-center justify-around h-16">
+          <button
+            onClick={onClose}
+            className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-muted-foreground hover:text-accent transition-colors"
+          >
+            <Home className="w-5 h-5" />
+            <span className="text-xs font-medium">Home</span>
+          </button>
+          <button
+            onClick={onBack}
+            className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-accent"
+          >
+            <Store className="w-5 h-5" />
+            <span className="text-xs font-medium">Buscar</span>
+          </button>
+          <button
+            onClick={onClose}
+            className="flex flex-col items-center justify-center flex-1 h-full gap-1 text-muted-foreground hover:text-accent transition-colors"
+          >
+            <User className="w-5 h-5" />
+            <span className="text-xs font-medium">Perfil</span>
+          </button>
+        </div>
+      </nav>
     </div>
   );
 };

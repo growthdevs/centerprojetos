@@ -18,7 +18,7 @@ const PlanSelectionStep = ({
   onClose,
 }: PlanSelectionStepProps) => {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="fixed inset-0 bg-background flex flex-col">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
         <div className="container mx-auto px-4 py-4">
@@ -32,7 +32,7 @@ const PlanSelectionStep = ({
       </header>
 
       {/* Content */}
-      <main className="flex-1 container mx-auto px-4 py-8 flex flex-col items-center overflow-y-auto">
+      <main className="flex-1 container mx-auto px-4 py-6 md:py-8 flex flex-col items-center overflow-y-auto pb-8">
         <div className="text-center mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
             Escolha seu plano
