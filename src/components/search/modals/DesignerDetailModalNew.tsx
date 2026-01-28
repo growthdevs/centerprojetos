@@ -16,15 +16,14 @@ import {
   MessageSquare,
   Send,
   Award,
-  Thermometer,
 } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import ThermometerDisplay from "../ThermometerDisplay";
 import ContactRequestModal from "@/components/ContactRequestModal";
 import { getMedalInfo, type Designer } from "@/data/mockStores";
 
@@ -60,7 +59,7 @@ const DesignerDetailModalNew = ({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-4xl p-0 left-0 top-0 right-0 bottom-0 max-h-screen overflow-y-auto rounded-none sm:left-[50%] sm:top-[50%] sm:right-auto sm:bottom-auto sm:max-h-[90vh] sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-lg">
+        <DialogContent className="max-w-4xl w-[95vw] p-0 left-0 top-0 right-0 bottom-0 max-h-screen overflow-y-auto rounded-none sm:left-[50%] sm:top-[50%] sm:right-auto sm:bottom-auto sm:max-h-[85vh] sm:min-h-[650px] sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-lg">
           <DialogHeader className="p-6 pb-4 border-b border-border">
             <div className="flex items-start gap-4">
               <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden shrink-0">
@@ -94,8 +93,9 @@ const DesignerDetailModalNew = ({
             {/* Bio */}
             <p className="text-muted-foreground">{designer.bio}</p>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Stats Grid - 2x2 layout */}
+            <div className="grid grid-cols-2 gap-4">
+              {/* Projetos */}
               <div className="p-4 rounded-lg border border-border bg-muted/30">
                 <div className="flex items-center gap-2 text-muted-foreground mb-1">
                   <Briefcase className="w-4 h-4" />
@@ -106,6 +106,7 @@ const DesignerDetailModalNew = ({
                 </p>
               </div>
 
+              {/* Atendimento */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -130,10 +131,11 @@ const DesignerDetailModalNew = ({
                 </Tooltip>
               </TooltipProvider>
 
+              {/* Loja (Google) - takes full row on mobile, half on larger */}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="p-4 rounded-lg border border-border bg-muted/30 cursor-help">
+                    <div className="p-4 rounded-lg border border-border bg-muted/30 cursor-help col-span-2 sm:col-span-1">
                       <div className="flex items-center gap-2 text-muted-foreground mb-1">
                         <Store className="w-4 h-4" />
                         <span className="text-sm">Loja (Google)</span>
@@ -154,28 +156,20 @@ const DesignerDetailModalNew = ({
                 </Tooltip>
               </TooltipProvider>
 
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="p-4 rounded-lg border border-border bg-muted/30 cursor-help">
-                      <div className="flex items-center gap-2 text-muted-foreground mb-1">
-                        <Thermometer className="w-4 h-4" />
-                        <span className="text-sm">Termômetro</span>
-                      </div>
-                      <div className="space-y-1">
-                        <p className="text-2xl font-bold text-foreground">
-                          {designer.thermometer}%
-                        </p>
-                        <Progress value={designer.thermometer} className="h-2" />
-                      </div>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Avaliação interna da Center Plataforma</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              {/* Store name on mobile */}
+              <div className="p-4 rounded-lg border border-border bg-muted/30 col-span-2 sm:col-span-1 sm:hidden">
+                <div className="flex items-center gap-2 text-muted-foreground mb-1">
+                  <Store className="w-4 h-4" />
+                  <span className="text-sm">Loja onde atua</span>
+                </div>
+                <p className="text-lg font-semibold text-foreground">
+                  {designer.store}
+                </p>
+              </div>
             </div>
+
+            {/* Thermometer - Full width */}
+            <ThermometerDisplay value={designer.thermometer} />
 
             {/* Medal Section */}
             {medalInfo && (
@@ -215,8 +209,8 @@ const DesignerDetailModalNew = ({
               </TooltipProvider>
             )}
 
-            {/* Store */}
-            <div>
+            {/* Store - Desktop only (hidden on mobile, shown above) */}
+            <div className="hidden sm:block">
               <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
                 <Store className="w-4 h-4 text-accent" />
                 Loja onde atua

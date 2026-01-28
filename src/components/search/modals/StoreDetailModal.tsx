@@ -1,19 +1,17 @@
-import { useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { MapPin, Star, TrendingUp, Thermometer, Users, ChevronRight } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
+import { MapPin, Star, TrendingUp, Users, ChevronRight } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import ThermometerDisplay from "../ThermometerDisplay";
 import type { Store, Designer } from "@/data/mockStores";
 
 interface StoreDetailModalProps {
@@ -44,7 +42,7 @@ const StoreDetailModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl p-0 left-0 top-0 right-0 bottom-0 max-h-screen overflow-y-auto rounded-none sm:left-[50%] sm:top-[50%] sm:right-auto sm:bottom-auto sm:max-h-[90vh] sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-lg">
+      <DialogContent className="max-w-3xl w-[95vw] p-0 left-0 top-0 right-0 bottom-0 max-h-screen overflow-y-auto rounded-none sm:left-[50%] sm:top-[50%] sm:right-auto sm:bottom-auto sm:max-h-[85vh] sm:min-h-[600px] sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-lg">
         <DialogHeader className="p-6 pb-4 border-b border-border">
           <div className="flex items-start gap-4">
             <div className="w-16 h-16 rounded-lg bg-accent/10 flex items-center justify-center overflow-hidden shrink-0">
@@ -78,8 +76,8 @@ const StoreDetailModal = ({
           {/* Bio */}
           <p className="text-muted-foreground">{store.bio}</p>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Stats - Google and Sales on top row */}
+          <div className="grid grid-cols-2 gap-4">
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -107,28 +105,6 @@ const StoreDetailModal = ({
                 <TooltipTrigger asChild>
                   <div className="p-4 rounded-lg border border-border bg-muted/30 cursor-help">
                     <div className="flex items-center gap-2 text-muted-foreground mb-1">
-                      <Thermometer className="w-4 h-4" />
-                      <span className="text-sm">Termômetro</span>
-                    </div>
-                    <div className="space-y-1">
-                      <p className="text-2xl font-bold text-foreground">
-                        {store.thermometer}%
-                      </p>
-                      <Progress value={store.thermometer} className="h-2" />
-                    </div>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Avaliação interna da Center Plataforma</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="p-4 rounded-lg border border-border bg-muted/30 cursor-help">
-                    <div className="flex items-center gap-2 text-muted-foreground mb-1">
                       <TrendingUp className="w-4 h-4" />
                       <span className="text-sm">Vendas</span>
                     </div>
@@ -144,6 +120,9 @@ const StoreDetailModal = ({
             </TooltipProvider>
           </div>
 
+          {/* Thermometer - Full width below */}
+          <ThermometerDisplay value={store.thermometer} />
+
           {/* Designers Section */}
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -154,7 +133,7 @@ const StoreDetailModal = ({
             </div>
 
             {store.designers.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
                 {store.designers.map((designer) => (
                   <button
                     key={designer.id}
