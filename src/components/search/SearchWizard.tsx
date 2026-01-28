@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import LoginModal from "@/components/LoginModal";
 import PlanSelectionStep from "./steps/PlanSelectionStep";
@@ -40,6 +40,21 @@ const SearchWizard = ({ isOpen, onClose }: SearchWizardProps) => {
     query: "",
     sortBy: "rating" as "rating" | "sales",
   });
+
+  // Ensure a single scroll surface on mobile (and prevent background page scroll).
+  useEffect(() => {
+    if (!isOpen) return;
+    const prevBodyOverflow = document.body.style.overflow;
+    const prevHtmlOverflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = prevBodyOverflow;
+      document.documentElement.style.overflow = prevHtmlOverflow;
+    };
+  }, [isOpen]);
 
   const handleLoginSuccess = () => {
     setCurrentStep("plan");
@@ -106,7 +121,7 @@ const SearchWizard = ({ isOpen, onClose }: SearchWizardProps) => {
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-background">
+    <div className="fixed inset-0 z-50 bg-background overflow-hidden">
       {currentStep === "plan" && (
         <PlanSelectionStep
           selectedPlan={selectedPlan}
