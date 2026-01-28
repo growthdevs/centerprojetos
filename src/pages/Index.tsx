@@ -39,11 +39,13 @@ const Index = () => {
         <Footer />
       </div>
 
-      {/* Mobile Tab Bar */}
-      <MobileTabBar
-        onSearchClick={handleSearchClick}
-        onProfileClick={handleProfileClick}
-      />
+      {/* Mobile Tab Bar - hidden when search wizard is open */}
+      {!showSearch && (
+        <MobileTabBar
+          onSearchClick={handleSearchClick}
+          onProfileClick={handleProfileClick}
+        />
+      )}
 
       {/* Search Wizard */}
       <SearchWizard isOpen={showSearch} onClose={() => setShowSearch(false)} />

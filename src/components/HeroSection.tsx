@@ -58,12 +58,12 @@ const HeroSection = () => {
               <Button
                 size="lg"
                 variant="accent"
-                className="text-lg md:text-xl px-8 md:px-12 py-6 md:py-8 font-bold shadow-2xl hover:scale-105 transition-transform group w-full sm:w-auto"
+                className="text-base md:text-xl px-6 md:px-12 py-5 md:py-8 font-bold shadow-2xl hover:scale-105 transition-transform group w-full max-w-xs sm:max-w-none sm:w-auto"
                 onClick={() => setShowSearchWizard(true)}
               >
-                <Search className="mr-3 w-6 h-6" />
-                Comece o seu projeto aqui
-                <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                <Search className="mr-2 md:mr-3 w-5 h-5 md:w-6 md:h-6" />
+                <span className="whitespace-nowrap">Comece seu projeto</span>
+                <ArrowRight className="ml-2 md:ml-3 w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-1 transition-transform" />
               </Button>
               <p className="mt-4 text-primary-foreground/60 text-sm">
                 Encontre lojas e projetistas verificados na sua região
@@ -72,8 +72,8 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
+        {/* Scroll Indicator - hidden on mobile */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float hidden md:block">
           <div className="w-6 h-10 border-2 border-primary-foreground/30 rounded-full flex justify-center pt-2">
             <div className="w-1.5 h-3 bg-blue-mid rounded-full animate-pulse" />
           </div>
