@@ -7,12 +7,14 @@ import Footer from "@/components/Footer";
 import MobileTabBar from "@/components/MobileTabBar";
 import SearchWizard from "@/components/search/SearchWizard";
 import LoginModal from "@/components/LoginModal";
+import ProfileModal from "@/components/ProfileModal";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
   const { isAuthenticated } = useAuth();
   const [showSearch, setShowSearch] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   const handleSearchClick = () => {
     setShowSearch(true);
@@ -20,8 +22,7 @@ const Index = () => {
 
   const handleProfileClick = () => {
     if (isAuthenticated) {
-      // Could navigate to profile page in the future
-      window.location.href = "/projetista-dashboard";
+      setShowProfile(true);
     } else {
       setShowLogin(true);
     }
@@ -55,6 +56,12 @@ const Index = () => {
         open={showLogin}
         onOpenChange={setShowLogin}
         defaultTab="client"
+      />
+
+      {/* Profile Modal */}
+      <ProfileModal
+        open={showProfile}
+        onOpenChange={setShowProfile}
       />
     </div>
   );
