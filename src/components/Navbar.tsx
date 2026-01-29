@@ -44,11 +44,18 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
   }, []);
 
   const navLinks = [
-    { label: "Portal Projetistas", href: "/portal-projetista" },
-    { label: "Institucional", href: "#institucional" },
+    { label: "Para Clientes", href: "#para-clientes" },
+    { label: "Para Projetistas", href: "#para-projetistas" },
     { label: "Planos Cliente", href: "#planos" },
-    { label: "Cliente Vindo de Indicação", href: "#indicacao", onClick: () => setIsReferralOpen(true) },
   ];
+
+  const handleNavClick = (href: string) => {
+    const elementId = href.replace("#", "");
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -75,8 +82,13 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
               {navLinks.map((link) => (
                 <a
                   key={link.label}
-                  href={link.onClick ? undefined : link.href}
-                  onClick={link.onClick ? (e) => { e.preventDefault(); link.onClick(); } : undefined}
+                  href={link.href}
+                  onClick={(e) => {
+                    if (link.href.startsWith("#")) {
+                      e.preventDefault();
+                      handleNavClick(link.href);
+                    }
+                  }}
                   className="text-sm font-medium text-primary-foreground/80 hover:text-blue-mid transition-colors duration-300 cursor-pointer"
                 >
                   {link.label}
@@ -170,11 +182,11 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
               {navLinks.map((link) => (
                 <a
                   key={link.label}
-                  href={link.onClick ? undefined : link.href}
+                  href={link.href}
                   onClick={(e) => {
-                    if (link.onClick) {
+                    if (link.href.startsWith("#")) {
                       e.preventDefault();
-                      link.onClick();
+                      handleNavClick(link.href);
                     }
                     handleMenuToggle(false);
                   }}
