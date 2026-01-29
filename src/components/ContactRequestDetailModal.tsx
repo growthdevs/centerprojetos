@@ -1,26 +1,18 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MessageSquare, Calendar } from "lucide-react";
 import type { ContactRequest } from "@/data/mockContactRequests";
-
 interface ContactRequestDetailModalProps {
   request: ContactRequest | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
-
 const ContactRequestDetailModal = ({
   request,
   open,
-  onOpenChange,
+  onOpenChange
 }: ContactRequestDetailModalProps) => {
   if (!request) return null;
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("pt-BR", {
@@ -28,35 +20,27 @@ const ContactRequestDetailModal = ({
       month: "long",
       year: "numeric",
       hour: "2-digit",
-      minute: "2-digit",
+      minute: "2-digit"
     });
   };
-
   const handleWhatsAppClick = () => {
     const phone = request.clientPhone.replace(/\D/g, "");
-    const message = encodeURIComponent(
-      `Olá ${request.clientName}! Recebi sua solicitação de contato através da Center Projetos. Como posso ajudá-lo(a)?`
-    );
+    const message = encodeURIComponent(`Olá ${request.clientName}! Recebi sua solicitação de contato através da Center Projetos. Como posso ajudá-lo(a)?`);
     window.open(`https://wa.me/55${phone}?text=${message}`, "_blank");
   };
-
   const handleEmailClick = () => {
     const subject = encodeURIComponent("Re: Solicitação de Contato - Center Projetos");
-    const body = encodeURIComponent(
-      `Olá ${request.clientName},\n\nRecebi sua mensagem e agradeço pelo interesse!\n\nVamos conversar sobre seu projeto?\n\nAtenciosamente`
-    );
+    const body = encodeURIComponent(`Olá ${request.clientName},\n\nRecebi sua mensagem e agradeço pelo interesse!\n\nVamos conversar sobre seu projeto?\n\nAtenciosamente`);
     window.open(`mailto:${request.clientEmail}?subject=${subject}&body=${body}`, "_blank");
   };
-
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+  return <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="h-full max-h-screen w-full max-w-full rounded-none p-0 sm:h-auto sm:max-h-[85vh] sm:max-w-lg sm:rounded-lg sm:p-6">
         <div className="flex flex-col h-full overflow-y-auto p-6 sm:p-0">
           <DialogHeader>
             <DialogTitle className="text-xl">Solicitação de Contato</DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-6 mt-4 flex-1">
+          <div className="space-y-6 flex-1 mx-0 mt-[70px]">
           {/* Client Info */}
           <div className="space-y-3">
             <h3 className="font-semibold text-foreground text-lg">
@@ -94,18 +78,11 @@ const ContactRequestDetailModal = ({
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
-            <Button
-              onClick={handleWhatsAppClick}
-              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
-            >
+            <Button onClick={handleWhatsAppClick} className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white">
               <Phone className="w-4 h-4 mr-2" />
               Responder via WhatsApp
             </Button>
-            <Button
-              onClick={handleEmailClick}
-              variant="outline"
-              className="flex-1"
-            >
+            <Button onClick={handleEmailClick} variant="outline" className="flex-1">
               <Mail className="w-4 h-4 mr-2" />
               Responder via E-mail
             </Button>
@@ -113,8 +90,6 @@ const ContactRequestDetailModal = ({
           </div>
         </div>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 };
-
 export default ContactRequestDetailModal;
