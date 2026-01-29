@@ -23,19 +23,23 @@ export type SearchType = "lojas" | "projetistas" | null;
 interface SearchWizardProps {
   isOpen: boolean;
   onClose: () => void;
+  initialPlan?: PlanType;
 }
 
-const SearchWizard = ({ isOpen, onClose }: SearchWizardProps) => {
+const SearchWizard = ({ isOpen, onClose, initialPlan }: SearchWizardProps) => {
   const { isAuthenticated } = useAuth();
-  const [currentStep, setCurrentStep] = useState<SearchWizardStep>("login");
-
-  // Sync currentStep with authentication state when wizard opens
-  useEffect(() => {
-    if (isOpen) {
-      setCurrentStep(isAuthenticated ? "plan" : "login");
+  
+  // Determine initial step based on auth and initialPlan
+  const getInitialStep = (): SearchWizardStep => {
+    if (initialPlan) {
+      // Coming from ClientPlansSection with pre-selected plan
+      return "terms";
     }
-  }, [isOpen, isAuthenticated]);
-  const [selectedPlan, setSelectedPlan] = useState<PlanType>(null);
+    return isAuthenticated ? "plan" : "login";
+  };
+
+  const [currentStep, setCurrentStep] = useState<SearchWizardStep>(getInitialStep());
+  const [selectedPlan, setSelectedPlan] = useState<PlanType>(initialPlan || null);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [couponCode, setCouponCode] = useState("");
   const [searchType, setSearchType] = useState<SearchType>(null);
@@ -45,6 +49,22 @@ const SearchWizard = ({ isOpen, onClose }: SearchWizardProps) => {
     query: "",
     sortBy: "rating" as "rating" | "sales",
   });
+
+  // Sync state when wizard opens
+  useEffect(() => {
+    if (isOpen) {
+      if (initialPlan) {
+        setSelectedPlan(initialPlan);
+        setCurrentStep("terms");
+      } else {
+        setCurrentStep(isAuthenticated ? "plan" : "login");
+        setSelectedPlan(null);
+      }
+      setTermsAccepted(false);
+      setCouponCode("");
+      setSearchType(null);
+    }
+  }, [isOpen, isAuthenticated, initialPlan]);
 
   // Ensure a single scroll surface on mobile (and prevent background page scroll).
   useEffect(() => {
@@ -91,12 +111,21 @@ const SearchWizard = ({ isOpen, onClose }: SearchWizardProps) => {
   const handleBack = () => {
     switch (currentStep) {
       case "terms":
-        setCurrentStep("plan");
+        if (initialPlan) {
+          // If came from ClientPlansSection, close wizard
+          onClose();
+        } else {
+          setCurrentStep("plan");
+        }
         break;
       case "search-type":
-        setCurrentStep("plan");
-        setSelectedPlan(null);
-        setTermsAccepted(false);
+        if (initialPlan) {
+          setCurrentStep("terms");
+        } else {
+          setCurrentStep("plan");
+          setSelectedPlan(null);
+          setTermsAccepted(false);
+        }
         break;
       case "search-filters":
         setCurrentStep("search-type");
