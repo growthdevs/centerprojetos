@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import HowItWorksSection from "@/components/HowItWorksSection";
+import ClientPlansSection from "@/components/ClientPlansSection";
 import ForDesignersSection from "@/components/ForDesignersSection";
 import Footer from "@/components/Footer";
 import MobileTabBar from "@/components/MobileTabBar";
@@ -36,7 +36,7 @@ const Index = () => {
     <div className="min-h-screen pb-16 md:pb-0">
       <Navbar onMenuOpenChange={setIsMobileMenuOpen} />
       <HeroSection onSearchClick={handleSearchClick} />
-      <HowItWorksSection />
+      <ClientPlansSection />
       <ForDesignersSection />
       
       {/* Footer - hidden on mobile */}
