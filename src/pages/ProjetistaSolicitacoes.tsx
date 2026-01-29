@@ -59,7 +59,7 @@ const ProjetistaSolicitacoes = () => {
                 className="h-10 w-auto cursor-pointer"
                 onClick={() => navigate("/")}
               />
-              <Button variant="ghost" size="icon" onClick={() => navigate("/projetista")}>
+              <Button variant="ghost" size="icon" onClick={() => navigate("/portal-projetista")}>
                 <ArrowLeft className="w-5 h-5" />
               </Button>
             </div>
