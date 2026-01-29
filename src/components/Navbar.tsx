@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User, LogOut } from "lucide-react";
+import { Menu, X, User, LogOut, Bell } from "lucide-react";
 import logoWhite from "@/assets/logo-white.png";
 import RegisterModal from "@/components/RegisterModal";
 import LoginModal from "@/components/LoginModal";
@@ -28,7 +28,7 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const [isReferralOpen, setIsReferralOpen] = useState(false);
-  const { isAuthenticated, userName, logout } = useAuth();
+  const { isAuthenticated, userName, userType, logout } = useAuth();
 
   const handleMenuToggle = (open: boolean) => {
     setIsMenuOpen(open);
@@ -45,11 +45,16 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
+  const baseNavLinks = [
     { label: "Para Clientes", href: "#para-clientes" },
     { label: "Para Projetistas", href: "#para-projetistas" },
     { label: "Planos Cliente", href: "/planos" },
   ];
+
+  // Add notifications link for designers
+  const navLinks = userType === "designer" && isAuthenticated
+    ? [...baseNavLinks, { label: "Solicitações", href: "/projetista/solicitacoes" }]
+    : baseNavLinks;
 
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
