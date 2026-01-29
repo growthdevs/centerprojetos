@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MessageSquare, Calendar } from "lucide-react";
 import type { ContactRequest } from "@/data/mockContactRequests";
@@ -38,9 +38,10 @@ const ContactRequestDetailModal = ({
         <div className="flex flex-col h-full overflow-y-auto p-6 sm:p-0">
           <DialogHeader>
             <DialogTitle className="text-xl">Solicitação de Contato</DialogTitle>
+            <DialogDescription className="sr-only">Detalhes da solicitação de contato.</DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-6 flex-1 mx-0 mt-[70px]">
+          <div className="space-y-6 flex-1 mx-0 mt-4">
           {/* Client Info */}
           <div className="space-y-3">
             <h3 className="font-semibold text-foreground text-lg">
