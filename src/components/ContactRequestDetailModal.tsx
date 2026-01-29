@@ -50,12 +50,13 @@ const ContactRequestDetailModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg top-[15%] translate-y-0 sm:top-[20%]">
-        <DialogHeader>
-          <DialogTitle className="text-xl">Solicitação de Contato</DialogTitle>
-        </DialogHeader>
+      <DialogContent className="h-full max-h-screen w-full max-w-full rounded-none p-0 sm:h-auto sm:max-h-[85vh] sm:max-w-lg sm:rounded-lg sm:p-6">
+        <div className="flex flex-col h-full overflow-y-auto p-6 sm:p-0">
+          <DialogHeader>
+            <DialogTitle className="text-xl">Solicitação de Contato</DialogTitle>
+          </DialogHeader>
 
-        <div className="space-y-6 mt-4">
+          <div className="space-y-6 mt-4 flex-1">
           {/* Client Info */}
           <div className="space-y-3">
             <h3 className="font-semibold text-foreground text-lg">
@@ -108,6 +109,7 @@ const ContactRequestDetailModal = ({
               <Mail className="w-4 h-4 mr-2" />
               Responder via E-mail
             </Button>
+          </div>
           </div>
         </div>
       </DialogContent>
