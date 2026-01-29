@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, User, LogOut } from "lucide-react";
 import logoWhite from "@/assets/logo-white.png";
@@ -20,6 +21,7 @@ interface NavbarProps {
 }
 
 const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -46,14 +48,18 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
   const navLinks = [
     { label: "Para Clientes", href: "#para-clientes" },
     { label: "Para Projetistas", href: "#para-projetistas" },
-    { label: "Planos Cliente", href: "#planos" },
+    { label: "Planos Cliente", href: "/planos" },
   ];
 
   const handleNavClick = (href: string) => {
-    const elementId = href.replace("#", "");
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+    if (href.startsWith("#")) {
+      const elementId = href.replace("#", "");
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate(href);
     }
   };
 
@@ -80,19 +86,13 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
 
             <div className="hidden lg:flex items-center gap-8">
               {navLinks.map((link) => (
-                <a
+                <button
                   key={link.label}
-                  href={link.href}
-                  onClick={(e) => {
-                    if (link.href.startsWith("#")) {
-                      e.preventDefault();
-                      handleNavClick(link.href);
-                    }
-                  }}
+                  onClick={() => handleNavClick(link.href)}
                   className="text-sm font-medium text-primary-foreground/80 hover:text-blue-mid transition-colors duration-300 cursor-pointer"
                 >
                   {link.label}
-                </a>
+                </button>
               ))}
             </div>
 
@@ -180,20 +180,16 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
           <div className="flex-1 flex flex-col justify-center px-8">
             <div className="flex flex-col gap-6">
               {navLinks.map((link) => (
-                <a
+                <button
                   key={link.label}
-                  href={link.href}
-                  onClick={(e) => {
-                    if (link.href.startsWith("#")) {
-                      e.preventDefault();
-                      handleNavClick(link.href);
-                    }
+                  onClick={() => {
+                    handleNavClick(link.href);
                     handleMenuToggle(false);
                   }}
                   className="text-xl font-semibold text-primary-foreground/90 hover:text-blue-mid transition-colors text-center py-3 cursor-pointer"
                 >
                   {link.label}
-                </a>
+                </button>
               ))}
             </div>
           </div>
