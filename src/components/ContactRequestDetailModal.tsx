@@ -50,7 +50,7 @@ const ContactRequestDetailModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-lg top-[15%] translate-y-0 sm:top-[20%]">
         <DialogHeader>
           <DialogTitle className="text-xl">Solicitação de Contato</DialogTitle>
         </DialogHeader>
