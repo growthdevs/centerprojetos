@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import ClientPlansSection from "@/components/ClientPlansSection";
+import HowItWorksSection from "@/components/HowItWorksSection";
+import PlansSection from "@/components/PlansSection";
 import ForDesignersSection from "@/components/ForDesignersSection";
 import Footer from "@/components/Footer";
 import MobileTabBar from "@/components/MobileTabBar";
@@ -9,6 +10,7 @@ import SearchWizard from "@/components/search/SearchWizard";
 import LoginModal from "@/components/LoginModal";
 import ProfileModal from "@/components/ProfileModal";
 import { useAuth } from "@/contexts/AuthContext";
+import type { PlanType } from "@/components/search/SearchWizard";
 
 const Index = () => {
   const { isAuthenticated } = useAuth();
@@ -16,6 +18,7 @@ const Index = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [pendingPlan, setPendingPlan] = useState<PlanType>(null);
 
   const handleSearchClick = () => {
     setShowSearch(true);
@@ -29,6 +32,28 @@ const Index = () => {
     }
   };
 
+  const handlePlanSelect = (plan: PlanType) => {
+    if (!isAuthenticated) {
+      setPendingPlan(plan);
+      setShowLogin(true);
+    } else {
+      setPendingPlan(plan);
+      setShowSearch(true);
+    }
+  };
+
+  const handleLoginSuccess = () => {
+    setShowLogin(false);
+    if (pendingPlan) {
+      setShowSearch(true);
+    }
+  };
+
+  const handleWizardClose = () => {
+    setShowSearch(false);
+    setPendingPlan(null);
+  };
+
   // Hide tab bar when search wizard or mobile menu is open
   const hideTabBar = showSearch || isMobileMenuOpen;
 
@@ -36,7 +61,8 @@ const Index = () => {
     <div className="min-h-screen pb-16 md:pb-0">
       <Navbar onMenuOpenChange={setIsMobileMenuOpen} />
       <HeroSection onSearchClick={handleSearchClick} />
-      <ClientPlansSection />
+      <HowItWorksSection />
+      <PlansSection onPlanSelect={handlePlanSelect} />
       <ForDesignersSection />
       
       {/* Footer - hidden on mobile */}
@@ -53,13 +79,21 @@ const Index = () => {
       )}
 
       {/* Search Wizard */}
-      <SearchWizard isOpen={showSearch} onClose={() => setShowSearch(false)} />
+      <SearchWizard 
+        isOpen={showSearch} 
+        onClose={handleWizardClose}
+        initialPlan={pendingPlan}
+      />
 
       {/* Login Modal */}
       <LoginModal
         open={showLogin}
-        onOpenChange={setShowLogin}
+        onOpenChange={(open) => {
+          setShowLogin(open);
+          if (!open) setPendingPlan(null);
+        }}
         defaultTab="client"
+        onLoginSuccess={handleLoginSuccess}
       />
 
       {/* Profile Modal */}
