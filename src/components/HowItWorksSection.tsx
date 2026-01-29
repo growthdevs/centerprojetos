@@ -25,7 +25,7 @@ const steps = [
 
 const HowItWorksSection = () => {
   return (
-    <section className="py-16 md:py-20 bg-secondary">
+    <section id="para-clientes" className="py-16 md:py-20 bg-secondary">
       <div className="container mx-auto px-6 md:px-4">
         {/* Section Header */}
         <div className="text-center mb-12 md:mb-16">

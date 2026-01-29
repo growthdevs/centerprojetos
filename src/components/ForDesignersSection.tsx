@@ -1,6 +1,4 @@
 import { Briefcase, Users, Star, TrendingUp } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 const benefits = [
   {
@@ -27,7 +25,7 @@ const benefits = [
 
 const ForDesignersSection = () => {
   return (
-    <section className="py-16 md:py-20 bg-primary">
+    <section id="para-projetistas" className="py-16 md:py-20 bg-primary">
       <div className="container mx-auto px-6 md:px-4">
         {/* Section Header */}
         <div className="text-center mb-10 md:mb-16">
@@ -65,18 +63,6 @@ const ForDesignersSection = () => {
           })}
         </div>
 
-        {/* CTA */}
-        <div className="text-center px-4">
-          <Link to="/portal-projetista" className="block">
-            <Button 
-              variant="heroOutline" 
-              size="lg" 
-              className="font-semibold text-lg px-8 w-full sm:w-auto"
-            >
-              Acessar Portal do Projetista
-            </Button>
-          </Link>
-        </div>
       </div>
     </section>
   );
