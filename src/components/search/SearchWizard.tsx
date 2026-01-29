@@ -27,9 +27,14 @@ interface SearchWizardProps {
 
 const SearchWizard = ({ isOpen, onClose }: SearchWizardProps) => {
   const { isAuthenticated } = useAuth();
-  const [currentStep, setCurrentStep] = useState<SearchWizardStep>(
-    isAuthenticated ? "plan" : "login"
-  );
+  const [currentStep, setCurrentStep] = useState<SearchWizardStep>("login");
+
+  // Sync currentStep with authentication state when wizard opens
+  useEffect(() => {
+    if (isOpen) {
+      setCurrentStep(isAuthenticated ? "plan" : "login");
+    }
+  }, [isOpen, isAuthenticated]);
   const [selectedPlan, setSelectedPlan] = useState<PlanType>(null);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [couponCode, setCouponCode] = useState("");
