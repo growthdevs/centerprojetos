@@ -1,13 +1,14 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
 export type ClientPlan = "smart" | "premium" | null;
+export type UserType = "client" | "designer" | "shopowner" | null;
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  userType: "client" | "designer" | null;
+  userType: UserType;
   userName: string | null;
   clientPlan: ClientPlan;
-  login: (username: string, password: string, type: "client" | "designer") => boolean;
+  login: (username: string, password: string, type: "client" | "designer" | "shopowner") => boolean;
   logout: () => void;
 }
 
@@ -18,15 +19,16 @@ const MOCK_CREDENTIALS = {
   designer: { usernames: ["projetista", "projetista@gmail.com"], password: "123456", name: "Projetista Demo" },
   clientSmart: { usernames: ["cliente", "cliente@gmail.com"], password: "123456", name: "Cliente Smart" },
   clientPremium: { usernames: ["clientepremium", "clientepremium@gmail.com"], password: "123456", name: "Cliente Premium" },
+  shopowner: { usernames: ["lojista", "lojista@gmail.com"], password: "123456", name: "Lojista Demo" },
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userType, setUserType] = useState<"client" | "designer" | null>(null);
+  const [userType, setUserType] = useState<UserType>(null);
   const [userName, setUserName] = useState<string | null>(null);
   const [clientPlan, setClientPlan] = useState<ClientPlan>(null);
 
-  const login = (username: string, password: string, type: "client" | "designer"): boolean => {
+  const login = (username: string, password: string, type: "client" | "designer" | "shopowner"): boolean => {
     if (type === "designer") {
       if (
         MOCK_CREDENTIALS.designer.usernames.includes(username.toLowerCase()) &&
@@ -39,6 +41,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return true;
       }
     }
+
+    if (type === "shopowner") {
+      if (
+        MOCK_CREDENTIALS.shopowner.usernames.includes(username.toLowerCase()) &&
+        password === MOCK_CREDENTIALS.shopowner.password
+      ) {
+        setIsAuthenticated(true);
+        setUserType("shopowner");
+        setUserName(MOCK_CREDENTIALS.shopowner.name);
+        setClientPlan(null);
+        return true;
+      }
+    }
+
     // Client login - check for premium first, then smart
     if (type === "client") {
       // Check Premium credentials

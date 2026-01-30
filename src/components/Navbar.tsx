@@ -30,10 +30,18 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
   const [isReferralOpen, setIsReferralOpen] = useState(false);
   const { isAuthenticated, userName, userType, clientPlan, logout } = useAuth();
 
-  // Get plan display name for clients
-  const getPlanDisplayName = () => {
-    if (userType !== "client") return null;
-    return clientPlan === "premium" ? "Premium" : "Smart";
+  // Get display name based on user type
+  const getUserTypeDisplay = () => {
+    if (userType === "client") {
+      return clientPlan === "premium" ? "Plano Premium" : "Plano Smart";
+    }
+    if (userType === "designer") {
+      return "Projetista";
+    }
+    if (userType === "shopowner") {
+      return "Lojista";
+    }
+    return "";
   };
 
   const handleMenuToggle = (open: boolean) => {
@@ -58,11 +66,31 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
   ];
 
   // Add context-specific links based on user type
-  const navLinks = isAuthenticated
-    ? userType === "designer"
-      ? [...baseNavLinks, { label: "Solicitações", href: "/projetista/solicitacoes" }]
-      : [...baseNavLinks, { label: "Notificações", href: "/cliente/notificacoes" }]
-    : baseNavLinks;
+  const getNavLinks = () => {
+    if (!isAuthenticated) return baseNavLinks;
+    
+    switch (userType) {
+      case "designer":
+        return [
+          ...baseNavLinks,
+          { label: "Solicitações", href: "/projetista/solicitacoes" },
+        ];
+      case "client":
+        return [
+          ...baseNavLinks,
+          { label: "Notificações", href: "/cliente/notificacoes" },
+        ];
+      case "shopowner":
+        return [
+          ...baseNavLinks,
+          { label: "Notificações", href: "/loja/notificacoes" },
+        ];
+      default:
+        return baseNavLinks;
+    }
+  };
+
+  const navLinks = getNavLinks();
 
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
@@ -79,6 +107,16 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
   const handleLogout = () => {
     logout();
     handleMenuToggle(false);
+    navigate("/");
+  };
+
+  const handleProfileClick = () => {
+    if (userType === "shopowner") {
+      navigate("/loja/painel");
+    } else if (userType === "designer") {
+      navigate("/projetista/perfil");
+    }
+    // For clients, could open ProfileModal or navigate to a profile page
   };
 
   return (
@@ -125,9 +163,12 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem className="font-medium">
+                    <DropdownMenuItem 
+                      className="font-medium"
+                      onClick={handleProfileClick}
+                    >
                       <User className="mr-2 h-4 w-4" />
-                      Meu Perfil
+                      {userType === "shopowner" ? "Painel da Loja" : "Meu Perfil"}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem 
@@ -218,10 +259,36 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
                   <div className="text-center">
                     <p className="font-semibold text-lg text-primary-foreground">{userName}</p>
                     <p className="text-sm text-primary-foreground/60">
-                      {userType === "client" ? `Plano ${getPlanDisplayName()}` : "Projetista"}
+                      {getUserTypeDisplay()}
                     </p>
                   </div>
                 </div>
+                {userType === "shopowner" && (
+                  <Button 
+                    onClick={() => {
+                      handleMenuToggle(false);
+                      navigate("/loja/painel");
+                    }}
+                    variant="heroOutline"
+                    size="lg"
+                    className="w-full"
+                  >
+                    Painel da Loja
+                  </Button>
+                )}
+                {userType === "designer" && (
+                  <Button 
+                    onClick={() => {
+                      handleMenuToggle(false);
+                      navigate("/projetista/perfil");
+                    }}
+                    variant="heroOutline"
+                    size="lg"
+                    className="w-full"
+                  >
+                    Meu Perfil
+                  </Button>
+                )}
                 <Button 
                   onClick={handleLogout}
                   variant="outline"
@@ -277,7 +344,6 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
         onOpenChange={setIsReferralOpen}
         onContinue={(id, name) => {
           console.log("Profissional selecionado:", { id, name });
-          // TODO: Continuar para o fluxo de cadastro com indicação
         }}
       />
     </>
