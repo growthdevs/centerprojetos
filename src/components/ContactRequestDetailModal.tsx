@@ -49,16 +49,6 @@ const ContactRequestDetailModal = ({
             </h3>
 
             <div className="flex items-center gap-2 text-muted-foreground">
-              <Mail className="w-4 h-4 flex-shrink-0" />
-              <span className="text-sm">{request.clientEmail}</span>
-            </div>
-
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Phone className="w-4 h-4 flex-shrink-0" />
-              <span className="text-sm">{request.clientPhone}</span>
-            </div>
-
-            <div className="flex items-center gap-2 text-muted-foreground">
               <Calendar className="w-4 h-4 flex-shrink-0" />
               <span className="text-sm">{formatDate(request.createdAt)}</span>
             </div>
