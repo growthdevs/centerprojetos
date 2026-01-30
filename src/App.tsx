@@ -9,6 +9,7 @@ import PlansPage from "./pages/PlansPage";
 import PortalProjetista from "./pages/PortalProjetista";
 import ProjetistaDashboard from "./pages/ProjetistaDashboard";
 import ProjetistaSolicitacoes from "./pages/ProjetistaSolicitacoes";
+import ClienteNotificacoes from "./pages/ClienteNotificacoes";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/portal-projetista" element={<PortalProjetista />} />
             <Route path="/projetista/dashboard" element={<ProjetistaDashboard />} />
             <Route path="/projetista/solicitacoes" element={<ProjetistaSolicitacoes />} />
+            <Route path="/cliente/notificacoes" element={<ClienteNotificacoes />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
