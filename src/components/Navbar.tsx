@@ -51,9 +51,11 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
     { label: "Planos Cliente", href: "/planos" },
   ];
 
-  // Add notifications link for designers
-  const navLinks = userType === "designer" && isAuthenticated
-    ? [...baseNavLinks, { label: "Solicitações", href: "/projetista/solicitacoes" }]
+  // Add context-specific links based on user type
+  const navLinks = isAuthenticated
+    ? userType === "designer"
+      ? [...baseNavLinks, { label: "Solicitações", href: "/projetista/solicitacoes" }]
+      : [...baseNavLinks, { label: "Notificações", href: "/cliente/notificacoes" }]
     : baseNavLinks;
 
   const handleNavClick = (href: string) => {
