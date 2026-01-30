@@ -1,9 +1,12 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
+export type ClientPlan = "smart" | "premium" | null;
+
 interface AuthContextType {
   isAuthenticated: boolean;
   userType: "client" | "designer" | null;
   userName: string | null;
+  clientPlan: ClientPlan;
   login: (username: string, password: string, type: "client" | "designer") => boolean;
   logout: () => void;
 }
@@ -13,12 +16,15 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Mock credentials
 const MOCK_CREDENTIALS = {
   designer: { usernames: ["projetista", "projetista@gmail.com"], password: "123456", name: "Projetista Demo" },
+  clientSmart: { usernames: ["cliente", "cliente@gmail.com"], password: "123456", name: "Cliente Smart" },
+  clientPremium: { usernames: ["clientepremium", "clientepremium@gmail.com"], password: "123456", name: "Cliente Premium" },
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userType, setUserType] = useState<"client" | "designer" | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
+  const [clientPlan, setClientPlan] = useState<ClientPlan>(null);
 
   const login = (username: string, password: string, type: "client" | "designer"): boolean => {
     if (type === "designer") {
@@ -29,14 +35,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsAuthenticated(true);
         setUserType("designer");
         setUserName(MOCK_CREDENTIALS.designer.name);
+        setClientPlan(null);
         return true;
       }
     }
-    // For client, accept any credentials for now (mock)
+    // Client login - check for premium first, then smart
     if (type === "client") {
+      // Check Premium credentials
+      if (
+        MOCK_CREDENTIALS.clientPremium.usernames.includes(username.toLowerCase()) &&
+        password === MOCK_CREDENTIALS.clientPremium.password
+      ) {
+        setIsAuthenticated(true);
+        setUserType("client");
+        setUserName(MOCK_CREDENTIALS.clientPremium.name);
+        setClientPlan("premium");
+        return true;
+      }
+      // Check Smart credentials
+      if (
+        MOCK_CREDENTIALS.clientSmart.usernames.includes(username.toLowerCase()) &&
+        password === MOCK_CREDENTIALS.clientSmart.password
+      ) {
+        setIsAuthenticated(true);
+        setUserType("client");
+        setUserName(MOCK_CREDENTIALS.clientSmart.name);
+        setClientPlan("smart");
+        return true;
+      }
+      // Default: any other client credentials → smart plan
       setIsAuthenticated(true);
       setUserType("client");
       setUserName("Cliente");
+      setClientPlan("smart");
       return true;
     }
     return false;
@@ -46,10 +77,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsAuthenticated(false);
     setUserType(null);
     setUserName(null);
+    setClientPlan(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userType, userName, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, userType, userName, clientPlan, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
