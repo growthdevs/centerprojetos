@@ -1,55 +1,50 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Send, CheckCircle } from "lucide-react";
-
 interface ContactRequestModalProps {
   isOpen: boolean;
   onClose: () => void;
   designerName: string;
 }
-
-const ContactRequestModal = ({ isOpen, onClose, designerName }: ContactRequestModalProps) => {
+const ContactRequestModal = ({
+  isOpen,
+  onClose,
+  designerName
+}: ContactRequestModalProps) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    message: "",
+    message: ""
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     // Simular envio
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
     setIsLoading(false);
     setIsSubmitted(true);
   };
-
   const handleClose = () => {
-    setFormData({ name: "", email: "", phone: "", message: "" });
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      message: ""
+    });
     setIsSubmitted(false);
     onClose();
   };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
+  return <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-md">
-        {isSubmitted ? (
-          <div className="text-center py-8">
+        {isSubmitted ? <div className="text-center py-8">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="w-8 h-8 text-green-600" />
             </div>
@@ -62,9 +57,7 @@ const ContactRequestModal = ({ isOpen, onClose, designerName }: ContactRequestMo
             <Button onClick={handleClose} variant="accent">
               Fechar
             </Button>
-          </div>
-        ) : (
-          <>
+          </div> : <>
             <DialogHeader>
               <DialogTitle className="text-xl font-bold text-foreground">
                 Solicitar Contato
@@ -74,73 +67,48 @@ const ContactRequestModal = ({ isOpen, onClose, designerName }: ContactRequestMo
               </DialogDescription>
             </DialogHeader>
 
-            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+            <form onSubmit={handleSubmit} className="space-y-4 mt-4 my-0 mb-[141px]">
               <div className="space-y-2">
                 <Label htmlFor="contact-name">Seu Nome *</Label>
-                <Input
-                  id="contact-name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Digite seu nome completo"
-                  required
-                />
+                <Input id="contact-name" value={formData.name} onChange={e => setFormData({
+              ...formData,
+              name: e.target.value
+            })} placeholder="Digite seu nome completo" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="contact-email">E-mail *</Label>
-                <Input
-                  id="contact-email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="seu@email.com"
-                  required
-                />
+                <Input id="contact-email" type="email" value={formData.email} onChange={e => setFormData({
+              ...formData,
+              email: e.target.value
+            })} placeholder="seu@email.com" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="contact-phone">Telefone/WhatsApp *</Label>
-                <Input
-                  id="contact-phone"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  placeholder="(00) 00000-0000"
-                  required
-                />
+                <Input id="contact-phone" value={formData.phone} onChange={e => setFormData({
+              ...formData,
+              phone: e.target.value
+            })} placeholder="(00) 00000-0000" required />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="contact-message">Mensagem (opcional)</Label>
-                <Textarea
-                  id="contact-message"
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Descreva brevemente o que você precisa..."
-                  rows={4}
-                />
+                <Textarea id="contact-message" value={formData.message} onChange={e => setFormData({
+              ...formData,
+              message: e.target.value
+            })} placeholder="Descreva brevemente o que você precisa..." rows={4} />
               </div>
 
-              <Button 
-                type="submit" 
-                variant="accent" 
-                className="w-full font-semibold"
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  "Enviando..."
-                ) : (
-                  <>
+              <Button type="submit" variant="accent" className="w-full font-semibold" disabled={isLoading}>
+                {isLoading ? "Enviando..." : <>
                     Enviar Solicitação
                     <Send className="ml-2 w-4 h-4" />
-                  </>
-                )}
+                  </>}
               </Button>
             </form>
-          </>
-        )}
+          </>}
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 };
-
 export default ContactRequestModal;
