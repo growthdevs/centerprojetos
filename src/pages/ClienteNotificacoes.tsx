@@ -7,29 +7,30 @@ import logoColor from "@/assets/logo-color.png";
 import { useAuth } from "@/contexts/AuthContext";
 import ClientNotificationCard from "@/components/ClientNotificationCard";
 import ClientNotificationDetailModal from "@/components/ClientNotificationDetailModal";
-import { mockClientNotifications, type ClientNotification } from "@/data/mockClientNotifications";
+import { getNotificationsByPlan, type ClientNotification } from "@/data/mockClientNotifications";
 import { useToast } from "@/hooks/use-toast";
 
 const ClienteNotificacoes = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, userType } = useAuth();
+  const { isAuthenticated, userType, clientPlan } = useAuth();
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedNotification, setSelectedNotification] = useState<ClientNotification | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const unreadCount = mockClientNotifications.filter((n) => !n.isRead).length;
+  const notifications = useMemo(() => getNotificationsByPlan(clientPlan), [clientPlan]);
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   const filteredNotifications = useMemo(() => {
-    if (!searchTerm.trim()) return mockClientNotifications;
+    if (!searchTerm.trim()) return notifications;
 
     const term = searchTerm.toLowerCase();
-    return mockClientNotifications.filter(
+    return notifications.filter(
       (notification) =>
         notification.designerName.toLowerCase().includes(term) ||
         notification.designerStore.toLowerCase().includes(term)
     );
-  }, [searchTerm]);
+  }, [searchTerm, notifications]);
 
   const handleCardClick = (notification: ClientNotification) => {
     setSelectedNotification(notification);
@@ -40,6 +41,13 @@ const ClienteNotificacoes = () => {
     toast({
       title: "Pedido confirmado!",
       description: "O projetista será notificado e entrará em contato em breve.",
+    });
+  };
+
+  const handleSignAddendum = () => {
+    toast({
+      title: "Termo assinado!",
+      description: "O termo aditivo foi assinado com sucesso. O projetista dará continuidade ao processo.",
     });
   };
 
@@ -135,6 +143,7 @@ const ClienteNotificacoes = () => {
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         onConfirmBudget={handleConfirmBudget}
+        onSignAddendum={handleSignAddendum}
       />
     </>
   );

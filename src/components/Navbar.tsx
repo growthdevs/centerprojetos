@@ -28,7 +28,13 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
   const [isReferralOpen, setIsReferralOpen] = useState(false);
-  const { isAuthenticated, userName, userType, logout } = useAuth();
+  const { isAuthenticated, userName, userType, clientPlan, logout } = useAuth();
+
+  // Get plan display name for clients
+  const getPlanDisplayName = () => {
+    if (userType !== "client") return null;
+    return clientPlan === "premium" ? "Premium" : "Smart";
+  };
 
   const handleMenuToggle = (open: boolean) => {
     setIsMenuOpen(open);
@@ -211,7 +217,9 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
                   </div>
                   <div className="text-center">
                     <p className="font-semibold text-lg text-primary-foreground">{userName}</p>
-                    <p className="text-sm text-primary-foreground/60">Logado</p>
+                    <p className="text-sm text-primary-foreground/60">
+                      {userType === "client" ? `Plano ${getPlanDisplayName()}` : "Projetista"}
+                    </p>
                   </div>
                 </div>
                 <Button 

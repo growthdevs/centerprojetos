@@ -1,12 +1,46 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare, CheckCircle } from "lucide-react";
+import { MessageSquare, CheckCircle, FileText, ClipboardList, PenTool } from "lucide-react";
 import type { ClientNotification } from "@/data/mockClientNotifications";
 
 interface ClientNotificationCardProps {
   notification: ClientNotification;
   onClick: () => void;
 }
+
+const getNotificationIcon = (type: ClientNotification["type"]) => {
+  switch (type) {
+    case "response":
+      return { icon: MessageSquare, bgColor: "bg-primary/10", iconColor: "text-primary" };
+    case "budget_confirmation":
+      return { icon: CheckCircle, bgColor: "bg-emerald-100", iconColor: "text-emerald-600" };
+    case "project_submission":
+      return { icon: FileText, bgColor: "bg-blue-100", iconColor: "text-blue-600" };
+    case "addendum_signature":
+      return { icon: PenTool, bgColor: "bg-amber-100", iconColor: "text-amber-600" };
+    case "process_checklist":
+      return { icon: ClipboardList, bgColor: "bg-purple-100", iconColor: "text-purple-600" };
+    default:
+      return { icon: MessageSquare, bgColor: "bg-primary/10", iconColor: "text-primary" };
+  }
+};
+
+const getNotificationLabel = (type: ClientNotification["type"]) => {
+  switch (type) {
+    case "response":
+      return null; // Show message preview
+    case "budget_confirmation":
+      return "📋 Confirmação de Pedido de Orçamento";
+    case "project_submission":
+      return "📐 Projeto Enviado";
+    case "addendum_signature":
+      return "✍️ Assinatura de Termo Aditivo";
+    case "process_checklist":
+      return "📊 Acompanhamento do Processo";
+    default:
+      return null;
+  }
+};
 
 const ClientNotificationCard = ({ notification, onClick }: ClientNotificationCardProps) => {
   const formatDate = (dateString: string) => {
@@ -17,7 +51,8 @@ const ClientNotificationCard = ({ notification, onClick }: ClientNotificationCar
     });
   };
 
-  const isResponse = notification.type === "response";
+  const { icon: Icon, bgColor, iconColor } = getNotificationIcon(notification.type);
+  const label = getNotificationLabel(notification.type);
 
   return (
     <Card
@@ -28,14 +63,8 @@ const ClientNotificationCard = ({ notification, onClick }: ClientNotificationCar
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3 flex-1 min-w-0">
-          <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-            isResponse ? "bg-primary/10" : "bg-emerald-100"
-          }`}>
-            {isResponse ? (
-              <MessageSquare className="w-5 h-5 text-primary" />
-            ) : (
-              <CheckCircle className="w-5 h-5 text-emerald-600" />
-            )}
+          <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${bgColor}`}>
+            <Icon className={`w-5 h-5 ${iconColor}`} />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
@@ -52,7 +81,7 @@ const ClientNotificationCard = ({ notification, onClick }: ClientNotificationCar
               {notification.designerStore}
             </p>
             <p className="text-sm text-muted-foreground line-clamp-2">
-              {isResponse ? notification.message : "📋 Confirmação de Pedido de Orçamento"}
+              {label || notification.message}
             </p>
           </div>
         </div>
