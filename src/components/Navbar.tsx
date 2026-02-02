@@ -78,16 +78,31 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
       case "client":
         return [
           ...baseNavLinks,
+          { label: "Meu Painel", href: "/cliente/painel" },
           { label: "Meus Pedidos", href: "/cliente/pedidos" },
-          { label: "Notificações", href: "/cliente/notificacoes" },
+          ...(clientPlan === "smart" ? [{ label: "Seja Premium", href: "/planos" }] : []),
         ];
       case "shopowner":
         return [
           ...baseNavLinks,
-          { label: "Notificações", href: "/loja/notificacoes" },
+          { label: "Painel", href: "/loja/painel" },
         ];
       default:
         return baseNavLinks;
+    }
+  };
+
+  // Get notification path based on user type
+  const getNotificationPath = () => {
+    switch (userType) {
+      case "client":
+        return "/cliente/notificacoes";
+      case "shopowner":
+        return "/loja/notificacoes";
+      case "designer":
+        return "/projetista/solicitacoes";
+      default:
+        return "/";
     }
   };
 
@@ -116,8 +131,9 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
       navigate("/loja/painel");
     } else if (userType === "designer") {
       navigate("/projetista/perfil");
+    } else if (userType === "client") {
+      navigate("/cliente/painel");
     }
-    // For clients, could open ProfileModal or navigate to a profile page
   };
 
   return (
@@ -151,36 +167,49 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
             {/* Desktop CTA Buttons or User Info */}
             <div className="hidden lg:flex items-center gap-4">
               {isAuthenticated ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button 
-                      variant="ghost" 
-                      className="flex items-center gap-2 text-primary-foreground hover:text-blue-mid hover:bg-white/10"
-                    >
-                      <div className="w-8 h-8 rounded-full bg-gradient-accent flex items-center justify-center">
-                        <User className="w-4 h-4 text-primary" />
-                      </div>
-                      <span className="font-medium">{userName}</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem 
-                      className="font-medium"
-                      onClick={handleProfileClick}
-                    >
-                      <User className="mr-2 h-4 w-4" />
-                      {userType === "shopowner" ? "Painel da Loja" : "Meu Perfil"}
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem 
-                      onClick={handleLogout}
-                      className="text-destructive focus:text-destructive"
-                    >
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Sair
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <>
+                  {/* Notification Bell */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-primary-foreground hover:text-blue-mid hover:bg-white/10 relative"
+                    onClick={() => navigate(getNotificationPath())}
+                  >
+                    <Bell className="w-5 h-5" />
+                    <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+                  </Button>
+                  
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        className="flex items-center gap-2 text-primary-foreground hover:text-blue-mid hover:bg-white/10"
+                      >
+                        <div className="w-8 h-8 rounded-full bg-gradient-accent flex items-center justify-center">
+                          <User className="w-4 h-4 text-primary" />
+                        </div>
+                        <span className="font-medium">{userName}</span>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
+                      <DropdownMenuItem 
+                        className="font-medium"
+                        onClick={handleProfileClick}
+                      >
+                        <User className="mr-2 h-4 w-4" />
+                        {userType === "shopowner" ? "Painel da Loja" : userType === "client" ? "Meu Painel" : "Meu Perfil"}
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem 
+                        onClick={handleLogout}
+                        className="text-destructive focus:text-destructive"
+                      >
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Sair
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </>
               ) : (
                 <>
                   <button 
@@ -264,6 +293,21 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
                     </p>
                   </div>
                 </div>
+
+                {/* Notification button */}
+                <Button 
+                  onClick={() => {
+                    handleMenuToggle(false);
+                    navigate(getNotificationPath());
+                  }}
+                  variant="heroOutline"
+                  size="lg"
+                  className="w-full"
+                >
+                  <Bell className="mr-2 h-5 w-5" />
+                  Notificações
+                </Button>
+
                 {userType === "shopowner" && (
                   <Button 
                     onClick={() => {
@@ -288,6 +332,19 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
                     className="w-full"
                   >
                     Meu Perfil
+                  </Button>
+                )}
+                {userType === "client" && (
+                  <Button 
+                    onClick={() => {
+                      handleMenuToggle(false);
+                      navigate("/cliente/painel");
+                    }}
+                    variant="heroOutline"
+                    size="lg"
+                    className="w-full"
+                  >
+                    Meu Painel
                   </Button>
                 )}
                 <Button 

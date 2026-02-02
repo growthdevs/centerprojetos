@@ -4,10 +4,16 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth } from "@/contexts/AuthContext";
-import { CheckCircle2, Circle, ArrowRight, Store, User, Building2 } from "lucide-react";
+import { CheckCircle2, Circle, ArrowRight, Store, User, Building2, MessageCircle, Crown } from "lucide-react";
+
+// Consultor mock data
+const consultorCenter = {
+  name: "Ana Paula Silva",
+  whatsapp: "5511999999999",
+};
 
 type ChecklistSubject = "client" | "store" | "center";
 
@@ -235,6 +241,51 @@ const MeusPedidos = () => {
             </CardContent>
           </Card>
 
+          {/* Consultor Info */}
+          <Card className="mb-6 bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900">
+            <CardContent className="py-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <p className="text-sm text-muted-foreground">Seu Consultor Center Projetos</p>
+                  <p className="font-semibold text-foreground">{consultorCenter.name}</p>
+                </div>
+                <Button
+                  variant="outline"
+                  className="border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-950"
+                  onClick={() => window.open(`https://wa.me/${consultorCenter.whatsapp}`, '_blank')}
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Falar via WhatsApp
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Premium Upsell for Smart Plan */}
+          {clientPlan === "smart" && (
+            <Card className="mb-6 bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/30 border-amber-300">
+              <CardContent className="py-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <Crown className="w-8 h-8 text-amber-500" />
+                    <div>
+                      <p className="font-semibold text-foreground">Seja Premium!</p>
+                      <p className="text-sm text-muted-foreground">
+                        Tenha acesso a um consultor exclusivo e projetos personalizados
+                      </p>
+                    </div>
+                  </div>
+                  <Button
+                    onClick={() => navigate("/planos")}
+                    className="bg-gradient-to-r from-amber-500 to-yellow-500 text-white hover:from-amber-600 hover:to-yellow-600"
+                  >
+                    Conhecer Plano Premium
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
           {clientPlan === "smart" ? (
             /* Smart Plan - Single Checklist */
             <Card>
@@ -246,7 +297,7 @@ const MeusPedidos = () => {
               </CardContent>
             </Card>
           ) : (
-            /* Premium Plan - Initial + Tabbed Store Checklists */
+            /* Premium Plan - Initial + Store Select Checklists */
             <div className="space-y-6">
               {/* Initial Premium Checklist */}
               <Card>
@@ -258,22 +309,33 @@ const MeusPedidos = () => {
                 </CardContent>
               </Card>
 
-              {/* Per-Store Checklists */}
+              {/* Per-Store Checklists with Select */}
               <Card>
                 <CardHeader>
                   <CardTitle>Meus Pedidos de Orçamentos</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <Tabs value={selectedStoreTab} onValueChange={setSelectedStoreTab}>
-                    <TabsList className="grid w-full grid-cols-3 mb-6">
-                      {premiumStores.map((store) => (
-                        <TabsTrigger key={store.id} value={store.id.toString()}>
-                          {store.name.split(" ")[0]}
-                        </TabsTrigger>
-                      ))}
-                    </TabsList>
-                    {premiumStores.map((store) => (
-                      <TabsContent key={store.id} value={store.id.toString()}>
+                  <div className="mb-6">
+                    <label className="text-sm font-medium text-muted-foreground mb-2 block">
+                      Selecione a loja
+                    </label>
+                    <Select value={selectedStoreTab} onValueChange={setSelectedStoreTab}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Selecione uma loja" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {premiumStores.map((store) => (
+                          <SelectItem key={store.id} value={store.id.toString()}>
+                            {store.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {premiumStores.map((store) => (
+                    selectedStoreTab === store.id.toString() && (
+                      <div key={store.id}>
                         <div className="mb-4 p-3 rounded-lg bg-muted/50">
                           <p className="font-medium text-foreground">{store.name}</p>
                           <p className="text-sm text-muted-foreground">
@@ -284,9 +346,9 @@ const MeusPedidos = () => {
                           items={createStoreChecklist(store.id, store.completedItems)}
                           onActionClick={handleActionClick}
                         />
-                      </TabsContent>
-                    ))}
-                  </Tabs>
+                      </div>
+                    )
+                  ))}
                 </CardContent>
               </Card>
             </div>

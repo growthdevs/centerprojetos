@@ -11,6 +11,7 @@ import ProjetistaDashboard from "./pages/ProjetistaDashboard";
 import ProjetistaSolicitacoes from "./pages/ProjetistaSolicitacoes";
 import ProjetistaPerfil from "./pages/ProjetistaPerfil";
 import ClienteNotificacoes from "./pages/ClienteNotificacoes";
+import ClientePainel from "./pages/ClientePainel";
 import MeusPedidos from "./pages/MeusPedidos";
 import LojaPainel from "./pages/LojaPainel";
 import LojaNotificacoes from "./pages/LojaNotificacoes";
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/projetista/dashboard" element={<ProjetistaDashboard />} />
             <Route path="/projetista/solicitacoes" element={<ProjetistaSolicitacoes />} />
             <Route path="/projetista/perfil" element={<ProjetistaPerfil />} />
+            <Route path="/cliente/painel" element={<ClientePainel />} />
             <Route path="/cliente/notificacoes" element={<ClienteNotificacoes />} />
             <Route path="/cliente/pedidos" element={<MeusPedidos />} />
             <Route path="/loja/painel" element={<LojaPainel />} />
