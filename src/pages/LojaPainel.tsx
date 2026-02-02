@@ -30,6 +30,13 @@ const mockUserStores = [
     email: "contato@todeschini-centro.com",
     bio: "Loja referência em móveis planejados de alto padrão na região central de São Paulo.",
     imageUrl: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400",
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400",
+      "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=400",
+      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400",
+    ],
     designers: mockStores[0].designers.slice(0, 5),
   },
   {
@@ -42,6 +49,11 @@ const mockUserStores = [
     email: "contato@todeschini-moema.com",
     bio: "Filial especializada em projetos residenciais de luxo no bairro de Moema.",
     imageUrl: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=400",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400",
+    ],
     designers: mockStores[1].designers.slice(0, 3),
   },
 ];
@@ -136,6 +148,7 @@ const LojaPainel = () => {
       email: "",
       bio: "",
       imageUrl: "",
+      portfolioImages: [],
       designers: [],
     };
     setStores((prev) => [...prev, newStore]);
@@ -339,6 +352,44 @@ const LojaPainel = () => {
             </CardContent>
           </Card>
 
+          {/* Portfolio Card */}
+          <Card className="mb-6">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="flex items-center gap-2">
+                <Image className="w-5 h-5" />
+                Portfólio da Loja ({selectedStore.portfolioImages.length}/10)
+              </CardTitle>
+              <Button variant="outline" size="sm">
+                <Plus className="w-4 h-4 mr-2" />
+                Adicionar Foto
+              </Button>
+            </CardHeader>
+            <CardContent>
+              {selectedStore.portfolioImages.length === 0 ? (
+                <p className="text-muted-foreground text-center py-8">
+                  Nenhuma foto no portfólio. Adicione fotos dos projetos da loja.
+                </p>
+              ) : (
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                  {selectedStore.portfolioImages.map((img, index) => (
+                    <div key={index} className="relative group">
+                      <img
+                        src={img}
+                        alt={`Projeto ${index + 1}`}
+                        className="w-full h-24 object-cover rounded-lg"
+                      />
+                      <button
+                        className="absolute top-1 right-1 bg-destructive text-destructive-foreground p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
           {/* Designers Card */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
@@ -390,7 +441,9 @@ const LojaPainel = () => {
         </div>
       </div>
 
-      <Footer />
+      <div className="hidden md:block">
+        <Footer />
+      </div>
     </div>
   );
 };
