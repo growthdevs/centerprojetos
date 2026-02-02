@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -15,8 +17,23 @@ import {
 } from "@/components/ui/select";
 import { useAuth } from "@/contexts/AuthContext";
 import { mockStores, Designer } from "@/data/mockStores";
-import { Store, Plus, Trash2, Edit2, Save, X, MapPin, Phone, Mail, Image } from "lucide-react";
+import {
+  Store,
+  Plus,
+  Trash2,
+  Edit2,
+  Save,
+  X,
+  MapPin,
+  Phone,
+  Mail,
+  Image,
+  Instagram,
+  Upload,
+  Video,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import AddDesignerModal from "@/components/AddDesignerModal";
 
 // Mock data for user's stores
 const mockUserStores = [
@@ -30,6 +47,8 @@ const mockUserStores = [
     email: "contato@todeschini-centro.com",
     bio: "Loja referência em móveis planejados de alto padrão na região central de São Paulo.",
     imageUrl: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400",
+    portfolioType: "manual" as const,
+    instagramUrl: "",
     portfolioImages: [
       "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
@@ -49,6 +68,8 @@ const mockUserStores = [
     email: "contato@todeschini-moema.com",
     bio: "Filial especializada em projetos residenciais de luxo no bairro de Moema.",
     imageUrl: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
+    portfolioType: "instagram" as const,
+    instagramUrl: "https://instagram.com/todeschinimoema",
     portfolioImages: [
       "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400",
       "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=400",
@@ -66,6 +87,7 @@ const LojaPainel = () => {
   const [selectedStoreId, setSelectedStoreId] = useState(mockUserStores[0].id);
   const [isEditing, setIsEditing] = useState(false);
   const [stores, setStores] = useState(mockUserStores);
+  const [showAddDesignerModal, setShowAddDesignerModal] = useState(false);
 
   const selectedStore = stores.find((s) => s.id === selectedStoreId) || stores[0];
 
@@ -77,6 +99,8 @@ const LojaPainel = () => {
     whatsapp: selectedStore.whatsapp,
     email: selectedStore.email,
     bio: selectedStore.bio,
+    portfolioType: selectedStore.portfolioType,
+    instagramUrl: selectedStore.instagramUrl,
   });
 
   // Redirect if not authenticated as shopowner
@@ -105,6 +129,8 @@ const LojaPainel = () => {
         whatsapp: store.whatsapp,
         email: store.email,
         bio: store.bio,
+        portfolioType: store.portfolioType,
+        instagramUrl: store.instagramUrl,
       });
     }
     setIsEditing(false);
@@ -148,6 +174,8 @@ const LojaPainel = () => {
       email: "",
       bio: "",
       imageUrl: "",
+      portfolioType: "manual" as const,
+      instagramUrl: "",
       portfolioImages: [],
       designers: [],
     };
@@ -161,11 +189,21 @@ const LojaPainel = () => {
       whatsapp: newStore.whatsapp,
       email: newStore.email,
       bio: newStore.bio,
+      portfolioType: newStore.portfolioType,
+      instagramUrl: newStore.instagramUrl,
     });
     setIsEditing(true);
     toast({
       title: "Nova loja criada",
       description: "Preencha os dados da nova loja.",
+    });
+  };
+
+  const handleDesignerAdded = (designer: any) => {
+    // In a real app, this would add the designer to the store after approval
+    toast({
+      title: "Projetista cadastrado!",
+      description: `${designer.fullName} foi enviado para análise.`,
     });
   };
 
@@ -243,9 +281,7 @@ const LojaPainel = () => {
                       />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-foreground mb-1 block">
-                        E-mail
-                      </label>
+                      <label className="text-sm font-medium text-foreground mb-1 block">E-mail</label>
                       <Input
                         type="email"
                         value={editForm.email}
@@ -255,18 +291,14 @@ const LojaPainel = () => {
                   </div>
                   <div className="grid md:grid-cols-3 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-foreground mb-1 block">
-                        Cidade
-                      </label>
+                      <label className="text-sm font-medium text-foreground mb-1 block">Cidade</label>
                       <Input
                         value={editForm.city}
                         onChange={(e) => setEditForm({ ...editForm, city: e.target.value })}
                       />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-foreground mb-1 block">
-                        Estado
-                      </label>
+                      <label className="text-sm font-medium text-foreground mb-1 block">Estado</label>
                       <Input
                         value={editForm.state}
                         onChange={(e) => setEditForm({ ...editForm, state: e.target.value })}
@@ -283,9 +315,7 @@ const LojaPainel = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-foreground mb-1 block">
-                      WhatsApp
-                    </label>
+                    <label className="text-sm font-medium text-foreground mb-1 block">WhatsApp</label>
                     <Input
                       value={editForm.whatsapp}
                       onChange={(e) => setEditForm({ ...editForm, whatsapp: e.target.value })}
@@ -357,34 +387,143 @@ const LojaPainel = () => {
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="flex items-center gap-2">
                 <Image className="w-5 h-5" />
-                Portfólio da Loja ({selectedStore.portfolioImages.length}/10)
+                Portfólio da Loja
               </CardTitle>
-              <Button variant="outline" size="sm">
-                <Plus className="w-4 h-4 mr-2" />
-                Adicionar Foto
-              </Button>
             </CardHeader>
             <CardContent>
-              {selectedStore.portfolioImages.length === 0 ? (
-                <p className="text-muted-foreground text-center py-8">
-                  Nenhuma foto no portfólio. Adicione fotos dos projetos da loja.
-                </p>
-              ) : (
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                  {selectedStore.portfolioImages.map((img, index) => (
-                    <div key={index} className="relative group">
-                      <img
-                        src={img}
-                        alt={`Projeto ${index + 1}`}
-                        className="w-full h-24 object-cover rounded-lg"
-                      />
-                      <button
-                        className="absolute top-1 right-1 bg-destructive text-destructive-foreground p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </button>
+              {/* Portfolio Type Selection */}
+              <div className="mb-6">
+                <label className="text-sm font-medium text-foreground mb-3 block">
+                  Como você quer exibir seu portfólio?
+                </label>
+                <RadioGroup
+                  value={editForm.portfolioType}
+                  onValueChange={(value) =>
+                    setEditForm({ ...editForm, portfolioType: value as "instagram" | "manual" })
+                  }
+                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                >
+                  <div>
+                    <RadioGroupItem value="instagram" id="instagram" className="peer sr-only" />
+                    <Label
+                      htmlFor="instagram"
+                      className="flex flex-col items-center justify-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 hover:border-primary/50"
+                    >
+                      <Instagram className="w-8 h-8 text-pink-500" />
+                      <div className="text-center">
+                        <p className="font-medium">Instagram como Vitrine</p>
+                        <p className="text-sm text-muted-foreground">
+                          Seus posts aparecem automaticamente no card
+                        </p>
+                      </div>
+                    </Label>
+                  </div>
+
+                  <div>
+                    <RadioGroupItem value="manual" id="manual" className="peer sr-only" />
+                    <Label
+                      htmlFor="manual"
+                      className="flex flex-col items-center justify-center gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 hover:border-primary/50"
+                    >
+                      <Upload className="w-8 h-8 text-primary" />
+                      <div className="text-center">
+                        <p className="font-medium">Upload Manual</p>
+                        <p className="text-sm text-muted-foreground">
+                          Suba até 10 fotos ou vídeos
+                        </p>
+                      </div>
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
+              {/* Instagram URL Input */}
+              {editForm.portfolioType === "instagram" && (
+                <div className="mb-6 p-4 bg-muted/50 rounded-lg">
+                  <label className="text-sm font-medium text-foreground mb-2 block">
+                    Link do Instagram da Loja
+                  </label>
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="https://instagram.com/sualoja"
+                      value={editForm.instagramUrl}
+                      onChange={(e) => setEditForm({ ...editForm, instagramUrl: e.target.value })}
+                      className="flex-1"
+                    />
+                    <Button
+                      variant="accent"
+                      onClick={() => {
+                        setStores((prev) =>
+                          prev.map((store) =>
+                            store.id === selectedStoreId
+                              ? { ...store, instagramUrl: editForm.instagramUrl }
+                              : store
+                          )
+                        );
+                        toast({
+                          title: "Instagram vinculado!",
+                          description: "Os posts do Instagram aparecerão no card da loja.",
+                        });
+                      }}
+                    >
+                      Vincular
+                    </Button>
+                  </div>
+                  {selectedStore.instagramUrl && (
+                    <p className="text-sm text-muted-foreground mt-2 flex items-center gap-1">
+                      <Instagram className="w-4 h-4" />
+                      Vinculado: {selectedStore.instagramUrl}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* Manual Upload Section */}
+              {editForm.portfolioType === "manual" && (
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <p className="text-sm text-muted-foreground">
+                      {selectedStore.portfolioImages.length}/10 arquivos
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={selectedStore.portfolioImages.length >= 10}
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Adicionar Foto/Vídeo
+                    </Button>
+                  </div>
+
+                  {selectedStore.portfolioImages.length === 0 ? (
+                    <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
+                      <div className="flex justify-center gap-4 mb-4">
+                        <Image className="w-8 h-8 text-muted-foreground" />
+                        <Video className="w-8 h-8 text-muted-foreground" />
+                      </div>
+                      <p className="text-muted-foreground">
+                        Arraste fotos ou vídeos aqui, ou clique para selecionar
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        Máximo de 10 arquivos (fotos ou vídeos)
+                      </p>
                     </div>
-                  ))}
+                  ) : (
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                      {selectedStore.portfolioImages.map((img, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={img}
+                            alt={`Projeto ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-lg"
+                          />
+                          <button className="absolute top-1 right-1 bg-destructive text-destructive-foreground p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </CardContent>
@@ -394,7 +533,7 @@ const LojaPainel = () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Projetistas Vinculados ({selectedStore.designers.length})</CardTitle>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={() => setShowAddDesignerModal(true)}>
                 <Plus className="w-4 h-4 mr-2" />
                 Adicionar Projetista
               </Button>
@@ -444,6 +583,12 @@ const LojaPainel = () => {
       <div className="hidden md:block">
         <Footer />
       </div>
+
+      <AddDesignerModal
+        open={showAddDesignerModal}
+        onOpenChange={setShowAddDesignerModal}
+        onDesignerAdded={handleDesignerAdded}
+      />
     </div>
   );
 };

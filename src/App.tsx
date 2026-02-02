@@ -16,6 +16,7 @@ import ClientePainel from "./pages/ClientePainel";
 import MeusPedidos from "./pages/MeusPedidos";
 import LojaPainel from "./pages/LojaPainel";
 import LojaNotificacoes from "./pages/LojaNotificacoes";
+import AdminPainel from "./pages/AdminPainel";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/cliente/pedidos" element={<MeusPedidos />} />
             <Route path="/loja/painel" element={<LojaPainel />} />
             <Route path="/loja/notificacoes" element={<LojaNotificacoes />} />
+            <Route path="/admin/painel" element={<AdminPainel />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
