@@ -224,7 +224,9 @@ const LojaNotificacoes = () => {
         </DialogContent>
       </Dialog>
 
-      <Footer />
+      <div className="hidden md:block">
+        <Footer />
+      </div>
     </div>
   );
 };

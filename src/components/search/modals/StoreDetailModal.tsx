@@ -4,7 +4,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { MapPin, Star, TrendingUp, Users, ChevronRight } from "lucide-react";
+import { MapPin, Star, TrendingUp, Users, ChevronRight, Image as ImageIcon } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/tooltip";
 import ThermometerDisplay from "../ThermometerDisplay";
 import type { Store, Designer } from "@/data/mockStores";
+import { useState } from "react";
 
 interface StoreDetailModalProps {
   store: Store | null;
@@ -27,6 +28,8 @@ const StoreDetailModal = ({
   onClose,
   onDesignerSelect,
 }: StoreDetailModalProps) => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   if (!store) return null;
 
   const renderStars = (rating: number) => {
@@ -122,6 +125,33 @@ const StoreDetailModal = ({
 
           {/* Thermometer - Full width below */}
           <ThermometerDisplay value={store.thermometer} />
+
+          {/* Portfolio Section */}
+          {store.portfolioImages.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <ImageIcon className="w-5 h-5 text-accent" />
+                <h3 className="font-semibold text-foreground">
+                  Portfólio da Loja ({store.portfolioImages.length})
+                </h3>
+              </div>
+              <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
+                {store.portfolioImages.map((img, index) => (
+                  <button
+                    key={index}
+                    className="aspect-square rounded-lg overflow-hidden hover:ring-2 ring-accent transition-all"
+                    onClick={() => setSelectedImage(img)}
+                  >
+                    <img
+                      src={img}
+                      alt={`Projeto ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Designers Section */}
           <div>

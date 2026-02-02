@@ -78,6 +78,7 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
       case "client":
         return [
           ...baseNavLinks,
+          { label: "Meus Pedidos", href: "/cliente/pedidos" },
           { label: "Notificações", href: "/cliente/notificacoes" },
         ];
       case "shopowner":

@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, Star, TrendingUp, Thermometer } from "lucide-react";
+import { MapPin, Star, TrendingUp, Thermometer, Image as ImageIcon } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -19,7 +19,7 @@ const StoreCard = ({ store, onClick }: StoreCardProps) => {
       className="cursor-pointer transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 border-border/50 overflow-hidden group"
       onClick={onClick}
     >
-      <div className="h-32 bg-gradient-to-br from-accent/10 to-accent/5 flex items-center justify-center overflow-hidden">
+      <div className="h-32 bg-gradient-to-br from-accent/10 to-accent/5 flex items-center justify-center overflow-hidden relative">
         {store.imageUrl ? (
           <img
             src={store.imageUrl}
@@ -31,6 +31,12 @@ const StoreCard = ({ store, onClick }: StoreCardProps) => {
             <span className="text-2xl font-bold text-accent">
               {store.name.charAt(0)}
             </span>
+          </div>
+        )}
+        {store.portfolioImages.length > 0 && (
+          <div className="absolute bottom-2 right-2 bg-background/80 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1">
+            <ImageIcon className="w-3 h-3 text-accent" />
+            <span className="text-xs text-foreground font-medium">{store.portfolioImages.length}</span>
           </div>
         )}
       </div>

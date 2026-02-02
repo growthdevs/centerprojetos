@@ -11,6 +11,7 @@ export interface Store {
   salesCount: number;
   bio: string;
   imageUrl?: string;
+  portfolioImages: string[];
   designers: Designer[];
 }
 
@@ -204,6 +205,13 @@ export const mockStores: Store[] = [
     thermometer: 88,
     salesCount: 234,
     bio: "Loja referência em móveis planejados de alto padrão na região central de São Paulo. Mais de 20 anos de experiência.",
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400",
+      "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=400",
+      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400",
+    ],
     designers: store1Designers,
   },
   {
@@ -215,6 +223,11 @@ export const mockStores: Store[] = [
     thermometer: 75,
     salesCount: 156,
     bio: "Especializada em projetos exclusivos com materiais importados. Atendimento personalizado.",
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400",
+      "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=400",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400",
+    ],
     designers: store2Designers,
   },
   {
@@ -226,6 +239,12 @@ export const mockStores: Store[] = [
     thermometer: 82,
     salesCount: 189,
     bio: "Loja conceito na Barra da Tijuca com showroom completo. Projetos residenciais e comerciais.",
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400",
+      "https://images.unsplash.com/photo-1617806118233-18e1de247200?w=400",
+      "https://images.unsplash.com/photo-1615529182904-14819c35db37?w=400",
+    ],
     designers: store3Designers,
   },
   {
@@ -237,6 +256,10 @@ export const mockStores: Store[] = [
     thermometer: 70,
     salesCount: 98,
     bio: "Tradição mineira em móveis planejados desde 1985. Qualidade e compromisso com o cliente.",
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400",
+      "https://images.unsplash.com/photo-1600210492493-0946911123ea?w=400",
+    ],
     designers: store4Designers,
   },
   {
@@ -248,6 +271,14 @@ export const mockStores: Store[] = [
     thermometer: 90,
     salesCount: 145,
     bio: "Primeira loja carbono neutro do sul do Brasil. Sustentabilidade e design moderno.",
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400",
+      "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=400",
+      "https://images.unsplash.com/photo-1617104678098-de229db51175?w=400",
+      "https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=400",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=400",
+      "https://images.unsplash.com/photo-1615874694520-474822394e73?w=400",
+    ],
     designers: store5Designers,
   },
   {
@@ -259,6 +290,11 @@ export const mockStores: Store[] = [
     thermometer: 65,
     salesCount: 112,
     bio: "Design contemporâneo europeu adaptado ao gosto brasileiro. Showroom com mais de 500m².",
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1600489000022-c2086d79f9d4?w=400",
+      "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=400",
+      "https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=400",
+    ],
     designers: store6Designers,
   },
 ];
