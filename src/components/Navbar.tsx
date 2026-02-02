@@ -65,7 +65,8 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
     { label: "Planos Cliente", href: "/planos" },
   ];
 
-  // Add context-specific links based on user type
+  // Get nav links - desktop always shows base links + user-specific links
+  // Mobile menu shows different links based on auth state
   const getNavLinks = () => {
     if (!isAuthenticated) return baseNavLinks;
     
@@ -80,7 +81,7 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
           ...baseNavLinks,
           { label: "Meu Painel", href: "/cliente/painel" },
           { label: "Meus Pedidos", href: "/cliente/pedidos" },
-          ...(clientPlan === "smart" ? [{ label: "Seja Premium", href: "/planos" }] : []),
+          ...(clientPlan === "smart" ? [{ label: "Seja Premium", href: "/seja-premium" }] : []),
         ];
       case "shopowner":
         return [
@@ -89,6 +90,32 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
         ];
       default:
         return baseNavLinks;
+    }
+  };
+
+  // Mobile menu links - simplified for authenticated users
+  const getMobileNavLinks = () => {
+    if (!isAuthenticated) return baseNavLinks;
+    
+    switch (userType) {
+      case "designer":
+        return [
+          { label: "Solicitações", href: "/projetista/solicitacoes" },
+          { label: "Meu Perfil", href: "/projetista/perfil" },
+        ];
+      case "client":
+        return [
+          { label: "Meu Painel", href: "/cliente/painel" },
+          { label: "Meus Pedidos", href: "/cliente/pedidos" },
+          ...(clientPlan === "smart" ? [{ label: "Seja Premium", href: "/seja-premium" }] : []),
+        ];
+      case "shopowner":
+        return [
+          { label: "Painel da Loja", href: "/loja/painel" },
+          { label: "Notificações", href: "/loja/notificacoes" },
+        ];
+      default:
+        return [];
     }
   };
 
@@ -107,6 +134,7 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
   };
 
   const navLinks = getNavLinks();
+  const mobileNavLinks = getMobileNavLinks();
 
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
@@ -228,13 +256,26 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
               )}
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="lg:hidden text-primary-foreground p-2"
-              onClick={() => handleMenuToggle(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            {/* Mobile Notification Bell + Menu Button */}
+            <div className="lg:hidden flex items-center gap-2">
+              {isAuthenticated && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-primary-foreground hover:text-blue-mid hover:bg-white/10 relative"
+                  onClick={() => navigate(getNotificationPath())}
+                >
+                  <Bell className="w-5 h-5" />
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+                </Button>
+              )}
+              <button
+                className="text-primary-foreground p-2"
+                onClick={() => handleMenuToggle(!isMenuOpen)}
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
 
         </div>
@@ -263,7 +304,7 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
           {/* Menu Content */}
           <div className="flex-1 flex flex-col justify-center px-8">
             <div className="flex flex-col gap-6">
-              {navLinks.map((link) => (
+              {mobileNavLinks.map((link) => (
                 <button
                   key={link.label}
                   onClick={() => {
@@ -294,59 +335,6 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
                   </div>
                 </div>
 
-                {/* Notification button */}
-                <Button 
-                  onClick={() => {
-                    handleMenuToggle(false);
-                    navigate(getNotificationPath());
-                  }}
-                  variant="heroOutline"
-                  size="lg"
-                  className="w-full"
-                >
-                  <Bell className="mr-2 h-5 w-5" />
-                  Notificações
-                </Button>
-
-                {userType === "shopowner" && (
-                  <Button 
-                    onClick={() => {
-                      handleMenuToggle(false);
-                      navigate("/loja/painel");
-                    }}
-                    variant="heroOutline"
-                    size="lg"
-                    className="w-full"
-                  >
-                    Painel da Loja
-                  </Button>
-                )}
-                {userType === "designer" && (
-                  <Button 
-                    onClick={() => {
-                      handleMenuToggle(false);
-                      navigate("/projetista/perfil");
-                    }}
-                    variant="heroOutline"
-                    size="lg"
-                    className="w-full"
-                  >
-                    Meu Perfil
-                  </Button>
-                )}
-                {userType === "client" && (
-                  <Button 
-                    onClick={() => {
-                      handleMenuToggle(false);
-                      navigate("/cliente/painel");
-                    }}
-                    variant="heroOutline"
-                    size="lg"
-                    className="w-full"
-                  >
-                    Meu Painel
-                  </Button>
-                )}
                 <Button 
                   onClick={handleLogout}
                   variant="outline"

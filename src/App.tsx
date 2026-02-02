@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import Index from "./pages/Index";
 import PlansPage from "./pages/PlansPage";
+import SejaPremium from "./pages/SejaPremium";
 import PortalProjetista from "./pages/PortalProjetista";
 import ProjetistaDashboard from "./pages/ProjetistaDashboard";
 import ProjetistaSolicitacoes from "./pages/ProjetistaSolicitacoes";
@@ -29,6 +30,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/planos" element={<PlansPage />} />
+            <Route path="/seja-premium" element={<SejaPremium />} />
             <Route path="/portal-projetista" element={<PortalProjetista />} />
             <Route path="/projetista/dashboard" element={<ProjetistaDashboard />} />
             <Route path="/projetista/solicitacoes" element={<ProjetistaSolicitacoes />} />
