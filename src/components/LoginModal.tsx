@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { User, Briefcase, Mail, Lock, Store } from "lucide-react";
+import { User, Briefcase, Mail, Lock, Store, Shield } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
@@ -40,7 +40,7 @@ interface LoginModalProps {
   onOpenChange: (open: boolean) => void;
   onOpenRegister?: () => void;
   onOpenForgotPassword?: () => void;
-  defaultTab?: "client" | "designer" | "shopowner";
+  defaultTab?: "client" | "designer" | "shopowner" | "admin";
   onLoginSuccess?: () => void;
 }
 
@@ -53,7 +53,7 @@ const LoginModal = ({
   onLoginSuccess
 }: LoginModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [userType, setUserType] = useState<"client" | "designer" | "shopowner">(defaultTab);
+  const [userType, setUserType] = useState<"client" | "designer" | "shopowner" | "admin">(defaultTab);
   const [loginError, setLoginError] = useState<string | null>(null);
   const { login } = useAuth();
   const { toast } = useToast();
@@ -103,7 +103,7 @@ const LoginModal = ({
   };
 
   const handleTabChange = (value: string) => {
-    setUserType(value as "client" | "designer" | "shopowner");
+    setUserType(value as "client" | "designer" | "shopowner" | "admin");
     setLoginError(null);
     form.reset();
   };
@@ -116,6 +116,8 @@ const LoginModal = ({
         return isSubmitting ? "Entrando..." : "Entrar como Projetista";
       case "shopowner":
         return isSubmitting ? "Entrando..." : "Entrar como Lojista";
+      case "admin":
+        return isSubmitting ? "Entrando..." : "Entrar como Admin";
     }
   };
 
@@ -127,6 +129,8 @@ const LoginModal = ({
         return { user: "projetista", pass: "123456" };
       case "shopowner":
         return { user: "lojista", pass: "123456" };
+      case "admin":
+        return { user: "admin", pass: "123456" };
     }
   };
 
@@ -142,30 +146,34 @@ const LoginModal = ({
         </DialogHeader>
 
         <Tabs value={userType} onValueChange={handleTabChange} className="w-full mt-4">
-          <TabsList className="grid w-full grid-cols-3 bg-muted">
+          <TabsList className="grid w-full grid-cols-4 bg-muted">
             <TabsTrigger 
               value="client" 
-              className="flex items-center gap-1.5 text-xs sm:text-sm data-[state=active]:bg-[#104DB1] data-[state=active]:text-white"
+              className="flex items-center gap-1 text-xs data-[state=active]:bg-[#104DB1] data-[state=active]:text-white"
             >
-              <User className="w-4 h-4" />
+              <User className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Cliente</span>
-              <span className="sm:hidden">Cliente</span>
             </TabsTrigger>
             <TabsTrigger 
               value="designer"
-              className="flex items-center gap-1.5 text-xs sm:text-sm data-[state=active]:bg-[#104DB1] data-[state=active]:text-white"
+              className="flex items-center gap-1 text-xs data-[state=active]:bg-[#104DB1] data-[state=active]:text-white"
             >
-              <Briefcase className="w-4 h-4" />
+              <Briefcase className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Projetista</span>
-              <span className="sm:hidden">Proj.</span>
             </TabsTrigger>
             <TabsTrigger 
               value="shopowner"
-              className="flex items-center gap-1.5 text-xs sm:text-sm data-[state=active]:bg-[#104DB1] data-[state=active]:text-white"
+              className="flex items-center gap-1 text-xs data-[state=active]:bg-[#104DB1] data-[state=active]:text-white"
             >
-              <Store className="w-4 h-4" />
+              <Store className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Lojista</span>
-              <span className="sm:hidden">Lojista</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="admin"
+              className="flex items-center gap-1 text-xs data-[state=active]:bg-[#104DB1] data-[state=active]:text-white"
+            >
+              <Shield className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Admin</span>
             </TabsTrigger>
           </TabsList>
 

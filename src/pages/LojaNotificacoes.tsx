@@ -15,10 +15,13 @@ import {
   AlertTriangle,
   Store,
   FileText,
-  X,
   Phone,
   Mail,
   Calendar,
+  Clock,
+  UserPlus,
+  CreditCard,
+  Sparkles,
 } from "lucide-react";
 import {
   Dialog,
@@ -26,6 +29,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import AddDesignerModal from "@/components/AddDesignerModal";
 
 const getNotificationIcon = (type: ShopownerNotificationType) => {
   switch (type) {
@@ -37,6 +41,16 @@ const getNotificationIcon = (type: ShopownerNotificationType) => {
       return <Store className="w-5 h-5 text-blue-500" />;
     case "quote_request":
       return <FileText className="w-5 h-5 text-purple-500" />;
+    case "registration_pending":
+      return <Clock className="w-5 h-5 text-amber-500" />;
+    case "registration_approved":
+      return <Sparkles className="w-5 h-5 text-green-500" />;
+    case "designer_approved":
+      return <UserPlus className="w-5 h-5 text-green-500" />;
+    case "payment_reminder":
+      return <CreditCard className="w-5 h-5 text-amber-500" />;
+    case "new_lead":
+      return <Sparkles className="w-5 h-5 text-blue-500" />;
     default:
       return <FileText className="w-5 h-5 text-muted-foreground" />;
   }
@@ -45,10 +59,15 @@ const getNotificationIcon = (type: ShopownerNotificationType) => {
 const getNotificationColor = (type: ShopownerNotificationType) => {
   switch (type) {
     case "center_status":
+    case "registration_approved":
+    case "designer_approved":
       return "border-l-green-500";
     case "pending_center":
+    case "registration_pending":
+    case "payment_reminder":
       return "border-l-amber-500";
     case "store_selected":
+    case "new_lead":
       return "border-l-blue-500";
     case "quote_request":
       return "border-l-purple-500";
@@ -58,10 +77,11 @@ const getNotificationColor = (type: ShopownerNotificationType) => {
 };
 
 const LojaNotificacoes = () => {
-  const { isAuthenticated, userType, userName } = useAuth();
+  const { isAuthenticated, userType } = useAuth();
   const [selectedNotification, setSelectedNotification] = useState<ShopownerNotification | null>(
     null
   );
+  const [showAddDesignerModal, setShowAddDesignerModal] = useState(false);
 
   if (!isAuthenticated || userType !== "shopowner") {
     return (
@@ -77,6 +97,13 @@ const LojaNotificacoes = () => {
   }
 
   const unreadCount = mockShopownerNotifications.filter((n) => !n.read).length;
+
+  const handleActionButton = (action: string) => {
+    if (action === "add_designer") {
+      setSelectedNotification(null);
+      setShowAddDesignerModal(true);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -154,6 +181,15 @@ const LojaNotificacoes = () => {
                     </div>
                   )}
 
+                  {selectedNotification.details.designerName && (
+                    <div>
+                      <p className="text-sm font-medium text-foreground">Projetista</p>
+                      <p className="text-sm text-muted-foreground">
+                        {selectedNotification.details.designerName}
+                      </p>
+                    </div>
+                  )}
+
                   {selectedNotification.details.clientEmail && (
                     <div className="flex items-center gap-2">
                       <Mail className="w-4 h-4 text-muted-foreground" />
@@ -212,6 +248,15 @@ const LojaNotificacoes = () => {
                 <Button variant="outline" onClick={() => setSelectedNotification(null)}>
                   Fechar
                 </Button>
+                {selectedNotification.actionButton && (
+                  <Button
+                    variant="accent"
+                    onClick={() => handleActionButton(selectedNotification.actionButton!.action)}
+                  >
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    {selectedNotification.actionButton.label}
+                  </Button>
+                )}
                 {selectedNotification.type === "quote_request" && (
                   <Button variant="accent">Responder Cliente</Button>
                 )}
@@ -227,6 +272,11 @@ const LojaNotificacoes = () => {
       <div className="hidden md:block">
         <Footer />
       </div>
+
+      <AddDesignerModal
+        open={showAddDesignerModal}
+        onOpenChange={setShowAddDesignerModal}
+      />
     </div>
   );
 };

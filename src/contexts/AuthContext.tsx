@@ -1,14 +1,14 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
 export type ClientPlan = "smart" | "premium" | null;
-export type UserType = "client" | "designer" | "shopowner" | null;
+export type UserType = "client" | "designer" | "shopowner" | "admin" | null;
 
 interface AuthContextType {
   isAuthenticated: boolean;
   userType: UserType;
   userName: string | null;
   clientPlan: ClientPlan;
-  login: (username: string, password: string, type: "client" | "designer" | "shopowner") => boolean;
+  login: (username: string, password: string, type: "client" | "designer" | "shopowner" | "admin") => boolean;
   logout: () => void;
 }
 
@@ -20,6 +20,7 @@ const MOCK_CREDENTIALS = {
   clientSmart: { usernames: ["cliente", "cliente@gmail.com"], password: "123456", name: "Cliente Smart" },
   clientPremium: { usernames: ["clientepremium", "clientepremium@gmail.com"], password: "123456", name: "Cliente Premium" },
   shopowner: { usernames: ["lojista", "lojista@gmail.com"], password: "123456", name: "Lojista Demo" },
+  admin: { usernames: ["admin", "admin@centerprojetos.com"], password: "123456", name: "Consultor Center" },
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -28,7 +29,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [userName, setUserName] = useState<string | null>(null);
   const [clientPlan, setClientPlan] = useState<ClientPlan>(null);
 
-  const login = (username: string, password: string, type: "client" | "designer" | "shopowner"): boolean => {
+  const login = (username: string, password: string, type: "client" | "designer" | "shopowner" | "admin"): boolean => {
+    if (type === "admin") {
+      if (
+        MOCK_CREDENTIALS.admin.usernames.includes(username.toLowerCase()) &&
+        password === MOCK_CREDENTIALS.admin.password
+      ) {
+        setIsAuthenticated(true);
+        setUserType("admin");
+        setUserName(MOCK_CREDENTIALS.admin.name);
+        setClientPlan(null);
+        return true;
+      }
+    }
+
     if (type === "designer") {
       if (
         MOCK_CREDENTIALS.designer.usernames.includes(username.toLowerCase()) &&

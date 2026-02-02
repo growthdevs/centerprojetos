@@ -41,6 +41,9 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
     if (userType === "shopowner") {
       return "Lojista";
     }
+    if (userType === "admin") {
+      return "Consultor Center";
+    }
     return "";
   };
 
@@ -88,6 +91,11 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
           ...baseNavLinks,
           { label: "Painel", href: "/loja/painel" },
         ];
+      case "admin":
+        return [
+          ...baseNavLinks,
+          { label: "Painel Admin", href: "/admin/painel" },
+        ];
       default:
         return baseNavLinks;
     }
@@ -114,6 +122,10 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
           { label: "Painel da Loja", href: "/loja/painel" },
           { label: "Notificações", href: "/loja/notificacoes" },
         ];
+      case "admin":
+        return [
+          { label: "Painel Admin", href: "/admin/painel" },
+        ];
       default:
         return [];
     }
@@ -128,6 +140,8 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
         return "/loja/notificacoes";
       case "designer":
         return "/projetista/solicitacoes";
+      case "admin":
+        return "/admin/painel";
       default:
         return "/";
     }
@@ -161,6 +175,8 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
       navigate("/projetista/perfil");
     } else if (userType === "client") {
       navigate("/cliente/painel");
+    } else if (userType === "admin") {
+      navigate("/admin/painel");
     }
   };
 
@@ -225,7 +241,7 @@ const Navbar = ({ onMenuOpenChange }: NavbarProps) => {
                         onClick={handleProfileClick}
                       >
                         <User className="mr-2 h-4 w-4" />
-                        {userType === "shopowner" ? "Painel da Loja" : userType === "client" ? "Meu Painel" : "Meu Perfil"}
+                        {userType === "shopowner" ? "Painel da Loja" : userType === "client" ? "Meu Painel" : userType === "admin" ? "Painel Admin" : "Meu Perfil"}
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem 
