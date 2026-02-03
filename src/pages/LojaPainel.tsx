@@ -15,6 +15,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
 import { mockStores, Designer } from "@/data/mockStores";
 import {
@@ -31,6 +40,9 @@ import {
   Instagram,
   Upload,
   Video,
+  FileText,
+  User,
+  ClipboardList,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import AddDesignerModal from "@/components/AddDesignerModal";
@@ -76,6 +88,64 @@ const mockUserStores = [
       "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400",
     ],
     designers: mockStores[1].designers.slice(0, 3),
+  },
+];
+
+// Mock data for client orders report
+const mockClientOrders = [
+  {
+    id: "order-1",
+    clientName: "Maria Silva",
+    designerName: "Ana Costa",
+    designerRole: "Arquiteta",
+    quotesReceived: 3,
+    checklistStep: "Visita Técnica Realizada",
+    status: "Em andamento",
+  },
+  {
+    id: "order-2",
+    clientName: "João Santos",
+    designerName: "Carlos Mendes",
+    designerRole: "Designer de Interiores",
+    quotesReceived: 2,
+    checklistStep: "Aguardando Orçamento",
+    status: "Pendente",
+  },
+  {
+    id: "order-3",
+    clientName: "Fernanda Oliveira",
+    designerName: "Paula Ribeiro",
+    designerRole: "Vendedora",
+    quotesReceived: 1,
+    checklistStep: "Projeto em Fabricação",
+    status: "Em produção",
+  },
+  {
+    id: "order-4",
+    clientName: "Roberto Lima",
+    designerName: "Lucas Ferreira",
+    designerRole: "Arquiteto",
+    quotesReceived: 4,
+    checklistStep: "Entrega Agendada",
+    status: "Finalização",
+  },
+  {
+    id: "order-5",
+    clientName: "Camila Rocha",
+    designerName: "Mariana Duarte",
+    designerRole: "Designer de Interiores",
+    quotesReceived: 2,
+    checklistStep: "Pedido Solicitado",
+    status: "Novo",
+  },
+  {
+    id: "order-6",
+    clientName: "André Martins",
+    designerName: "Ana Costa",
+    designerRole: "Arquiteta",
+    quotesReceived: 3,
+    checklistStep: "Montagem em Andamento",
+    status: "Em montagem",
   },
 ];
 
@@ -574,6 +644,81 @@ const LojaPainel = () => {
                     </div>
                   ))}
                 </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Client Orders Report Card */}
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="w-5 h-5" />
+                Relatório de Pedidos
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Cliente</TableHead>
+                      <TableHead>Recebido por</TableHead>
+                      <TableHead className="hidden md:table-cell">Função</TableHead>
+                      <TableHead className="text-center">Orçamentos</TableHead>
+                      <TableHead>Etapa do Checklist</TableHead>
+                      <TableHead className="hidden md:table-cell">Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {mockClientOrders.map((order) => (
+                      <TableRow key={order.id}>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <User className="w-4 h-4 text-muted-foreground" />
+                            <span className="font-medium">{order.clientName}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>{order.designerName}</TableCell>
+                        <TableCell className="hidden md:table-cell">
+                          <Badge variant="outline">{order.designerRole}</Badge>
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <Badge variant="secondary">{order.quotesReceived}</Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <ClipboardList className="w-4 h-4 text-muted-foreground" />
+                            <span className="text-sm">{order.checklistStep}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell">
+                          <Badge
+                            className={
+                              order.status === "Novo"
+                                ? "bg-blue-500/10 text-blue-600 border-blue-200"
+                                : order.status === "Em andamento"
+                                ? "bg-amber-500/10 text-amber-600 border-amber-200"
+                                : order.status === "Em produção"
+                                ? "bg-purple-500/10 text-purple-600 border-purple-200"
+                                : order.status === "Finalização"
+                                ? "bg-green-500/10 text-green-600 border-green-200"
+                                : order.status === "Em montagem"
+                                ? "bg-indigo-500/10 text-indigo-600 border-indigo-200"
+                                : "bg-muted text-muted-foreground"
+                            }
+                          >
+                            {order.status}
+                          </Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+              {mockClientOrders.length === 0 && (
+                <p className="text-muted-foreground text-center py-8">
+                  Nenhum pedido registrado ainda.
+                </p>
               )}
             </CardContent>
           </Card>
