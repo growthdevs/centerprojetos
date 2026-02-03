@@ -29,6 +29,8 @@ import {
   UserCheck,
   UserX,
   CreditCard,
+  User,
+  Calendar,
 } from "lucide-react";
 
 // Mock data for store registration requests
@@ -129,6 +131,98 @@ const mockStats = {
     pendingPayment: 7,
   },
 };
+
+// Mock data for active clients report
+const mockActiveClients = [
+  {
+    id: "cli-1",
+    name: "Maria José",
+    consultorCenter: "Ivo",
+    isAttending: true,
+    plan: "Smart",
+    store: "Todeschini",
+    storeConsultor: "Rafael",
+    projectStatus: "Briefing",
+    nextDeadline: null,
+  },
+  {
+    id: "cli-2",
+    name: "Pedro Antônio",
+    consultorCenter: "Ivo",
+    isAttending: true,
+    plan: "Premium",
+    store: "Todeschini",
+    storeConsultor: "Robert",
+    projectStatus: "Montagem",
+    nextDeadline: null,
+  },
+  {
+    id: "cli-3",
+    name: "Carlos Miguel",
+    consultorCenter: "Ivo",
+    isAttending: true,
+    plan: "Smart",
+    store: "Italínea",
+    storeConsultor: "Felipe",
+    projectStatus: "Apresentação",
+    nextDeadline: null,
+  },
+  {
+    id: "cli-4",
+    name: "João Lucas",
+    consultorCenter: "Ivo",
+    isAttending: true,
+    plan: "Smart",
+    store: "Italínea",
+    storeConsultor: "Felipe",
+    projectStatus: "Negociação: Pausada",
+    nextDeadline: null,
+  },
+  {
+    id: "cli-5",
+    name: "Mateus Ferreira",
+    consultorCenter: "Ivo",
+    isAttending: true,
+    plan: "Premium",
+    store: "Italínea",
+    storeConsultor: "Felipe",
+    projectStatus: "Projeto Executivo assinado",
+    nextDeadline: "45 dias",
+  },
+  {
+    id: "cli-6",
+    name: "Ana Carolina",
+    consultorCenter: "Marina",
+    isAttending: true,
+    plan: "Premium",
+    store: "Florense",
+    storeConsultor: "Lucas",
+    projectStatus: "Fabricação",
+    nextDeadline: "30 dias",
+  },
+  {
+    id: "cli-7",
+    name: "Roberto Silva",
+    consultorCenter: "Marina",
+    isAttending: false,
+    plan: "Smart",
+    store: "Bertolini",
+    storeConsultor: "Amanda",
+    projectStatus: "Aguardando orçamento",
+    nextDeadline: "5 dias",
+  },
+  {
+    id: "cli-8",
+    name: "Fernanda Costa",
+    consultorCenter: "Ivo",
+    isAttending: true,
+    plan: "Premium",
+    store: "Favorita",
+    storeConsultor: "Ricardo",
+    projectStatus: "Visita técnica agendada",
+    nextDeadline: "2 dias",
+  },
+];
 
 const AdminPainel = () => {
   const navigate = useNavigate();
@@ -561,6 +655,87 @@ const AdminPainel = () => {
                             <TableCell className="text-right font-bold">{mockStats.designers.total}</TableCell>
                             <TableCell className="text-right">100%</TableCell>
                           </TableRow>
+                        </TableBody>
+                    </Table>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Active Clients Report */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <User className="w-5 h-5" />
+                      Relatório de Clientes Ativos
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Cliente</TableHead>
+                            <TableHead className="hidden sm:table-cell">Consultor Center</TableHead>
+                            <TableHead className="hidden md:table-cell">Plano</TableHead>
+                            <TableHead className="hidden md:table-cell">Loja</TableHead>
+                            <TableHead className="hidden lg:table-cell">Consultor Loja</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead className="hidden sm:table-cell">Vencimento</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {mockActiveClients.map((client) => (
+                            <TableRow key={client.id}>
+                              <TableCell>
+                                <div>
+                                  <p className="font-medium">{client.name}</p>
+                                  <p className="text-xs text-muted-foreground sm:hidden">
+                                    {client.consultorCenter} • {client.plan}
+                                  </p>
+                                </div>
+                              </TableCell>
+                              <TableCell className="hidden sm:table-cell">
+                                <div className="flex items-center gap-2">
+                                  <span>{client.consultorCenter}</span>
+                                  {client.isAttending ? (
+                                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-xs">
+                                      Sim
+                                    </Badge>
+                                  ) : (
+                                    <Badge variant="outline" className="bg-gray-50 text-gray-500 border-gray-200 text-xs">
+                                      Não
+                                    </Badge>
+                                  )}
+                                </div>
+                              </TableCell>
+                              <TableCell className="hidden md:table-cell">
+                                <Badge 
+                                  variant="outline" 
+                                  className={client.plan === "Premium" 
+                                    ? "bg-purple-50 text-purple-700 border-purple-200" 
+                                    : "bg-blue-50 text-blue-700 border-blue-200"
+                                  }
+                                >
+                                  {client.plan}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="hidden md:table-cell">{client.store}</TableCell>
+                              <TableCell className="hidden lg:table-cell">{client.storeConsultor}</TableCell>
+                              <TableCell>
+                                <span className="text-sm">{client.projectStatus}</span>
+                              </TableCell>
+                              <TableCell className="hidden sm:table-cell">
+                                {client.nextDeadline ? (
+                                  <div className="flex items-center gap-1 text-amber-600">
+                                    <Calendar className="w-3 h-3" />
+                                    <span className="text-sm font-medium">{client.nextDeadline}</span>
+                                  </div>
+                                ) : (
+                                  <span className="text-muted-foreground text-sm">-</span>
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))}
                         </TableBody>
                       </Table>
                     </div>
