@@ -25,7 +25,8 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
-import { mockStores, Designer } from "@/data/mockStores";
+import { mockStores } from "@/data/mockStores";
+import type { Designer } from "@/data/mockStores";
 import {
   Store,
   Plus,
@@ -46,8 +47,14 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import AddDesignerModal from "@/components/AddDesignerModal";
+import DesignerDetailModalShopowner from "@/components/search/modals/DesignerDetailModalShopowner";
 
-// Mock data for user's stores
+// Extended designer type with active status
+interface DesignerWithStatus extends Designer {
+  isActive: boolean;
+}
+
+// Mock data for user's stores with active status
 const mockUserStores = [
   {
     id: "user-store-1",
@@ -68,7 +75,7 @@ const mockUserStores = [
       "https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=400",
       "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400",
     ],
-    designers: mockStores[0].designers.slice(0, 5),
+    designers: mockStores[0].designers.slice(0, 5).map((d, i) => ({ ...d, isActive: i !== 2 })) as DesignerWithStatus[],
   },
   {
     id: "user-store-2",
@@ -87,7 +94,7 @@ const mockUserStores = [
       "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=400",
       "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400",
     ],
-    designers: mockStores[1].designers.slice(0, 3),
+    designers: mockStores[1].designers.slice(0, 3).map((d, i) => ({ ...d, isActive: i === 0 })) as DesignerWithStatus[],
   },
 ];
 
@@ -158,6 +165,7 @@ const LojaPainel = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [stores, setStores] = useState(mockUserStores);
   const [showAddDesignerModal, setShowAddDesignerModal] = useState(false);
+  const [selectedDesigner, setSelectedDesigner] = useState<DesignerWithStatus | null>(null);
 
   const selectedStore = stores.find((s) => s.id === selectedStoreId) || stores[0];
 
@@ -620,14 +628,30 @@ const LojaPainel = () => {
                       key={designer.id}
                       className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
                     >
-                      <div className="flex items-center gap-3">
+                      <div 
+                        className="flex items-center gap-3 flex-1 cursor-pointer hover:opacity-80 transition-opacity"
+                        onClick={() => setSelectedDesigner(designer as DesignerWithStatus)}
+                      >
                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                           <span className="text-sm font-medium text-primary">
                             {designer.name.charAt(0)}
                           </span>
                         </div>
-                        <div>
-                          <p className="font-medium text-foreground">{designer.name}</p>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium text-foreground hover:text-primary transition-colors">
+                              {designer.name}
+                            </p>
+                            <Badge 
+                              variant="outline" 
+                              className={(designer as DesignerWithStatus).isActive 
+                                ? "bg-green-500/10 text-green-600 border-green-200" 
+                                : "bg-red-500/10 text-red-600 border-red-200"
+                              }
+                            >
+                              {(designer as DesignerWithStatus).isActive ? "Ativo" : "Inativo"}
+                            </Badge>
+                          </div>
                           <p className="text-sm text-muted-foreground">
                             {designer.projectsCount} projetos • ⭐ {designer.serviceRating.toFixed(1)}
                           </p>
@@ -733,6 +757,12 @@ const LojaPainel = () => {
         open={showAddDesignerModal}
         onOpenChange={setShowAddDesignerModal}
         onDesignerAdded={handleDesignerAdded}
+      />
+
+      <DesignerDetailModalShopowner
+        designer={selectedDesigner}
+        isOpen={!!selectedDesigner}
+        onClose={() => setSelectedDesigner(null)}
       />
     </div>
   );

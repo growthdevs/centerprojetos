@@ -29,9 +29,6 @@ import { UserPlus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const designerSchema = z.object({
-  qualification: z.enum(["architect", "interior_designer", "seller"], {
-    required_error: "Selecione a qualificação",
-  }),
   fullName: z
     .string()
     .trim()
@@ -75,7 +72,6 @@ const AddDesignerModal = ({ open, onOpenChange, onDesignerAdded }: AddDesignerMo
   const form = useForm<DesignerFormData>({
     resolver: zodResolver(designerSchema),
     defaultValues: {
-      qualification: undefined,
       fullName: "",
       cpf: "",
       birthDate: "",
@@ -98,19 +94,6 @@ const AddDesignerModal = ({ open, onOpenChange, onDesignerAdded }: AddDesignerMo
     if (numbers.length <= 2) return numbers;
     if (numbers.length <= 7) return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
     return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7)}`;
-  };
-
-  const getQualificationLabel = (value: string) => {
-    switch (value) {
-      case "architect":
-        return "Arquiteto(a)";
-      case "interior_designer":
-        return "Designer de Interiores";
-      case "seller":
-        return "Vendedor(a)";
-      default:
-        return value;
-    }
   };
 
   const onSubmit = async (data: DesignerFormData) => {
@@ -150,37 +133,14 @@ const AddDesignerModal = ({ open, onOpenChange, onDesignerAdded }: AddDesignerMo
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md bg-background border-border max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-center text-primary flex items-center justify-center gap-2">
+        <DialogTitle className="text-2xl font-bold text-center text-primary flex items-center justify-center gap-2">
             <UserPlus className="w-6 h-6" />
-            Adicionar Projetista/Vendedor
+            Adicionar Projetista
           </DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-            <FormField
-              control={form.control}
-              name="qualification"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-foreground">Qualificação Profissional *</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione a qualificação" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="architect">Arquiteto(a)</SelectItem>
-                      <SelectItem value="interior_designer">Designer de Interiores</SelectItem>
-                      <SelectItem value="seller">Vendedor(a)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={form.control}
               name="fullName"
